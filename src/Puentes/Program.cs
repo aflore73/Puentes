@@ -1,8 +1,8 @@
 using Puentes.Core;
+using Puentes.Core.Domain;
+using Puentes.Core.Requests;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 var app = builder.Build();
 
 
@@ -15,12 +15,17 @@ app.MapGet("/status", () =>
         Status = "Running"
     });
 });
-app.MapPost("/events", (Event event) =>
+app.MapPost("/events", (RegisterEventRequest request) =>
 {
-    return Results.Ok(new
+    var evento = new Event
     {
-        Message = "Event received",
-        Event = event
-    });
+        Id = Guid.NewGuid(),
+        PersonId = request.PersonId,
+        Type = request.Type,
+        Description = request.Description,
+        OccurredAt = DateTimeOffset.UtcNow
+    };
+
+    return Results.Created($"/events/{evento.Id}", evento);
 });
 app.Run();
