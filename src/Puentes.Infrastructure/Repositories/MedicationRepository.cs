@@ -23,19 +23,19 @@ public class MedicationRepository
             medication);
     }
 
-    public async Task<IEnumerable<dynamic>> GetAllAsync()
-    {
-        using var connection = _accessDb.OpenConnection();
-
-        return await connection.QueryAsync(MedicationScripts.SelectAll);
-    }
-    //public async Task<IEnumerable<Medication>> GetAllAsync()
+    //public async Task<IEnumerable<dynamic>> GetAllAsync()
     //{
     //    using var connection = _accessDb.OpenConnection();
 
-    //    return await connection.QueryAsync<Medication>(
-    //        MedicationScripts.SelectAll);
+    //    return await connection.QueryAsync(MedicationScripts.SelectAll);
     //}
+    public async Task<IEnumerable<Medication>> GetAllAsync()
+    {
+        using var connection = _accessDb.OpenConnection();
+
+        return await connection.QueryAsync<Medication>(
+            MedicationScripts.SelectAll);
+    }
 
     public async Task<Medication?> GetByIdAsync(Guid id)
     {

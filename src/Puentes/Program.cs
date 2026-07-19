@@ -17,6 +17,7 @@ builder.Services.AddSingleton<AccessDb>(_ => new AccessDb(connectionString));
 builder.Services.AddSingleton<DatabaseInitializer>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<MedicationRepository>();
+builder.Services.AddScoped<MedicationTurnRepository>();
 
 /**/
 // Agregar servicios de Swagger
@@ -82,6 +83,7 @@ async (RegisterEventRequest request,
 
     return Results.Created($"/events/{evento.Id}", evento);
 });
+//Medications
 app.MapPost("/medications",
 async (
     CreateMedicationRequest request,
@@ -123,6 +125,34 @@ async (Guid id,
         return Results.NotFound();
 
     return Results.Ok(medication);
+});
+//Medication Turns
+app.MapPost("/medication-turns",
+async (
+    CreateMedicationTurnRequest request,
+    MedicationTurnRepository repository) =>
+{
+    var turn = new MedicationTurn
+    {
+        Id = Guid.NewGuid(),
+        Type = request.Type,
+        Name = request.Name,
+        DisplayOrder = request.DisplayOrder,
+        ReferenceTime = request.ReferenceTime,
+        IsActive = true
+    };
+
+    await repository.AddAsync(turn);
+
+    return Results.Created(
+        $"/medication-turns/{turn.Id}",
+        turn);
+});
+app.MapGet("/medication-turns",
+async (MedicationTurnRepository repository) =>
+{
+    return Results.Ok(
+        await repository.GetAllAsync());
 });
 
 app.Run();
