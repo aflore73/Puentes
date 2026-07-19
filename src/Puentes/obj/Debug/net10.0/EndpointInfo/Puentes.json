@@ -37,10 +37,97 @@
           }
         }
       }
+    },
+    "/medications": {
+      "post": {
+        "tags": [
+          "Puentes"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMedicationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Puentes"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/medications/{id}": {
+      "get": {
+        "tags": [
+          "Puentes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "CreateMedicationRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "dose": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "form": {
+            "$ref": "#/components/schemas/MedicationForm"
+          },
+          "shape": {
+            "$ref": "#/components/schemas/MedicationShape"
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "instructions": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "EventType": {
         "enum": [
           0,
@@ -53,6 +140,36 @@
           7,
           8,
           9
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "MedicationForm": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          99
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "MedicationShape": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          99
         ],
         "type": "integer",
         "format": "int32"

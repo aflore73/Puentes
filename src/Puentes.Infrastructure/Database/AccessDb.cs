@@ -7,8 +7,12 @@ public class AccessDb(string connectionString)
 {
     private readonly string _connectionString = connectionString;
 
-    public IDbConnection CreateConnection()
+    public IDbConnection OpenConnection()
     {
-        return new SqliteConnection(_connectionString);
+        var connection = new SqliteConnection(_connectionString);
+
+        connection.Open();
+
+        return connection;
     }
 }

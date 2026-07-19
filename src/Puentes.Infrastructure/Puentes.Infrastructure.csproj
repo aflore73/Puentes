@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Puentes.Core\Puentes.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\Scripts\" />
+  </ItemGroup>
+
 </Project>

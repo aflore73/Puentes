@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Puentes.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0d0e36393f034aae3204df818ed32eb3e2055de0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+666ac116fcb82bfa308705d4d305062121c4a1c4")]
 [assembly: System.Reflection.AssemblyProductAttribute("Puentes.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Puentes.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

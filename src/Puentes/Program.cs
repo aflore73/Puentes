@@ -1,5 +1,8 @@
+using Dapper;
 using Puentes.Core.Domain;
 using Puentes.Core.Requests;
+using Puentes.Core.Requests.Medication;
+using Puentes.Infrastructure.Configuration;
 using Puentes.Infrastructure.Database;
 using Puentes.Infrastructure.Repositories;
 using System.Text.Json.Serialization;
@@ -13,6 +16,7 @@ var connectionString =
 builder.Services.AddSingleton<AccessDb>(_ => new AccessDb(connectionString));
 builder.Services.AddSingleton<DatabaseInitializer>();
 builder.Services.AddScoped<EventRepository>();
+builder.Services.AddScoped<MedicationRepository>();
 
 /**/
 // Agregar servicios de Swagger
@@ -33,6 +37,8 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+//Dapper
+SqlMapper.AddTypeHandler(new GuidTypeHandler());
 var app = builder.Build();
 //Initialze database
 using var scope = app.Services.CreateScope();
@@ -75,6 +81,48 @@ async (RegisterEventRequest request,
     await repository.AddAsync(evento);
 
     return Results.Created($"/events/{evento.Id}", evento);
+});
+app.MapPost("/medications",
+async (
+    CreateMedicationRequest request,
+    MedicationRepository repository) =>
+{
+    var medication = new Medication
+    {
+        Id = Guid.NewGuid(),
+        Name = request.Name,
+        Dose = request.Dose,
+        Quantity = request.Quantity,
+        Form = request.Form,
+        Shape = request.Shape,
+        Color = request.Color ?? string.Empty,
+        Instructions = request.Instructions,
+        IsActive = true
+    };
+
+    await repository.AddAsync(medication);
+
+    return Results.Created(
+        $"/medications/{medication.Id}",
+        medication);
+});
+app.MapGet("/medications",
+async (MedicationRepository repository) =>
+{
+    var medications = await repository.GetAllAsync();
+
+    return Results.Ok(medications);
+});
+app.MapGet("/medications/{id:guid}",
+async (Guid id,
+       MedicationRepository repository) =>
+{
+    var medication = await repository.GetByIdAsync(id);
+
+    if (medication is null)
+        return Results.NotFound();
+
+    return Results.Ok(medication);
 });
 
 app.Run();

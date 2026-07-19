@@ -4,14 +4,17 @@ using Puentes.Core.Domain;
 
 namespace Puentes.Infrastructure.Repositories;
 
-public class EventRepository(AccessDb database)
+public class EventRepository: RepositoryBase
 {
+    public EventRepository(AccessDb _accessDb)
+        : base(_accessDb)
+    {
+    }
     public async Task AddAsync(Event evento)
     {
-        using var connection = database.CreateConnection();
+        using var connection = CreateConnection();
 
-        const string sql =
-        """
+        const string sql = """
         INSERT INTO Events
         (
             Id,
@@ -34,9 +37,47 @@ public class EventRepository(AccessDb database)
 
         await connection.ExecuteAsync(sql, evento);
     }
-    public Task<Event?> GetByIdAsync(Guid id) 
+    public async Task<Event?> GetByIdAsync(Guid id)
     {
-        return null!;                 
+        using var connection = CreateConnection();
+
+        const string sql = """
+        SELECT *
+        FROM Events
+        WHERE Id = @Id;
+        """;
+
+        return await connection.QuerySingleOrDefaultAsync<Event>(
+            sql,
+            new { Id = id });
+    }
+    public async Task UpdateAsync(Event evento)
+    {
+        using var connection = CreateConnection();
+
+        const string sql = """
+        UPDATE Events
+        SET
+            PersonId = @PersonId,
+            Type = @Type,
+            Description = @Description,
+            OccurredAt = @OccurredAt,
+            CreatedAt = @CreatedAt
+        WHERE Id = @Id;
+        """;
+
+        await connection.ExecuteAsync(sql, evento);
+    }
+    public async Task DeleteAsync(Guid id)
+    {
+        using var connection = CreateConnection();
+
+        const string sql = """
+        DELETE FROM Events
+        WHERE Id = @Id;
+        """;
+
+        await connection.ExecuteAsync(sql, new { Id = id });
     }
 
     public Task<IEnumerable<Event>> GetByPersonAsync(Guid personId)
@@ -55,8 +96,16 @@ public class EventRepository(AccessDb database)
     {
         return null!;
     }
-    public Task<Event?> GetAllAsync()
+    public async Task<IEnumerable<Event>> GetAllAsync()
     {
-        return null!;
+        using var connection = CreateConnection();
+
+        const string sql = """
+        SELECT *
+        FROM Events
+        ORDER BY OccurredAt DESC;
+        """;
+
+        return await connection.QueryAsync<Event>(sql);
     }
 }
