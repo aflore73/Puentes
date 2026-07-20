@@ -1,6 +1,7 @@
 <Solution>
-  <Project Path="../Puentes.Core/Puentes.Core.csproj" Id="c147f3f5-9eb1-4837-9021-714ff8be8719" />
+  <Project Path="../Puentes.Core/Puentes.Shared.csproj" Id="c147f3f5-9eb1-4837-9021-714ff8be8719" />
   <Project Path="../Puentes.Infrastructure/Puentes.Infrastructure.csproj" Id="35178dab-ef54-433c-955f-4ba6cc0ceadd" />
+  <Project Path="../Puentes.Orchestrator/Puentes.Orchestrator.csproj" />
   <Project Path="../Puentes.Tests/Puentes.Tests.csproj" Id="5c0e2442-d6c2-4927-a304-7f2bff8ee9c6" />
   <Project Path="Puentes.csproj" />
 </Solution>

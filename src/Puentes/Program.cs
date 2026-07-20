@@ -1,9 +1,10 @@
 using Dapper;
 using Puentes.Api.Requests.Medications;
-using Puentes.Core.Domain;
-using Puentes.Core.Enums;
-using Puentes.Core.Requests;
-using Puentes.Core.Requests.Medication;
+using Puentes.Shared.Domain;
+using Puentes.Shared.Enums;
+using Puentes.Shared.Requests;
+using Puentes.Shared.Responses;
+using Puentes.Shared.Requests.Medication;
 using Puentes.Infrastructure.Configuration;
 using Puentes.Infrastructure.Database;
 using Puentes.Infrastructure.Repositories;
@@ -20,6 +21,11 @@ builder.Services.AddSingleton<DatabaseInitializer>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<MedicationRepository>();
 builder.Services.AddScoped<MedicationScheduleRepository>();
+//Configuración para serialización JSON de enums
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 /**/
 // Agregar servicios de Swagger
@@ -195,5 +201,28 @@ async (
     var schedules = await repository.GetByMedicationIdAsync(id);
 
     return Results.Ok(schedules);
+});
+app.MapGet("/medication-plan",
+async (MedicationScheduleRepository repository) =>
+{
+    var rows = await repository.GetPlanAsync();
+
+    var result = rows
+        .GroupBy(x => x.Turn)
+        .Select(g => new MedicationPlanResponse
+        {
+            Turn = g.Key,
+            Medications = g.Select(x => new MedicationPlanItemResponse
+            {
+                Name = x.Name,
+                Dose = x.Dose,
+                Quantity = x.Quantity,
+                Form = x.Form,
+                Shape = x.Shape,
+                Color = x.Color
+            }).ToList()
+        });
+
+    return Results.Ok(result);
 });
 app.Run();

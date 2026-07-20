@@ -1,4 +1,4 @@
-﻿using Puentes.Core.Enums;
+﻿using Puentes.Shared.Enums;
 
 namespace Puentes.Api.Requests.Medications;
 

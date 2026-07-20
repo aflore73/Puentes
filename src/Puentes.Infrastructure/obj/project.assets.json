@@ -223,14 +223,14 @@
           "lib/net8.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
         }
       },
-      "Puentes.Core/1.0.0": {
+      "Puentes.Shared/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "compile": {
-          "bin/placeholder/Puentes.Core.dll": {}
+          "bin/placeholder/Puentes.Shared.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Puentes.Core.dll": {}
+          "bin/placeholder/Puentes.Shared.dll": {}
         }
       }
     }
@@ -400,17 +400,17 @@
         "sqlitepclraw.provider.e_sqlite3.nuspec"
       ]
     },
-    "Puentes.Core/1.0.0": {
+    "Puentes.Shared/1.0.0": {
       "type": "project",
-      "path": "../Puentes.Core/Puentes.Core.csproj",
-      "msbuildProject": "../Puentes.Core/Puentes.Core.csproj"
+      "path": "../Puentes.Core/Puentes.Shared.csproj",
+      "msbuildProject": "../Puentes.Core/Puentes.Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
       "Dapper >= 2.1.79",
       "Microsoft.Data.Sqlite >= 10.0.10",
-      "Puentes.Core >= 1.0.0",
+      "Puentes.Shared >= 1.0.0",
       "SQLitePCLRaw.bundle_e_sqlite3 >= 3.0.3"
     ]
   },
@@ -447,8 +447,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Puentes.Core.csproj": {
-              "projectPath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Puentes.Core.csproj"
+            "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Puentes.Shared.csproj": {
+              "projectPath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Puentes.Shared.csproj"
             }
           }
         }

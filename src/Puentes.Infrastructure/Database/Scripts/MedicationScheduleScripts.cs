@@ -59,5 +59,21 @@ public static class MedicationScheduleScripts
         @IsActive
     );
     """;
+    public const string SelectPlan = """
+    SELECT
+        s.Turn,
+        m.Name,
+        m.Dose,
+        s.Quantity,
+        m.Form,
+        m.Shape,
+        m.Color
+    FROM MedicationSchedules s
+    INNER JOIN Medications m
+        ON m.Id = s.MedicationId
+    WHERE s.IsActive = 1
+    AND m.IsActive = 1
+    ORDER BY s.Turn, m.Name;
+    """;
 
 }

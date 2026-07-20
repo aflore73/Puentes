@@ -1,6 +1,6 @@
-﻿using Puentes.Core.Enums;
+﻿using Puentes.Shared.Enums;
 
-namespace Puentes.Core.Domain;
+namespace Puentes.Shared.Domain;
 
 public class MedicationSchedule
 {

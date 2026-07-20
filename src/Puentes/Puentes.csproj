@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Puentes.Core\Puentes.Core.csproj" />
+    <ProjectReference Include="..\Puentes.Core\Puentes.Shared.csproj" />
     <ProjectReference Include="..\Puentes.Infrastructure\Puentes.Infrastructure.csproj" />
   </ItemGroup>
 

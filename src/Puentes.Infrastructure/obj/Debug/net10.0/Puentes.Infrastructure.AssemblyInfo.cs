@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Puentes.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+878e97108fd4cc8b8b41c3ba048570214babaa68")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1b8a912746dce011882046856e53676d2d6f12b")]
 [assembly: System.Reflection.AssemblyProductAttribute("Puentes.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Puentes.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

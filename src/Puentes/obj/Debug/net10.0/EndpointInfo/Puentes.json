@@ -205,6 +205,18 @@
           }
         }
       }
+    },
+    "/medication-plan": {
+      "get": {
+        "tags": [
+          "Puentes"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

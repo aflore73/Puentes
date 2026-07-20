@@ -1,4 +1,4 @@
-﻿namespace Puentes.Core.Enums;
+﻿namespace Puentes.Shared.Enums;
 
 public class MedicationRecord
 {

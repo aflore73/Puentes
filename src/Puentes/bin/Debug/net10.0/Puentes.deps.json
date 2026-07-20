@@ -8,8 +8,8 @@
     ".NETCoreApp,Version=v10.0": {
       "Puentes/1.0.0": {
         "dependencies": {
-          "Puentes.Core": "1.0.0",
           "Puentes.Infrastructure": "1.0.0",
+          "Puentes.Shared": "1.0.0",
           "Swashbuckle.AspNetCore.SwaggerGen": "10.2.3",
           "Swashbuckle.AspNetCore.SwaggerUI": "10.2.3"
         },
@@ -276,23 +276,23 @@
           }
         }
       },
-      "Puentes.Core/1.0.0": {
+      "Puentes.Infrastructure/1.0.0": {
+        "dependencies": {
+          "Dapper": "2.1.79",
+          "Microsoft.Data.Sqlite": "10.0.10",
+          "Puentes.Shared": "1.0.0",
+          "SQLitePCLRaw.bundle_e_sqlite3": "3.0.3"
+        },
         "runtime": {
-          "Puentes.Core.dll": {
+          "Puentes.Infrastructure.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
       },
-      "Puentes.Infrastructure/1.0.0": {
-        "dependencies": {
-          "Dapper": "2.1.79",
-          "Microsoft.Data.Sqlite": "10.0.10",
-          "Puentes.Core": "1.0.0",
-          "SQLitePCLRaw.bundle_e_sqlite3": "3.0.3"
-        },
+      "Puentes.Shared/1.0.0": {
         "runtime": {
-          "Puentes.Infrastructure.dll": {
+          "Puentes.Shared.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -390,12 +390,12 @@
       "path": "swashbuckle.aspnetcore.swaggerui/10.2.3",
       "hashPath": "swashbuckle.aspnetcore.swaggerui.10.2.3.nupkg.sha512"
     },
-    "Puentes.Core/1.0.0": {
+    "Puentes.Infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Puentes.Infrastructure/1.0.0": {
+    "Puentes.Shared/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

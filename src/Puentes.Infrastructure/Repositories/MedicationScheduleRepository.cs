@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Puentes.Core.Domain;
+using Puentes.Shared.Domain;
 using Puentes.Infrastructure.Database;
 using Puentes.Infrastructure.Database.Scripts;
 
@@ -72,5 +72,12 @@ public class MedicationScheduleRepository
         return await connection.QueryAsync<MedicationSchedule>(
             MedicationScheduleScripts.SelectByMedicationId,
             new { MedicationId = medicationId });
+    }
+    public async Task<IEnumerable<MedicationPlanRow>> GetPlanAsync()
+    {
+        using var connection = _accessDb.OpenConnection();
+
+        return await connection.QueryAsync<MedicationPlanRow>(
+            MedicationScheduleScripts.SelectPlan);
     }
 }

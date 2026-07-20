@@ -1,0 +1,18 @@
+﻿using Puentes.Shared.Enums;
+
+public class MedicationPlanRow
+{
+    public MedicationTurnType Turn { get; set; }
+
+    public string Name { get; set; } = string.Empty;
+
+    public string Dose { get; set; } = string.Empty;
+
+    public decimal Quantity { get; set; }
+
+    public string Form { get; set; } = string.Empty;
+
+    public string Shape { get; set; } = string.Empty;
+
+    public string Color { get; set; } = string.Empty;
+}

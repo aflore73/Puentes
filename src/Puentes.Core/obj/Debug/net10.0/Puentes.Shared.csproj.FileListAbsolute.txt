@@ -1,0 +1,14 @@
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\appsettings.Development.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\appsettings.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\Puentes.Shared.deps.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\Puentes.Shared.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\Puentes.Shared.pdb
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\Puentes.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\Puentes.Shared.AssemblyInfoInputs.cache
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\Puentes.Shared.AssemblyInfo.cs
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\Puentes.Shared.csproj.CoreCompileInputs.cache
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\Puentes.Shared.sourcelink.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\Puentes.Shared.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\refint\Puentes.Shared.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\Puentes.Shared.pdb
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\ref\Puentes.Shared.dll

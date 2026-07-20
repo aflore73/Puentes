@@ -10,7 +10,7 @@
         "dependencies": {
           "Dapper": "2.1.79",
           "Microsoft.Data.Sqlite": "10.0.10",
-          "Puentes.Core": "1.0.0",
+          "Puentes.Shared": "1.0.0",
           "SQLitePCLRaw.bundle_e_sqlite3": "3.0.3"
         },
         "runtime": {
@@ -238,9 +238,9 @@
           }
         }
       },
-      "Puentes.Core/1.0.0": {
+      "Puentes.Shared/1.0.0": {
         "runtime": {
-          "Puentes.Core.dll": {
+          "Puentes.Shared.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -310,7 +310,7 @@
       "path": "sqlitepclraw.provider.e_sqlite3/3.0.3",
       "hashPath": "sqlitepclraw.provider.e_sqlite3.3.0.3.nupkg.sha512"
     },
-    "Puentes.Core/1.0.0": {
+    "Puentes.Shared/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

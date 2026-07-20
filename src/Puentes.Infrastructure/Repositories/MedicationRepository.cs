@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Puentes.Core.Enums;
+using Puentes.Shared.Enums;
 using Puentes.Infrastructure.Database;
 using Puentes.Infrastructure.Database.Scripts;
 

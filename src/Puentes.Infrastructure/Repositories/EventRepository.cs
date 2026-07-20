@@ -1,6 +1,6 @@
 ﻿using Puentes.Infrastructure.Database;
 using Dapper;
-using Puentes.Core.Domain;
+using Puentes.Shared.Domain;
 
 namespace Puentes.Infrastructure.Repositories;
 

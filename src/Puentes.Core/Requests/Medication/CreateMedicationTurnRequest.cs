@@ -1,6 +1,6 @@
-﻿using Puentes.Core.Enums;
+﻿using Puentes.Shared.Enums;
 
-namespace Puentes.Core.Requests.Medication;
+namespace Puentes.Shared.Requests.Medication;
 
 public class CreateMedicationTurnRequest
 {

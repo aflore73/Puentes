@@ -1,6 +1,6 @@
-﻿using Puentes.Core.Domain;
+﻿using Puentes.Shared.Domain;
 
-namespace Puentes.Core.Requests;
+namespace Puentes.Shared.Requests;
 /// <summary>
 /// Request to register an event for a person
 /// es inmutable a diferencia de la clase Event que es mutable.

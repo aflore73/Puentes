@@ -1,4 +1,4 @@
-﻿namespace Puentes.Core.Domain;
+﻿namespace Puentes.Shared.Domain;
 
 public class Event
 {
