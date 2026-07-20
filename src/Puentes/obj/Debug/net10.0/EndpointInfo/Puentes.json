@@ -39,6 +39,16 @@
       }
     },
     "/medications": {
+      "get": {
+        "tags": [
+          "Puentes"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "post": {
         "tags": [
           "Puentes"
@@ -47,22 +57,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMedicationRequest"
+                "$ref": "#/components/schemas/MedicationRequest"
               }
             }
           },
           "required": true
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Puentes"
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -91,43 +91,124 @@
             "description": "OK"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Puentes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/medications/schedules": {
+      "put": {
+        "tags": [
+          "Puentes"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MedicationScheduleBatchRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/medications/{id}/schedules": {
+      "put": {
+        "tags": [
+          "Puentes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MedicationScheduleItemRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Puentes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },
   "components": {
     "schemas": {
-      "CreateMedicationRequest": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "dose": {
-            "type": "string",
-            "nullable": true
-          },
-          "quantity": {
-            "type": "number",
-            "format": "double"
-          },
-          "form": {
-            "$ref": "#/components/schemas/MedicationForm"
-          },
-          "shape": {
-            "$ref": "#/components/schemas/MedicationShape"
-          },
-          "color": {
-            "type": "string",
-            "nullable": true
-          },
-          "instructions": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "EventType": {
         "enum": [
           0,
@@ -162,6 +243,67 @@
         "type": "integer",
         "format": "int32"
       },
+      "MedicationRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "dose": {
+            "type": "string",
+            "nullable": true
+          },
+          "form": {
+            "$ref": "#/components/schemas/MedicationForm"
+          },
+          "shape": {
+            "$ref": "#/components/schemas/MedicationShape"
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "instructions": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MedicationScheduleBatchRequest": {
+        "type": "object",
+        "properties": {
+          "medicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "schedules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MedicationScheduleItemRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MedicationScheduleItemRequest": {
+        "type": "object",
+        "properties": {
+          "turn": {
+            "$ref": "#/components/schemas/MedicationTurnType"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "MedicationShape": {
         "enum": [
           0,
@@ -170,6 +312,16 @@
           3,
           4,
           99
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "MedicationTurnType": {
+        "enum": [
+          1,
+          2,
+          3,
+          4
         ],
         "type": "integer",
         "format": "int32"

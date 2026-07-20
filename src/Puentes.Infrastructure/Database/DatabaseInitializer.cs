@@ -21,9 +21,7 @@ public class DatabaseInitializer
 
         connection.Execute(MedicationScripts.CreateTable);
 
-       // connection.Execute(MedicationTurnScripts.CreateTable);
-
-        //connection.Execute(MedicationScheduleScripts.CreateTable);
+        connection.Execute(MedicationScheduleScripts.CreateTable);
 
         //connection.Execute(MedicationRecordScripts.CreateTable);
 

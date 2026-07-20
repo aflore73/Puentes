@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Puentes.Core.Domain;
+using Puentes.Core.Enums;
 using Puentes.Infrastructure.Database;
 using Puentes.Infrastructure.Database.Scripts;
 
@@ -14,36 +14,15 @@ public class MedicationRepository
         _accessDb = accessDb;
     }
 
-    public async Task AddAsync(Medication medication)
+    public async Task<Guid> AddAsync(Medication medication)
     {
         using var connection = _accessDb.OpenConnection();
 
         await connection.ExecuteAsync(
             MedicationScripts.Insert,
             medication);
-    }
 
-    //public async Task<IEnumerable<dynamic>> GetAllAsync()
-    //{
-    //    using var connection = _accessDb.OpenConnection();
-
-    //    return await connection.QueryAsync(MedicationScripts.SelectAll);
-    //}
-    public async Task<IEnumerable<Medication>> GetAllAsync()
-    {
-        using var connection = _accessDb.OpenConnection();
-
-        return await connection.QueryAsync<Medication>(
-            MedicationScripts.SelectAll);
-    }
-
-    public async Task<Medication?> GetByIdAsync(Guid id)
-    {
-        using var connection = _accessDb.OpenConnection();
-
-        return await connection.QuerySingleOrDefaultAsync<Medication>(
-            MedicationScripts.SelectById,
-            new { Id = id });
+        return medication.Id;
     }
 
     public async Task UpdateAsync(Medication medication)
@@ -62,5 +41,22 @@ public class MedicationRepository
         await connection.ExecuteAsync(
             MedicationScripts.Delete,
             new { Id = id });
+    }
+
+    public async Task<Medication?> GetByIdAsync(Guid id)
+    {
+        using var connection = _accessDb.OpenConnection();
+
+        return await connection.QuerySingleOrDefaultAsync<Medication>(
+            MedicationScripts.SelectById,
+            new { Id = id });
+    }
+
+    public async Task<IEnumerable<Medication>> GetAllAsync()
+    {
+        using var connection = _accessDb.OpenConnection();
+
+        return await connection.QueryAsync<Medication>(
+            MedicationScripts.SelectAll);
     }
 }

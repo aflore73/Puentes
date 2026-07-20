@@ -1,12 +1,5 @@
-﻿namespace Puentes.Core.Domain;
+﻿namespace Puentes.Core.Enums;
 
-public enum MedicationTurnType
-{
-    Morning = 1,
-    Noon = 2,
-    Afternoon = 3,
-    Night = 4
-}
 public class MedicationTurn
 {
     public Guid Id { get; set; }

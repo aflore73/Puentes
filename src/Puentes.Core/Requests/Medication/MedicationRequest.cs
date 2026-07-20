@@ -1,13 +1,13 @@
-﻿using Puentes.Core.Domain;
+﻿using Puentes.Core.Enums;
 
 namespace Puentes.Core.Requests.Medication;
 
-public class CreateMedicationRequest
+public class MedicationRequest
 {
     public string Name { get; set; } = string.Empty;
 
     public string Dose { get; set; } = string.Empty;
-    public decimal Quantity { get; set; }
+
     public MedicationForm Form { get; set; }
 
     public MedicationShape Shape { get; set; }
@@ -15,4 +15,6 @@ public class CreateMedicationRequest
     public string? Color { get; set; }
 
     public string? Instructions { get; set; }
+
+    public bool IsActive { get; set; } = true;
 }

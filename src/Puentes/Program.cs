@@ -1,5 +1,7 @@
 using Dapper;
+using Puentes.Api.Requests.Medications;
 using Puentes.Core.Domain;
+using Puentes.Core.Enums;
 using Puentes.Core.Requests;
 using Puentes.Core.Requests.Medication;
 using Puentes.Infrastructure.Configuration;
@@ -17,7 +19,7 @@ builder.Services.AddSingleton<AccessDb>(_ => new AccessDb(connectionString));
 builder.Services.AddSingleton<DatabaseInitializer>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<MedicationRepository>();
-builder.Services.AddScoped<MedicationTurnRepository>();
+builder.Services.AddScoped<MedicationScheduleRepository>();
 
 /**/
 // Agregar servicios de Swagger
@@ -84,30 +86,7 @@ async (RegisterEventRequest request,
     return Results.Created($"/events/{evento.Id}", evento);
 });
 //Medications
-app.MapPost("/medications",
-async (
-    CreateMedicationRequest request,
-    MedicationRepository repository) =>
-{
-    var medication = new Medication
-    {
-        Id = Guid.NewGuid(),
-        Name = request.Name,
-        Dose = request.Dose,
-        Quantity = request.Quantity,
-        Form = request.Form,
-        Shape = request.Shape,
-        Color = request.Color ?? string.Empty,
-        Instructions = request.Instructions,
-        IsActive = true
-    };
 
-    await repository.AddAsync(medication);
-
-    return Results.Created(
-        $"/medications/{medication.Id}",
-        medication);
-});
 app.MapGet("/medications",
 async (MedicationRepository repository) =>
 {
@@ -126,33 +105,95 @@ async (Guid id,
 
     return Results.Ok(medication);
 });
-//Medication Turns
-app.MapPost("/medication-turns",
+app.MapPost("/medications",
 async (
-    CreateMedicationTurnRequest request,
-    MedicationTurnRepository repository) =>
+    MedicationRequest request,
+    MedicationRepository repository) =>
 {
-    var turn = new MedicationTurn
+    var medication = new Medication
     {
         Id = Guid.NewGuid(),
-        Type = request.Type,
         Name = request.Name,
-        DisplayOrder = request.DisplayOrder,
-        ReferenceTime = request.ReferenceTime,
-        IsActive = true
+        Dose = request.Dose,
+        Form = request.Form,
+        Shape = request.Shape,
+        Color = request.Color ?? string.Empty,
+        Instructions = request.Instructions,
+        IsActive = request.IsActive
     };
 
-    await repository.AddAsync(turn);
+    await repository.AddAsync(medication);
 
     return Results.Created(
-        $"/medication-turns/{turn.Id}",
-        turn);
+        $"/medications/{medication.Id}",
+        medication);
 });
-app.MapGet("/medication-turns",
-async (MedicationTurnRepository repository) =>
+app.MapPut("/medications/{id:guid}",
+async (
+    Guid id,
+    MedicationRequest request,
+    MedicationRepository repository) =>
 {
-    return Results.Ok(
-        await repository.GetAllAsync());
+    var medication = await repository.GetByIdAsync(id);
+
+    if (medication is null)
+        return Results.NotFound();
+
+    medication.Name = request.Name;
+    medication.Dose = request.Dose;
+    medication.Form = request.Form;
+    medication.Shape = request.Shape;
+    medication.Color = request.Color ?? string.Empty;
+    medication.Instructions = request.Instructions;
+    medication.IsActive = request.IsActive;
+
+    await repository.UpdateAsync(medication);
+
+    return Results.NoContent();
+});
+//Medication Turns Schedules
+app.MapPut("/medications/schedules",
+async (
+    List<MedicationScheduleBatchRequest> request,
+    MedicationScheduleRepository repository) =>
+{
+    await repository.ReplaceBatchAsync(request);
+
+    return Results.NoContent();
 });
 
+app.MapPut("/medications/{id:guid}/schedules",
+async (
+    Guid id,
+    List<MedicationScheduleItemRequest> request,
+    MedicationRepository medicationRepository,
+    MedicationScheduleRepository scheduleRepository) =>
+{
+    var medication = await medicationRepository.GetByIdAsync(id);
+
+    if (medication is null)
+        return Results.NotFound();
+
+    var schedules = request.Select(x => new MedicationSchedule
+    {
+        Id = Guid.NewGuid(),
+        MedicationId = id,
+        Turn = x.Turn,
+        Quantity = x.Quantity,
+        IsActive = true
+    });
+
+    await scheduleRepository.ReplaceAsync(id, schedules);
+
+    return Results.NoContent();
+});
+app.MapGet("/medications/{id:guid}/schedules",
+async (
+    Guid id,
+    MedicationScheduleRepository repository) =>
+{
+    var schedules = await repository.GetByMedicationIdAsync(id);
+
+    return Results.Ok(schedules);
+});
 app.Run();

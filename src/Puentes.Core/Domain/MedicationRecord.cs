@@ -1,4 +1,4 @@
-﻿namespace Puentes.Core.Domain;
+﻿namespace Puentes.Core.Enums;
 
 public class MedicationRecord
 {
