@@ -1,3 +1,4 @@
+using Puentes.Orchestrator.Services;
 public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;

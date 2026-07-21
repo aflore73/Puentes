@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PRoZbdDR4m4=",
+  "dgSpecHash": "2yISH2lcZK4=",
   "success": true,
   "projectFilePath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj",
   "expectedPackageFiles": [
@@ -32,7 +32,10 @@
     "C:\\Users\\aflorentin\\.nuget\\packages\\microsoft.extensions.options\\10.0.10\\microsoft.extensions.options.10.0.10.nupkg.sha512",
     "C:\\Users\\aflorentin\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\10.0.10\\microsoft.extensions.options.configurationextensions.10.0.10.nupkg.sha512",
     "C:\\Users\\aflorentin\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.10\\microsoft.extensions.primitives.10.0.10.nupkg.sha512",
-    "C:\\Users\\aflorentin\\.nuget\\packages\\system.diagnostics.eventlog\\10.0.9\\system.diagnostics.eventlog.10.0.9.nupkg.sha512"
+    "C:\\Users\\aflorentin\\.nuget\\packages\\openai\\2.12.0\\openai.2.12.0.nupkg.sha512",
+    "C:\\Users\\aflorentin\\.nuget\\packages\\system.clientmodel\\1.14.0\\system.clientmodel.1.14.0.nupkg.sha512",
+    "C:\\Users\\aflorentin\\.nuget\\packages\\system.diagnostics.eventlog\\10.0.9\\system.diagnostics.eventlog.10.0.9.nupkg.sha512",
+    "C:\\Users\\aflorentin\\.nuget\\packages\\system.memory.data\\10.0.3\\system.memory.data.10.0.3.nupkg.sha512"
   ],
   "logs": []
 }

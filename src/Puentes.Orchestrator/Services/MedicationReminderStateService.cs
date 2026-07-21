@@ -1,4 +1,5 @@
 ﻿using Puentes.Shared.Enums;
+namespace Puentes.Orchestrator.Services;
 
 public class MedicationReminderStateService
 {

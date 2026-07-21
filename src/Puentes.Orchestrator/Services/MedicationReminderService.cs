@@ -1,6 +1,8 @@
-﻿using Puentes.Orchestrator.Services;
-using Puentes.Shared.Enums;
+﻿using Puentes.Shared.Enums;
 using Puentes.Shared.Responses;
+using Puentes.Orchestrator.AI;
+
+namespace Puentes.Orchestrator.Services;
 
 public class MedicationReminderService
 {
@@ -9,15 +11,17 @@ public class MedicationReminderService
     private readonly ApiClient _apiClient;
     private readonly ILogger<MedicationReminderService> _logger;
     private readonly MedicationReminderStateService _stateService;
-    private readonly MedicationMessageService _messageService;
+   private readonly AiContextBuilderService _aiContextBuilder;
+    private readonly IAssistantService _aiAssistantService;
     public MedicationReminderService(
         ApiClient apiClient,
-        ILogger<MedicationReminderService> logger, MedicationReminderStateService stateService, MedicationMessageService messageService)
+        ILogger<MedicationReminderService> logger, MedicationReminderStateService stateService, AiContextBuilderService aiContextBuilder, IAssistantService aiAssistantService )
     {
         _apiClient = apiClient;
         _logger = logger;
         _stateService = stateService;
-        _messageService = messageService;
+        _aiContextBuilder = aiContextBuilder;
+        _aiAssistantService = aiAssistantService;
     }
     public void MarkAsProcessed(
         MedicationTurnType turn)
@@ -43,7 +47,7 @@ public class MedicationReminderService
         {
             _logger.LogInformation(
                 "Turno {Turn} ya procesado hoy",
-                currentTurn);
+                currentTurn.Turn);
 
             return;
         }
@@ -51,11 +55,17 @@ public class MedicationReminderService
         _logger.LogInformation(
        "Turno actual: {Turn}",
        currentTurn.Turn);
+        // 2) Crear contexto para IA
+        var context = _aiContextBuilder.Build(currentTurn);
+        var message = await _aiAssistantService.GenerateAsync(context);
 
-        var message = _messageService.BuildMessage(currentTurn);
-        _logger.LogInformation(
-            "{Message}",
-            message);
+        _logger.LogInformation(message);
+        //_logger.LogInformation(
+        //    JsonSerializer.Serialize(context));
+        // 3) Acá después irá la llamada a la IA
+        // var message = await _assistantService.GenerateAsync(context);
+
+        // 4) Marcar como procesado
         _stateService.MarkAsProcessed(currentTurn.Turn);
     }
     private MedicationPlanResponse? GetCurrentTurn(

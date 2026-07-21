@@ -2,6 +2,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+namespace Puentes.Orchestrator.Services;
+
 public class ApiClient
 {
     private readonly HttpClient _httpClient;
