@@ -21,6 +21,8 @@ builder.Services.AddSingleton<DatabaseInitializer>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<MedicationRepository>();
 builder.Services.AddScoped<MedicationScheduleRepository>();
+// Repositorio de registros de medicación
+builder.Services.AddSingleton<MedicationRecordRepository>();
 //Configuración para serialización JSON de enums
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
@@ -215,14 +217,74 @@ async (MedicationScheduleRepository repository) =>
             Medications = g.Select(x => new MedicationPlanItemResponse
             {
                 Name = x.Name,
-                Dose = x.Dose,
                 Quantity = x.Quantity,
                 Form = x.Form,
                 Shape = x.Shape,
-                Color = x.Color
+                Color = x.Color,
+                SpeakName = x.SpeakName
             }).ToList()
         });
 
     return Results.Ok(result);
+});
+//Medication Records
+app.MapPost("/medication-records",
+async (
+    RegisterMedicationRecordRequest request,
+    MedicationRecordRepository repository) =>
+{
+    var existing = await repository.GetTodayAsync(
+    request.PatientId,
+    request.Turn);
+
+    if (existing is not null)
+    {
+        return Results.Conflict(
+            "Ya existe un registro para este turno en el día de hoy.");
+    }
+
+    var record = new MedicationRecord
+    {
+        Id = Guid.NewGuid(),
+        PatientId = request.PatientId,
+        Turn = request.Turn,
+        RecordedAt = DateTime.Now,
+        Confirmed = request.Confirmed,
+        Notes = request.Notes
+    };
+
+    await repository.AddAsync(record);
+
+    return Results.Created(
+        $"/medication-records/{record.Id}",
+        record);
+});
+
+app.MapGet(
+"/patients/{patientId:guid}/medication-records/today",
+async (
+    Guid patientId,
+    MedicationRecordRepository repository) =>
+{
+    var records = await repository.GetTodayAsync(patientId);
+
+    return Results.Ok(records);
+});
+
+app.MapGet(
+"/patients/{patientId:guid}/medication-records/today/{turn}",
+async (
+    Guid patientId,
+    MedicationTurnType turn,
+    MedicationRecordRepository repository) =>
+{
+    var record = await repository.GetTodayAsync(
+        patientId,
+        turn);
+
+    if (record is null)
+        return Results.NotFound();
+
+    return Results.Ok(record);
 });
 app.Run();

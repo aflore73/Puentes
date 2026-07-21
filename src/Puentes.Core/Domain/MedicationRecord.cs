@@ -1,15 +1,17 @@
-﻿namespace Puentes.Shared.Enums;
+﻿using Puentes.Shared.Enums;
+namespace Puentes.Shared.Domain;
 
 public class MedicationRecord
 {
     public Guid Id { get; set; }
 
-    public Guid MedicationId { get; set; }
+    public Guid PatientId { get; set; }
 
-    public Guid MedicationTurnId { get; set; }
+    public MedicationTurnType Turn { get; set; }
 
-    public DateTimeOffset TakenAt { get; set; }
+    public DateTimeOffset RecordedAt { get; set; }
+
+    public bool Confirmed { get; set; }
 
     public string? Notes { get; set; }
-    public MedicationRecordStatus Status { get; set; }
 }

@@ -14,6 +14,12 @@ public class MedicationRepository
         _accessDb = accessDb;
     }
 
+    public async Task CreateTableAsync()
+    {
+        using var connection = _accessDb.OpenConnection();
+        await connection.ExecuteAsync(
+            MedicationScripts.CreateTable);
+    }
     public async Task<Guid> AddAsync(Medication medication)
     {
         using var connection = _accessDb.OpenConnection();

@@ -7,6 +7,7 @@ public static class MedicationScripts
         (
             Id TEXT PRIMARY KEY,
             Name TEXT NOT NULL,
+            Speakname INTEGER NOT NULL DEFAULT 1,
             Dose TEXT NOT NULL,
             Form INTEGER NOT NULL,
             Shape INTEGER NOT NULL,
@@ -21,6 +22,7 @@ public static class MedicationScripts
         (
             Id,
             Name,
+            Speakname,
             Dose,
             Form,
             Shape,
@@ -32,6 +34,7 @@ public static class MedicationScripts
         (
             @Id,
             @Name,
+            @Speakname,
             @Dose,
             @Form,
             @Shape,
@@ -45,6 +48,7 @@ public static class MedicationScripts
         UPDATE Medications
         SET
             Name = @Name,
+            Speakname = @Speakname,
             Dose = @Dose,
             Form = @Form,
             Shape = @Shape,
@@ -64,6 +68,7 @@ public static class MedicationScripts
         SELECT
             Id,
             Name,
+            Speakname,
             Dose,
             Instructions,
             Form,
@@ -78,6 +83,7 @@ public static class MedicationScripts
         SELECT
             Id,
             Name,
+            Speakname,
             Dose,
             Instructions,
             Form,

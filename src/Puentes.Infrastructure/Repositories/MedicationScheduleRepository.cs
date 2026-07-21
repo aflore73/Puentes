@@ -13,6 +13,12 @@ public class MedicationScheduleRepository
     {
         _accessDb = accessDb;
     }
+    public async Task CreateTableAsync()
+    {
+        using var connection = _accessDb.OpenConnection();
+        await connection.ExecuteAsync(
+            MedicationScheduleScripts.CreateTable);
+    }
     public async Task ReplaceBatchAsync(
     IEnumerable<MedicationScheduleBatchRequest> request)
     {

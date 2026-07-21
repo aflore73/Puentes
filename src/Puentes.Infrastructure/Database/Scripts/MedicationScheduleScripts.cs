@@ -63,6 +63,7 @@ public static class MedicationScheduleScripts
     SELECT
         s.Turn,
         m.Name,
+        m.Speakname,
         m.Dose,
         s.Quantity,
         m.Form,

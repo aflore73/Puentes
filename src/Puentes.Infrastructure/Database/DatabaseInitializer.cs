@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Puentes.Infrastructure.Database.Scripts;
+using Puentes.Infrastructure.Repositories;
 using System.Data;
 
 namespace Puentes.Infrastructure.Database;
@@ -15,21 +16,14 @@ public class DatabaseInitializer
 
     public void Initialize()
     {
-        using var connection = _accessDb.OpenConnection();
+        var _medicationRepository = new MedicationRepository(_accessDb);
+        var _medicationScheduleRepository = new MedicationScheduleRepository(_accessDb);
+        var _medicationRecordRepository = new MedicationRecordRepository(_accessDb);
 
-        //connection.Execute(EventScripts.CreateTable);
+        _ = _medicationRepository.CreateTableAsync();
 
-        connection.Execute(MedicationScripts.CreateTable);
+        _ = _medicationScheduleRepository.CreateTableAsync();
 
-        connection.Execute(MedicationScheduleScripts.CreateTable);
-
-        //connection.Execute(MedicationRecordScripts.CreateTable);
-
-        SeedMedicationTurns(connection);
-    }
-
-    private static void SeedMedicationTurns(IDbConnection connection)
-    {
-        // Lo implementaremos en el siguiente paso.
+        _ = _medicationRecordRepository.CreateTableAsync();
     }
 }

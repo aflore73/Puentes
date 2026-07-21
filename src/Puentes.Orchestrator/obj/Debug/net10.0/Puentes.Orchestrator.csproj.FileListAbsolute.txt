@@ -1,9 +1,3 @@
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.csproj.AssemblyReference.cache
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.AssemblyInfoInputs.cache
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.AssemblyInfo.cs
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.csproj.CoreCompileInputs.cache
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.sourcelink.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\bin\Debug\net10.0\appsettings.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\bin\Debug\net10.0\Puentes.Orchestrator.exe
@@ -44,6 +38,12 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\bin\Debug
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\bin\Debug\net10.0\runtimes\win\lib\net10.0\System.Diagnostics.EventLog.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\bin\Debug\net10.0\Puentes.Shared.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\bin\Debug\net10.0\Puentes.Shared.pdb
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.csproj.AssemblyReference.cache
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.AssemblyInfoInputs.cache
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.AssemblyInfo.cs
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.csproj.CoreCompileInputs.cache
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.sourcelink.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes..A395893D.Up2Date
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\Puentes.Orchestrator.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\obj\Debug\net10.0\refint\Puentes.Orchestrator.dll
