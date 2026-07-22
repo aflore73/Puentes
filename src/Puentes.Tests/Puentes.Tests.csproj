@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Puentes.Core\Puentes.Core.csproj" />
+    <ProjectReference Include="..\Puentes.Core\Puentes.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

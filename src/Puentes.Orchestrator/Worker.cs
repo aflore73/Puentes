@@ -1,21 +1,36 @@
-using Puentes.Orchestrator.Services;
 public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
-    private readonly ApiClient _apiClient;
-    private readonly MedicationReminderService _reminder;
-    public Worker(ILogger<Worker> logger, ApiClient apiClient, MedicationReminderService reminder)
+    private readonly MedicationWorkflowService _workflow;
+
+    public Worker(
+        ILogger<Worker> logger,
+        MedicationWorkflowService workflow)
     {
         _logger = logger;
-        _apiClient = apiClient;
-        _reminder = reminder;
+        _workflow = workflow;
     }
+
     protected override async Task ExecuteAsync(
-    CancellationToken stoppingToken)
+        CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            await _reminder.ProcessAsync();
+            try
+            {
+                await _workflow.ProcessAsync(stoppingToken);
+            }
+            catch (OperationCanceledException)
+                when (stoppingToken.IsCancellationRequested)
+            {
+                break;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Error en el flujo de medicamentos.");
+            }
 
             await Task.Delay(
                 TimeSpan.FromMinutes(1),

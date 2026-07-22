@@ -21,18 +21,22 @@ public class ApiClient
             new JsonStringEnumConverter()
         }
     };
-
-    public async Task<List<MedicationPlanResponse>> GetMedicationPlanAsync()
+    public async Task<List<MedicationPlanResponse>> GetMedicationPlanAsync(
+     CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("medication-plan");
+        var response = await _httpClient.GetAsync(
+            "medication-plan",
+            cancellationToken);
 
         response.EnsureSuccessStatusCode();
 
-        var json = await response.Content.ReadAsStringAsync();
-
+        var json = await response.Content.ReadAsStringAsync(
+            cancellationToken);
+        Console.WriteLine(json);
         return JsonSerializer.Deserialize<List<MedicationPlanResponse>>(
             json,
             JsonOptions
-        ) ?? [];
+        ) ?? throw new InvalidOperationException(
+            "No se pudo deserializar el plan de medicación.");
     }
 }
