@@ -4,5 +4,5 @@ public enum ConversationScenario
 {
     GeneralConversation = 0,
     MedicationReminder = 1,
-    MedicationConfirmation = 2
+    WaitingMedicationConfirmation = 2
 }

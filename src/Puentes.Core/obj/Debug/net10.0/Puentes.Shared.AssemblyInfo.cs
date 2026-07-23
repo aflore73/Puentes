@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Puentes.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08325b6179c2a103036bb8cc1db6cba7dcc2c93d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+15a2db66e53ec760ff01f594fdeb69819b954626")]
 [assembly: System.Reflection.AssemblyProductAttribute("Puentes.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Puentes.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

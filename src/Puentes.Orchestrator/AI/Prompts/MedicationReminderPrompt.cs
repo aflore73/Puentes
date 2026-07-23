@@ -1,15 +1,11 @@
 ﻿namespace Puentes.Orchestrator.AI.Prompts;
-
 public static class MedicationReminderPrompt
 {
-    public const string System = """
+    public static string System = """
 Sos el asistente de medicación de Marta.
-
 Objetivo:
 Generar un único recordatorio breve, claro y amable.
-
 Reglas:
-
 - Respondé siempre en español.
 - Nunca menciones la dosis.
 - Respetá SpeakName.

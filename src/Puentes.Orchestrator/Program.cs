@@ -10,7 +10,10 @@ builder.Services.AddHttpClient<ApiClient>(client =>
 });
 builder.Services.AddSingleton<MedicationReminderStateService>();
 builder.Services.AddSingleton<AiContextBuilderService>();
-builder.Services.AddSingleton<IAssistantService, OpenAiAssistantService>();
+builder.Services.AddSingleton<
+    IAssistantService,
+    FakeAiAssistantService>();
+//builder.Services.AddSingleton<IAssistantService, OpenAiAssistantService>();
 builder.Services.AddSingleton<MedicationWorkflowService>();
 builder.Services.AddSingleton<IConversationService,ConversationService>();
 builder.Services.AddHostedService<Worker>();

@@ -1,18 +1,21 @@
 ﻿using Puentes.Orchestrator.AI.Models;
 using Puentes.Orchestrator.Services;
-using System.Numerics;
+using Puentes.Shared.Enums;
 
 public class MedicationWorkflowService
 {
     private readonly ApiClient _apiClient;
     private readonly IConversationService _conversationService;
+    private readonly AiContextBuilderService _contextBuilder;
 
     public MedicationWorkflowService(
         ApiClient apiClient,
-        IConversationService conversationService)
+        IConversationService conversationService,
+        AiContextBuilderService contextBuilder)
     {
         _apiClient = apiClient;
         _conversationService = conversationService;
+        _contextBuilder = contextBuilder;
     }
 
     public async Task ProcessAsync(
@@ -26,15 +29,41 @@ public class MedicationWorkflowService
             return;
         }
 
-        var plan = plans.FirstOrDefault();
-        var context = new ConversationContext
+        var currentTurn = GetCurrentTurn();
+
+        var plan = plans.FirstOrDefault(
+            x => x.Turn == currentTurn);
+
+        if (plan is null)
         {
-            PersonName = "Marta",
+            return;
+        }
+
+        var request = new ConversationRequest
+        {
             Scenario = ConversationScenario.MedicationReminder,
-            Medication = plan
+            UserInput = null,
+            WaitingMedicationConfirmation = false
         };
 
-        var response = await _conversationService.ProcessAsync(context);
+        var context = _contextBuilder
+            .BuildConversationContext(request, plan);
+
+        var response = await _conversationService
+            .ProcessAsync(context);
+
         Console.WriteLine(response.Message);
+    }
+
+    private static MedicationTurnType GetCurrentTurn()
+    {
+        var hour = DateTime.Now.Hour;
+
+        return hour switch
+        {
+            >= 6 and < 12 => MedicationTurnType.Morning,
+            >= 12 and < 18 => MedicationTurnType.Midday,
+            _ => MedicationTurnType.Night
+        };
     }
 }

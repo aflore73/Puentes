@@ -1,31 +1,80 @@
-﻿//namespace Puentes.Orchestrator.AI;
+﻿using Puentes.Orchestrator.AI.Models;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
-//public class FakeAiAssistantService : IAssistantService
-//{
-//    //public Task<string> GenerateMedicationReminderAsync(
-//    //    MedicationReminderContext context)
-//    //{
-//    //    var message =
-//    //        $"Marta, turno {context.Turn}. " +
-//    //        $"Cantidad de medicamentos: {context.Medications.Count}.";
+namespace Puentes.Orchestrator.Services;
 
-//    //    return Task.FromResult(message);
-//    //}
-//    public Task<string> GenerateMedicationReminderAsync(
-//    MedicationReminderContext context)
-//    {
-//        foreach (var med in context.Medications)
-//        {
-//            Console.WriteLine(
-//                $"{med.Name} | " +
-//                $"SpeakName: {med.SpeakName} | " +
-//                $"Quantity: {med.Quantity} | " +
-//                $"Form: {med.Form} | " +
-//                $"Shape: {med.Shape} | " +
-//                $"Color: {med.Color}");
-//        }
+public class FakeAiAssistantService : IAssistantService
+{
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        Converters =
+        {
+            new JsonStringEnumConverter()
+        }
+    };
+    public Task<AssistantResponse> ProcessAsync(
+        ConversationContext context)
+    {
+        var json = JsonSerializer.Serialize(context, JsonOptions);
 
-//        return Task.FromResult(
-//            $"Marta, turno {context.Turn}");
-//    }
-//}
+        Console.WriteLine(json);
+        var response = context.Scenario switch
+        {
+            ConversationScenario.MedicationReminder =>
+                BuildMedicationReminder(context),
+
+            ConversationScenario.WaitingMedicationConfirmation =>
+                BuildConfirmation(context),
+
+            _ => new AssistantResponse
+            {
+                Message = "Hola, Marta.",
+                Intent = new AssistantIntent
+                {
+                    Name = "Greeting",
+                    Confidence = 1
+                }
+            }
+        };
+
+        return Task.FromResult(response);
+    }
+
+    private static AssistantResponse BuildMedicationReminder(
+        ConversationContext context)
+    {
+        var medications = context.Medication?.Medications
+            .Where(m => m.SpeakName)
+            .Select(m => $"{m.Quantity} {m.Name}");
+
+        var message = medications is null
+            ? "No hay medicación pendiente."
+            : $"Marta, es hora de tomar: {string.Join(", ", medications)}.";
+
+        return new AssistantResponse
+        {
+            Message = message,
+            Intent = new AssistantIntent
+            {
+                Name = "MedicationReminder",
+                Confidence = 1
+            }
+        };
+    }
+    private static AssistantResponse BuildConfirmation(
+        ConversationContext context)
+    {
+        return new AssistantResponse
+        {
+            Message = "Perfecto, ya registré que tomaste la medicación.",
+            Intent = new AssistantIntent
+            {
+                Name = "MedicationTaken",
+                Confidence = 1
+            }
+        };
+    }
+}

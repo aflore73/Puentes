@@ -12,7 +12,7 @@ Other = 99
 public enum MedicationForm
 {
 Unknown = 0,
-Tablet = 1,      // Comprimido
+Pill = 1,      // Comprimido
 Capsule = 2,     // Cápsula
 Syrup = 3,       // Jarabe
 Drops = 4,       // Gotas
