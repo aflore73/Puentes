@@ -1,4 +1,4 @@
-﻿namespace Puentes.Orchestrator.Prompts;
+﻿namespace Puentes.Orchestrator.AI.Prompts;
 public static class PromptBase
 {
     public static string Contenido = """

@@ -50,7 +50,7 @@ public class MedicationWorkflowService
             .BuildConversationContext(request, plan);
 
         var response = await _conversationService
-            .ProcessAsync(context);
+            .ProcessAsync(context, cancellationToken);
 
         Console.WriteLine(response.Message);
     }

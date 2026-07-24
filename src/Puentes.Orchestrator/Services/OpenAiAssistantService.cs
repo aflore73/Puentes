@@ -3,7 +3,6 @@ using OpenAI.Chat;
 using Puentes.Orchestrator.AI;
 using Puentes.Orchestrator.AI.Models;
 using Puentes.Orchestrator.AI.Prompts;
-using System.Text.Json;
 
 namespace Puentes.Orchestrator.Services;
 
@@ -13,11 +12,16 @@ public class OpenAiAssistantService : IAssistantService
 
     public OpenAiAssistantService(OpenAiOptions options)
     {
-
         if (string.IsNullOrWhiteSpace(options.ApiKey))
         {
             throw new InvalidOperationException(
                 "No se encontró la variable PUENTES_API_KEY.");
+        }
+
+        if (string.IsNullOrWhiteSpace(options.Model))
+        {
+            throw new InvalidOperationException(
+                "No se configuró el modelo de OpenAI.");
         }
 
         var client = new OpenAIClient(options.ApiKey);
@@ -26,29 +30,27 @@ public class OpenAiAssistantService : IAssistantService
     }
 
     public async Task<AssistantResponse> ProcessAsync(
-        ConversationContext context)
+        AssistantPrompt prompt,
+        CancellationToken cancellationToken = default)
     {
-        var jsonContext = JsonSerializer.Serialize(context);
+        List<ChatMessage> messages =
+        [
+            new SystemChatMessage(prompt.SystemMessage),
+            new UserChatMessage(prompt.UserMessage)
+        ];
 
         ChatCompletion completion =
             await _chatClient.CompleteChatAsync(
-            [
-                new SystemChatMessage(
-                    MedicationReminderPrompt.System),
+                messages,
+                cancellationToken: cancellationToken);
 
-                new UserChatMessage(
-                    jsonContext)
-            ]);
-
-        var message = completion.Content[0].Text;
+        var message = completion.Content.Count > 0
+            ? completion.Content[0].Text
+            : string.Empty;
 
         return new AssistantResponse
         {
-            Message = message,
-            Intent = new AssistantIntent
-            {
-                Name = "Conversation"
-            }
+            Message = message
         };
     }
 }

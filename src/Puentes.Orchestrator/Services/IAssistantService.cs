@@ -1,7 +1,9 @@
 ﻿using Puentes.Orchestrator.AI.Models;
+using Puentes.Orchestrator.AI.Prompts;
 
 public interface IAssistantService
 {
     Task<AssistantResponse> ProcessAsync(
-        ConversationContext context);
+      AssistantPrompt prompt,
+      CancellationToken cancellationToken = default);
 }

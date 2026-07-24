@@ -1,21 +1,27 @@
 using Puentes.Orchestrator.AI.Models;
-using Puentes.Orchestrator.Services;
+using Puentes.Orchestrator.AI.Prompts;
 
 public class ConversationService : IConversationService
 {
-    private readonly AiContextBuilderService _contextBuilder;
+    private readonly PromptFactory _promptFactory;
     private readonly IAssistantService _assistant;
 
     public ConversationService(
-        AiContextBuilderService contextBuilder,
+        PromptFactory promptFactory,
         IAssistantService assistant)
     {
-        _contextBuilder = contextBuilder;
+        _promptFactory = promptFactory;
         _assistant = assistant;
     }
+
     public Task<AssistantResponse> ProcessAsync(
-       ConversationContext context)
+        ConversationContext context,
+        CancellationToken cancellationToken = default)
     {
-        return _assistant.ProcessAsync(context);
+        var prompt = _promptFactory.Create(context);
+
+        return _assistant.ProcessAsync(
+            prompt,
+            cancellationToken);
     }
 }

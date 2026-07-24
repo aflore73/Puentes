@@ -1,26 +1,28 @@
-﻿using Puentes.Shared.Enums;
-namespace Puentes.Orchestrator.Prompts;
+﻿using Puentes.Orchestrator.AI.Models;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
-public static class PromptFactory
+namespace Puentes.Orchestrator.AI.Prompts;
+
+public class PromptFactory
 {
-    public static string Obtener(ScenarioType escenario)
+    private static readonly JsonSerializerOptions JsonOptions = new()
     {
-        var promptEspecifico = escenario switch
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        Converters =
         {
-            ScenarioType.MedicationReminder => PromptRecordatorioMedicacion.Contenido,
-            ScenarioType.Conversation => PromptConversacion.Contenido,
-            _ => string.Empty
-        };
-
-        if (string.IsNullOrWhiteSpace(promptEspecifico))
-        {
-            return PromptBase.Contenido;
+            new JsonStringEnumConverter()
         }
+    };
 
-        return $"""
-            {PromptBase.Contenido}
+    public AssistantPrompt Create(ConversationContext context)
+    {
+        var userMessage = JsonSerializer.Serialize(
+            context,
+            JsonOptions);
 
-            {promptEspecifico}
-            """;
+        return new AssistantPrompt(
+            PromptBase.Contenido,
+            userMessage);
     }
 }

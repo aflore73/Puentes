@@ -3,6 +3,63 @@
   "WorkspaceRootPath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\spyassistantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\fakeaiassistantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\openaiassistantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\iassistantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\conversationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\promptfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\promptbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\promptconversacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\prompt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\conversationorchestrator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\promptmemorysupport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\medicationreminderprompt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\assistantprompt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\iconversationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\medicationworkflowservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\apiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\openaioptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\iconversationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\aicontextbuilderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\iknowledgeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -15,34 +72,13 @@
       "AbsoluteMoniker": "D:0:0:{C147F3F5-9EB1-4837-9021-714FF8BE8719}|..\\Puentes.Core\\Puentes.Shared.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.core\\domain\\knowledge\\memoryfact.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\promptmemorysupport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\promptconversacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\promptbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C147F3F5-9EB1-4837-9021-714FF8BE8719}|..\\Puentes.Core\\Puentes.Shared.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.core\\enums\\scenariotype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\promptfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C147F3F5-9EB1-4837-9021-714FF8BE8719}|..\\Puentes.Core\\Puentes.Shared.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.core\\enums\\medicationenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\medicationreminderprompt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\prompts\\promptrecordatoriomedicacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\aicontextbuilderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\fakeaiassistantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\models\\medicationitemcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -78,31 +114,13 @@
       "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\models\\assistantintent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\medicationworkflowservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C147F3F5-9EB1-4837-9021-714FF8BE8719}|..\\Puentes.Core\\Puentes.Shared.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.core\\domain\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\apiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\openaiassistantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\ai\\openaioptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\conversationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1B46B4C-3487-796D-A2C9-37F265B708CB}|..\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes.orchestrator\\services\\iassistantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A7B58A37-75D9-A6EC-4A45-37211386D16A}|Puentes.csproj|c:\\users\\aflorentin\\source\\repos\\repo_puentes\\src\\puentes\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -210,7 +228,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -218,104 +236,78 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "IKnowledgeService.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IKnowledgeService.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\IKnowledgeService.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IKnowledgeService.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\IKnowledgeService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAQwAkAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "IAssistantService.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IAssistantService.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\IAssistantService.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IAssistantService.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\IAssistantService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAMAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T15:06:42.699Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "KnowledgeFact.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Knowledge\\KnowledgeFact.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\Knowledge\\KnowledgeFact.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Knowledge\\KnowledgeFact.cs",
-              "RelativeToolTip": "..\\Puentes.Core\\Domain\\Knowledge\\KnowledgeFact.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T15:02:56.307Z",
+              "WhenOpened": "2026-07-21T17:21:01.631Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "MemorySupportContext.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MemorySupportContext.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\MemorySupportContext.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MemorySupportContext.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\MemorySupportContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Title": "OpenAiAssistantService.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\OpenAiAssistantService.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\OpenAiAssistantService.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\OpenAiAssistantService.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\OpenAiAssistantService.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAgwDcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T15:01:05.952Z",
+              "WhenOpened": "2026-07-21T17:20:19.414Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MemoryFact.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Knowledge\\MemoryFact.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\Knowledge\\MemoryFact.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Knowledge\\MemoryFact.cs",
-              "RelativeToolTip": "..\\Puentes.Core\\Domain\\Knowledge\\MemoryFact.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "FakeAiAssistantService.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\FakeAiAssistantService.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\FakeAiAssistantService.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\FakeAiAssistantService.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\FakeAiAssistantService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAYwBAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T15:00:14.788Z",
+              "WhenOpened": "2026-07-21T15:34:48.554Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SpyAssistantService.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\SpyAssistantService.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\SpyAssistantService.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\SpyAssistantService.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\SpyAssistantService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T22:56:52.542Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "PromptMemorySupport.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptMemorySupport.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptMemorySupport.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptMemorySupport.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptMemorySupport.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAqAAAAAAAAAA==",
+              "Title": "ConversationService.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\ConversationService.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\ConversationService.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\ConversationService.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\ConversationService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAEwBYAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T14:57:01.808Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ScenarioType.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Enums\\ScenarioType.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Core\\Enums\\ScenarioType.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Enums\\ScenarioType.cs",
-              "RelativeToolTip": "..\\Puentes.Core\\Enums\\ScenarioType.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T14:35:09.992Z",
+              "WhenOpened": "2026-07-22T14:38:06.156Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "PromptConversacion.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptConversacion.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptConversacion.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptConversacion.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptConversacion.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T14:25:22.005Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
               "Title": "PromptFactory.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptFactory.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptFactory.cs",
               "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptFactory.cs",
               "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptFactory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAYwBkAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-23T14:19:47.698Z",
               "EditorCaption": ""
@@ -328,27 +320,53 @@
               "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptBase.cs",
               "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptBase.cs",
               "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptBase.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-23T14:17:08.042Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "MedicationEnum.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Enums\\MedicationEnum.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Core\\Enums\\MedicationEnum.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Enums\\MedicationEnum.cs",
-              "RelativeToolTip": "..\\Puentes.Core\\Enums\\MedicationEnum.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAIwBIAAAAdAAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "PromptConversacion.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptConversacion.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptConversacion.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptConversacion.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptConversacion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T13:10:34.127Z",
+              "WhenOpened": "2026-07-23T14:25:22.005Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 8,
+              "Title": "Prompt.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\Prompt.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\Prompt.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\Prompt.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\Prompt.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T23:12:53.811Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ConversationOrchestrator.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\ConversationOrchestrator.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\ConversationOrchestrator.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\ConversationOrchestrator.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\ConversationOrchestrator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T23:25:34.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "MedicationReminderPrompt.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\MedicationReminderPrompt.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\MedicationReminderPrompt.cs",
@@ -361,228 +379,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "PromptRecordatorioMedicacion.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptRecordatorioMedicacion.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptRecordatorioMedicacion.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptRecordatorioMedicacion.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptRecordatorioMedicacion.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAQwDoAAAABAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "PromptMemorySupport.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptMemorySupport.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptMemorySupport.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptMemorySupport.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptMemorySupport.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T14:19:14.866Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "FakeAiAssistantService.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\FakeAiAssistantService.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\FakeAiAssistantService.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\FakeAiAssistantService.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\FakeAiAssistantService.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAABQAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-21T15:34:48.554Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "MedicationContext.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MedicationContext.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\MedicationContext.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MedicationContext.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\MedicationContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T11:59:02.278Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "MedicationItemContext.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MedicationItemContext.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\MedicationItemContext.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MedicationItemContext.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\MedicationItemContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T11:58:48.067Z",
+              "WhenOpened": "2026-07-23T14:57:01.808Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 12,
-              "Title": "AiContextBuilderService.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\AiContextBuilderService.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\AiContextBuilderService.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\AiContextBuilderService.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\AiContextBuilderService.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAADsAAAASAAAAAAAAAA==",
+              "Title": "AssistantPrompt.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\AssistantPrompt.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\AssistantPrompt.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\AssistantPrompt.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\AssistantPrompt.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T12:02:37.705Z",
+              "WhenOpened": "2026-07-23T23:18:24.431Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Medication.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Medication.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\Medication.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Medication.cs",
-              "RelativeToolTip": "..\\Puentes.Core\\Domain\\Medication.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-18T22:39:38.272Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "ConversationContext.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationContext.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationContext.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationContext.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-22T13:07:54.031Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "PersonContext.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\PersonContext.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\PersonContext.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\PersonContext.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\PersonContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T11:59:30.641Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "EnvironmentContext.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\EnvironmentContext.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\EnvironmentContext.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\EnvironmentContext.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\EnvironmentContext.cs",
+              "DocumentIndex": 13,
+              "Title": "IConversationService.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IConversationService.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\IConversationService.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IConversationService.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\IConversationService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T11:59:18.37Z",
+              "WhenOpened": "2026-07-23T23:05:38.2Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "ConversationState.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationState.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationState.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationState.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-23T11:58:05.954Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "ConversationScenario.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationScenario.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationScenario.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationScenario.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationScenario.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-22T13:48:07.246Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "ConversationRequest.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationRequest.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationRequest.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationRequest.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-22T13:34:44.968Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "AssistantResponse.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\AssistantResponse.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\AssistantResponse.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\AssistantResponse.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\AssistantResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-22T14:54:26.385Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "AssistantIntent.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\AssistantIntent.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\AssistantIntent.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\AssistantIntent.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\AssistantIntent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-22T13:08:31.551Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 14,
               "Title": "MedicationWorkflowService.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\MedicationWorkflowService.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\MedicationWorkflowService.cs",
               "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\MedicationWorkflowService.cs",
               "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\MedicationWorkflowService.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAA5wEQAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACUAAAAAAAAAAAAqwDQAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-22T14:12:21.319Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "Person.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Person.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\Person.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Person.cs",
-              "RelativeToolTip": "..\\Puentes.Core\\Domain\\Person.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-15T13:05:16.532Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Program.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Program.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Program.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\Program.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAgwA8AAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T21:28:25.197Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 15,
               "Title": "ApiClient.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\ApiClient.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\ApiClient.cs",
@@ -590,11 +439,292 @@
               "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\ApiClient.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAgwCkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T21:27:08.05Z"
+              "WhenOpened": "2026-07-20T21:27:08.05Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "OpenAiOptions.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\OpenAiOptions.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\OpenAiOptions.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\OpenAiOptions.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\OpenAiOptions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-21T17:16:52.781Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IConversationService.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\IConversationService.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\IConversationService.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\IConversationService.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\IConversationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T22:43:58.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "AiContextBuilderService.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\AiContextBuilderService.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\AiContextBuilderService.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\AiContextBuilderService.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\AiContextBuilderService.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAADsAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T12:02:37.705Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "IKnowledgeService.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IKnowledgeService.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\IKnowledgeService.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IKnowledgeService.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\IKnowledgeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAQwAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T15:06:42.699Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "MemoryFact.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Knowledge\\MemoryFact.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\Knowledge\\MemoryFact.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Knowledge\\MemoryFact.cs",
+              "RelativeToolTip": "..\\Puentes.Core\\Domain\\Knowledge\\MemoryFact.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T15:00:14.788Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "MemorySupportContext.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MemorySupportContext.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\MemorySupportContext.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MemorySupportContext.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\MemorySupportContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T15:01:05.952Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "KnowledgeFact.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Knowledge\\KnowledgeFact.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\Knowledge\\KnowledgeFact.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Knowledge\\KnowledgeFact.cs",
+              "RelativeToolTip": "..\\Puentes.Core\\Domain\\Knowledge\\KnowledgeFact.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T15:02:56.307Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "ScenarioType.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Enums\\ScenarioType.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Core\\Enums\\ScenarioType.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Enums\\ScenarioType.cs",
+              "RelativeToolTip": "..\\Puentes.Core\\Enums\\ScenarioType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T14:35:09.992Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "MedicationEnum.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Enums\\MedicationEnum.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Core\\Enums\\MedicationEnum.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Enums\\MedicationEnum.cs",
+              "RelativeToolTip": "..\\Puentes.Core\\Enums\\MedicationEnum.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAIwBIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T13:10:34.127Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "PromptRecordatorioMedicacion.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptRecordatorioMedicacion.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptRecordatorioMedicacion.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Prompts\\PromptRecordatorioMedicacion.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Prompts\\PromptRecordatorioMedicacion.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAQwDoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T14:19:14.866Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "MedicationContext.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MedicationContext.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\MedicationContext.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MedicationContext.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\MedicationContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T11:59:02.278Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "MedicationItemContext.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MedicationItemContext.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\MedicationItemContext.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\MedicationItemContext.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\MedicationItemContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T11:58:48.067Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Medication.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Medication.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\Medication.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Medication.cs",
+              "RelativeToolTip": "..\\Puentes.Core\\Domain\\Medication.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-18T22:39:38.272Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "ConversationContext.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationContext.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationContext.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationContext.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-22T13:07:54.031Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 29,
+              "Title": "PersonContext.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\PersonContext.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\PersonContext.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\PersonContext.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\PersonContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T11:59:30.641Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "EnvironmentContext.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\EnvironmentContext.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\EnvironmentContext.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\EnvironmentContext.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\EnvironmentContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T11:59:18.37Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "ConversationState.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationState.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationState.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationState.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T11:58:05.954Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "ConversationScenario.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationScenario.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationScenario.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationScenario.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationScenario.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-22T13:48:07.246Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "ConversationRequest.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationRequest.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationRequest.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\ConversationRequest.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\ConversationRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-22T13:34:44.968Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "AssistantResponse.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\AssistantResponse.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\AssistantResponse.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\AssistantResponse.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\AssistantResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-22T14:54:26.385Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "AssistantIntent.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\AssistantIntent.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\Models\\AssistantIntent.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\Models\\AssistantIntent.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\Models\\AssistantIntent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-22T13:08:31.551Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "Person.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Person.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\Person.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Person.cs",
+              "RelativeToolTip": "..\\Puentes.Core\\Domain\\Person.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-15T13:05:16.532Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Program.cs",
+              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Program.cs",
+              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Program.cs",
+              "RelativeToolTip": "..\\Puentes.Orchestrator\\Program.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAgwA8AAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-20T21:28:25.197Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
               "Title": "Worker.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Worker.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Worker.cs",
@@ -606,55 +736,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "OpenAiAssistantService.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\OpenAiAssistantService.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\OpenAiAssistantService.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\OpenAiAssistantService.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\OpenAiAssistantService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-21T17:20:19.414Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "OpenAiOptions.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\OpenAiOptions.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\AI\\OpenAiOptions.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\AI\\OpenAiOptions.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\AI\\OpenAiOptions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-21T17:16:52.781Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "ConversationService.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\ConversationService.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\ConversationService.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\ConversationService.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\ConversationService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBMAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-22T14:38:06.156Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "IAssistantService.cs",
-              "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IAssistantService.cs",
-              "RelativeDocumentMoniker": "..\\Puentes.Orchestrator\\Services\\IAssistantService.cs",
-              "ToolTip": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Services\\IAssistantService.cs",
-              "RelativeToolTip": "..\\Puentes.Orchestrator\\Services\\IAssistantService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-21T17:21:01.631Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 40,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -666,7 +748,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 41,
               "Title": "Microsoft.Common.CurrentVersion.targets",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
@@ -678,7 +760,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 42,
               "Title": "MedicationReminderContext.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Context\\MedicationReminderContext.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Context\\MedicationReminderContext.cs",
@@ -690,7 +772,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 45,
               "Title": "MedicationPlanItemResponse.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Responses\\MedicationPlanItemResponse.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Responses\\MedicationPlanItemResponse.cs",
@@ -702,7 +784,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 47,
               "Title": "MedicationPlanRow.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\MedicationPlanRow.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\MedicationPlanRow.cs",
@@ -714,7 +796,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 46,
               "Title": "MedicationRepository.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Repositories\\MedicationRepository.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Repositories\\MedicationRepository.cs",
@@ -726,7 +808,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 44,
               "Title": "MedicationTurnScripts.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Database\\Scripts\\MedicationTurnScripts.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Database\\Scripts\\MedicationTurnScripts.cs",
@@ -738,7 +820,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 43,
               "Title": "MedicationScheduleScripts.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Database\\Scripts\\MedicationScheduleScripts.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Database\\Scripts\\MedicationScheduleScripts.cs",
@@ -750,7 +832,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 48,
               "Title": "MedicationPlanResponse.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Responses\\MedicationPlanResponse.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Responses\\MedicationPlanResponse.cs",
@@ -762,7 +844,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 49,
               "Title": "MedicationScripts.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Database\\Scripts\\MedicationScripts.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Database\\Scripts\\MedicationScripts.cs",
@@ -774,7 +856,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 50,
               "Title": "MedicationRecordScripts.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Database\\Scripts\\MedicationRecordScripts.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Database\\Scripts\\MedicationRecordScripts.cs",
@@ -786,7 +868,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 56,
               "Title": "EventScripts.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Database\\Scripts\\EventScripts.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Database\\Scripts\\EventScripts.cs",
@@ -798,7 +880,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 52,
               "Title": "DatabaseInitializer.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Database\\DatabaseInitializer.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Database\\DatabaseInitializer.cs",
@@ -810,7 +892,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 51,
               "Title": "MedicationRecordRepository.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Repositories\\MedicationRecordRepository.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Repositories\\MedicationRecordRepository.cs",
@@ -822,7 +904,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 54,
               "Title": "RegisterMedicationRecordRequest.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Requests\\Medication\\RegisterMedicationRecordRequest.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Requests\\Medication\\RegisterMedicationRecordRequest.cs",
@@ -834,7 +916,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 53,
               "Title": "MedicationScheduleRepository.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Repositories\\MedicationScheduleRepository.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Repositories\\MedicationScheduleRepository.cs",
@@ -846,7 +928,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 57,
               "Title": "RepositoryBase.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Repositories\\RepositoryBase.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Repositories\\RepositoryBase.cs",
@@ -858,7 +940,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 58,
               "Title": "MedicationIntake.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\MedicationIntake.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\MedicationIntake.cs",
@@ -870,7 +952,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 55,
               "Title": "MedicationRecord.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\MedicationRecord.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\MedicationRecord.cs",
@@ -882,7 +964,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 68,
               "Title": "MedicationSchedule.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\MedicationSchedule.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\MedicationSchedule.cs",
@@ -894,7 +976,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 59,
               "Title": "Puentes.Shared.csproj",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Puentes.Shared.csproj",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Puentes.Shared.csproj",
@@ -902,12 +984,11 @@
               "RelativeToolTip": "..\\Puentes.Core\\Puentes.Shared.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-07-20T22:27:35.495Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T22:27:35.495Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 66,
               "Title": "Event.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\Event.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\Event.cs",
@@ -919,7 +1000,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 67,
               "Title": "EventType.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\EventType.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\EventType.cs",
@@ -931,7 +1012,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 61,
               "Title": "CreateMedicationTurnRequest.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Requests\\Medication\\CreateMedicationTurnRequest.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Requests\\Medication\\CreateMedicationTurnRequest.cs",
@@ -943,7 +1024,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 60,
               "Title": "MedicationTurn.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Domain\\MedicationTurn.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Domain\\MedicationTurn.cs",
@@ -955,7 +1036,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 69,
               "Title": "MedicationScheduleItemRequest.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Requests\\Medication\\MedicationScheduleItemRequest.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Requests\\Medication\\MedicationScheduleItemRequest.cs",
@@ -967,7 +1048,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 62,
               "Title": "RegisterEventRequest.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Requests\\RegisterEventRequest.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Requests\\RegisterEventRequest.cs",
@@ -979,7 +1060,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 70,
               "Title": "MedicationScheduleBatchRequest.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Requests\\Medication\\MedicationScheduleBatchRequest.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Requests\\Medication\\MedicationScheduleBatchRequest.cs",
@@ -991,7 +1072,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 71,
               "Title": "MedicationRequest.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Requests\\Medication\\MedicationRequest.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Core\\Requests\\Medication\\MedicationRequest.cs",
@@ -1003,7 +1084,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 63,
               "Title": "GuidTypeHandler.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Configuration\\GuidTypeHandler.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Configuration\\GuidTypeHandler.cs",
@@ -1015,7 +1096,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 64,
               "Title": "AccessDb.cs",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Database\\AccessDb.cs",
               "RelativeDocumentMoniker": "..\\Puentes.Infrastructure\\Database\\AccessDb.cs",
@@ -1027,7 +1108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 65,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",

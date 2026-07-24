@@ -1,4 +1,5 @@
-﻿namespace Puentes.Orchestrator.Prompts;
+﻿namespace Puentes.Orchestrator.AI.Prompts;
+
 public static class PromptConversacion
 {
     public static readonly string Contenido = """
