@@ -19,6 +19,15 @@ public class ConversationService : IConversationService
         CancellationToken cancellationToken = default)
     {
         var prompt = _promptFactory.Create(context);
+        //para debugging, puedes imprimir el prompt generado
+        
+        Console.WriteLine("===== SYSTEM =====");
+        Console.WriteLine(prompt.SystemMessage);
+
+        Console.WriteLine();
+        Console.WriteLine("===== USER =====");
+        Console.WriteLine(prompt.UserMessage);
+        //fin debugging
 
         return _assistant.ProcessAsync(
             prompt,

@@ -5,6 +5,8 @@ using Puentes.Shared.Enums;
 using Puentes.Shared.Requests;
 using Puentes.Shared.Responses;
 using Puentes.Shared.Requests.Medication;
+using Puentes.Shared.Requests.People;
+using Puentes.Shared.Responses.People;
 using Puentes.Infrastructure.Configuration;
 using Puentes.Infrastructure.Database;
 using Puentes.Infrastructure.Repositories;
@@ -21,6 +23,8 @@ builder.Services.AddSingleton<DatabaseInitializer>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<MedicationRepository>();
 builder.Services.AddScoped<MedicationScheduleRepository>();
+builder.Services.AddScoped<PersonRepository>();
+builder.Services.AddScoped<PersonRelationshipRepository>();
 // Repositorio de registros de medicación
 builder.Services.AddSingleton<MedicationRecordRepository>();
 //Configuración para serialización JSON de enums
@@ -50,11 +54,12 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 
 //Dapper
 SqlMapper.AddTypeHandler(new GuidTypeHandler());
+SqlMapper.AddTypeHandler(new DateTimeOffsetTypeHandler());
 var app = builder.Build();
 //Initialze database
 using var scope = app.Services.CreateScope();
     var initializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
-    initializer.Initialize();
+    await initializer.InitializeAsync();
 
 // Habilitar Swagger en desarrollo
 if (app.Environment.IsDevelopment())
@@ -287,4 +292,152 @@ async (
 
     return Results.Ok(record);
 });
+
+// People
+app.MapGet("/people",
+async (PersonRepository repository) =>
+{
+    var people = await repository.GetAllAsync();
+    return Results.Ok(people);
+});
+
+app.MapGet("/people/{id:guid}",
+async (Guid id, PersonRepository repository) =>
+{
+    var person = await repository.GetByIdAsync(id);
+    return person is null
+        ? Results.NotFound()
+        : Results.Ok(person);
+});
+
+app.MapPost("/people",
+async (CreatePersonRequest request, PersonRepository repository) =>
+{
+    if (string.IsNullOrWhiteSpace(request.Name))
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.Name)] = ["El nombre es obligatorio."]
+        });
+    }
+
+    var person = new Person
+    {
+        Id = Guid.NewGuid(),
+        Name = request.Name.Trim(),
+        BirthDate = request.BirthDate?.ToDateTime(TimeOnly.MinValue),
+        City = request.City.Trim(),
+        Province = request.Province.Trim(),
+        Country = request.Country.Trim()
+    };
+
+    await repository.AddAsync(person);
+
+    return Results.Created($"/people/{person.Id}", person);
+});
+
+app.MapGet("/people/{id:guid}/relationships",
+async (
+    Guid id,
+    PersonRepository personRepository,
+    PersonRelationshipRepository relationshipRepository) =>
+{
+    if (await personRepository.GetByIdAsync(id) is null)
+    {
+        return Results.NotFound();
+    }
+
+    var relationships = await relationshipRepository
+        .GetAllForPersonAsync(id);
+
+    var connections = new List<PersonConnectionResponse>();
+
+    foreach (var relationship in relationships)
+    {
+        var isOutgoing = relationship.PersonId == id;
+        var otherPersonId = isOutgoing
+            ? relationship.RelatedPersonId
+            : relationship.PersonId;
+        var otherPerson = await personRepository
+            .GetByIdAsync(otherPersonId);
+
+        if (otherPerson is null)
+        {
+            continue;
+        }
+
+        connections.Add(new PersonConnectionResponse
+        {
+            RelationshipId = relationship.Id,
+            Type = relationship.Type,
+            Direction = isOutgoing
+                ? RelationshipDirection.Outgoing
+                : RelationshipDirection.Incoming,
+            OtherPerson = new PersonSummaryResponse
+            {
+                Id = otherPerson.Id,
+                Name = otherPerson.Name,
+                BirthDate = otherPerson.BirthDate,
+                City = otherPerson.City,
+                Province = otherPerson.Province,
+                Country = otherPerson.Country
+            },
+            Notes = relationship.Notes
+        });
+    }
+
+    return Results.Ok(connections);
+});
+
+app.MapPost("/people/{id:guid}/relationships",
+async (
+    Guid id,
+    CreatePersonRelationshipRequest request,
+    PersonRepository personRepository,
+    PersonRelationshipRepository relationshipRepository) =>
+{
+    if (id == request.RelatedPersonId)
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.RelatedPersonId)] =
+                ["Una persona no puede relacionarse consigo misma."]
+        });
+    }
+
+    if (request.Type == PersonRelationshipType.Unknown
+        || !Enum.IsDefined(request.Type))
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.Type)] = ["El tipo de relación no es válido."]
+        });
+    }
+
+    var person = await personRepository.GetByIdAsync(id);
+    var relatedPerson = await personRepository
+        .GetByIdAsync(request.RelatedPersonId);
+
+    if (person is null || relatedPerson is null)
+    {
+        return Results.NotFound(
+            "La persona de origen o la persona relacionada no existe.");
+    }
+
+    var relationship = new PersonRelationship
+    {
+        Id = Guid.NewGuid(),
+        PersonId = id,
+        RelatedPersonId = request.RelatedPersonId,
+        Type = request.Type,
+        Notes = request.Notes
+    };
+
+    await relationshipRepository.AddAsync(relationship);
+
+    return Results.Created(
+        $"/people/{id}/relationships/{relationship.Id}",
+        relationship);
+});
+
 app.Run();

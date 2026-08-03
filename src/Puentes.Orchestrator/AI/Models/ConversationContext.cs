@@ -10,6 +10,8 @@ public class ConversationContext
 
     public MedicationContext? Medication { get; set; }
 
+    public MemorySupportContext? MemorySupport { get; set; }
+
     public ConversationState State { get; set; } = new();
 
     public string? UserInput { get; set; }

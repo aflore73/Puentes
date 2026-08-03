@@ -14,16 +14,22 @@ public class DatabaseInitializer
         _accessDb = accessDb;
     }
 
-    public void Initialize()
+    public async Task InitializeAsync()
     {
         var _medicationRepository = new MedicationRepository(_accessDb);
         var _medicationScheduleRepository = new MedicationScheduleRepository(_accessDb);
         var _medicationRecordRepository = new MedicationRecordRepository(_accessDb);
+        var personRepository = new PersonRepository(_accessDb);
+        var relationshipRepository = new PersonRelationshipRepository(_accessDb);
 
-        _ = _medicationRepository.CreateTableAsync();
+        await _medicationRepository.CreateTableAsync();
 
-        _ = _medicationScheduleRepository.CreateTableAsync();
+        await _medicationScheduleRepository.CreateTableAsync();
 
-        _ = _medicationRecordRepository.CreateTableAsync();
+        await _medicationRecordRepository.CreateTableAsync();
+
+        await personRepository.CreateTableAsync();
+
+        await relationshipRepository.CreateTableAsync();
     }
 }

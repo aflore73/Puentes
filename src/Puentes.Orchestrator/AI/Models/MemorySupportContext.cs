@@ -3,5 +3,7 @@
 namespace Puentes.Orchestrator.AI.Models;
 public class MemorySupportContext
 {
-    public List<MemoryFact> Facts { get; set; } = [];
+    public List<MemoryFactContext> Facts { get; set; } = [];
+
+    public List<PersonRelationshipContext> Relationships { get; set; } = [];
 }

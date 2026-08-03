@@ -1,6 +1,11 @@
 ﻿using Puentes.Shared.Responses;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Puentes.Shared.Domain;
+using Puentes.Shared.Enums;
+using System.Net;
+using System.Net.Http.Json;
+using Puentes.Shared.Responses.People;
 
 namespace Puentes.Orchestrator.Services;
 
@@ -38,5 +43,90 @@ public class ApiClient
             JsonOptions
         ) ?? throw new InvalidOperationException(
             "No se pudo deserializar el plan de medicación.");
+    }
+    public async Task<MedicationRecord?> GetTodayMedicationRecordAsync(
+        Guid patientId,
+        MedicationTurnType turn,
+        CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"patients/{patientId}/medication-records/today/{turn}",
+            cancellationToken);
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<MedicationRecord>(
+            JsonOptions,
+            cancellationToken);
+    }
+
+    public async Task<bool> RegisterMedicationTakenAsync(
+        Guid patientId,
+        MedicationTurnType turn,
+        string? notes,
+        CancellationToken cancellationToken = default)
+    {
+        var request = new RegisterMedicationRecordRequest
+        {
+            PatientId = patientId,
+            Turn = turn,
+            Confirmed = true,
+            Notes = notes
+        };
+
+        var response = await _httpClient.PostAsJsonAsync(
+            "medication-records",
+            request,
+            JsonOptions,
+            cancellationToken);
+
+        if (response.StatusCode == HttpStatusCode.Conflict)
+        {
+            return false;
+        }
+
+        response.EnsureSuccessStatusCode();
+        return true;
+    }
+
+    public async Task<Person?> GetPersonAsync(
+        Guid personId,
+        CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"people/{personId}",
+            cancellationToken);
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<Person>(
+            JsonOptions,
+            cancellationToken);
+    }
+
+    public async Task<List<PersonConnectionResponse>>
+        GetPersonRelationshipsAsync(
+            Guid personId,
+            CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"people/{personId}/relationships",
+            cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content
+            .ReadFromJsonAsync<List<PersonConnectionResponse>>(
+                JsonOptions,
+                cancellationToken) ?? [];
     }
 }

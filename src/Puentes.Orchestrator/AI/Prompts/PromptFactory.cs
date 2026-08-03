@@ -9,6 +9,7 @@ public class PromptFactory
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         Converters =
         {
             new JsonStringEnumConverter()
@@ -21,8 +22,17 @@ public class PromptFactory
             context,
             JsonOptions);
 
-        return new AssistantPrompt(
-            PromptBase.Contenido,
-            userMessage);
+        var scenarioPrompt = context.Scenario switch
+        {
+            ConversationScenario.MemorySupport =>
+                PromptMemorySupport.Contenido,
+            _ => string.Empty
+        };
+
+        var systemMessage = string.IsNullOrEmpty(scenarioPrompt)
+            ? PromptBase.Contenido
+            : $"{PromptBase.Contenido}\n\n{scenarioPrompt}";
+
+        return new AssistantPrompt(systemMessage, userMessage);
     }
 }

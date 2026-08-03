@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Puentes.Core\Puentes.Shared.csproj" />
+    <ProjectReference Include="..\Puentes.Orchestrator\Puentes.Orchestrator.csproj" />
   </ItemGroup>
 
   <ItemGroup>
