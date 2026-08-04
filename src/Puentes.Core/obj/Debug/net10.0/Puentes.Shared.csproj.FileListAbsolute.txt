@@ -12,3 +12,13 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\refint\Puentes.Shared.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\Puentes.Shared.pdb
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\obj\Debug\net10.0\ref\Puentes.Shared.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\appsettings.Development.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\appsettings.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\Puentes.Shared.deps.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\Puentes.Shared.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\Puentes.Shared.pdb
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\.verification\tests\Debug\net10.0\appsettings.Development.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\.verification\tests\Debug\net10.0\appsettings.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\.verification\tests\Debug\net10.0\Puentes.Shared.deps.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\.verification\tests\Debug\net10.0\Puentes.Shared.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\.verification\tests\Debug\net10.0\Puentes.Shared.pdb

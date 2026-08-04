@@ -6,4 +6,8 @@ public class MemorySupportContext
     public List<MemoryFactContext> Facts { get; set; } = [];
 
     public List<PersonRelationshipContext> Relationships { get; set; } = [];
+
+    public List<LifeEventContext> LifeEvents { get; set; } = [];
+
+    public List<PersonRoutineContext> Routines { get; set; } = [];
 }

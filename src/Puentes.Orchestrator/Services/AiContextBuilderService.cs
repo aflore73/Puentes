@@ -3,6 +3,7 @@ using Puentes.Orchestrator.AI.Models;
 using Puentes.Shared.Domain.Knowledge;
 using Puentes.Shared.Domain;
 using Puentes.Shared.Responses.People;
+using Puentes.Shared.Responses.LifeEvents;
 
 public class AiContextBuilderService
 {
@@ -11,6 +12,8 @@ public class AiContextBuilderService
         MedicationPlanResponse? plan = null,
         IReadOnlyCollection<MemoryFact>? memoryFacts = null,
         IReadOnlyCollection<PersonConnectionResponse>? relationships = null,
+        IReadOnlyCollection<LifeEventResponse>? lifeEvents = null,
+        IReadOnlyCollection<PersonRoutineResponse>? routines = null,
         Person? person = null)
     {
         return new ConversationContext
@@ -39,7 +42,9 @@ public class AiContextBuilderService
             MemorySupport = BuildMemorySupportContext(
                 request.Scenario,
                 memoryFacts,
-                relationships),
+                relationships,
+                lifeEvents,
+                routines),
 
             State = new ConversationState
             {
@@ -54,7 +59,9 @@ public class AiContextBuilderService
     private static MemorySupportContext? BuildMemorySupportContext(
         ConversationScenario scenario,
         IReadOnlyCollection<MemoryFact>? memoryFacts,
-        IReadOnlyCollection<PersonConnectionResponse>? relationships)
+        IReadOnlyCollection<PersonConnectionResponse>? relationships,
+        IReadOnlyCollection<LifeEventResponse>? lifeEvents,
+        IReadOnlyCollection<PersonRoutineResponse>? routines)
     {
         if (scenario != ConversationScenario.MemorySupport)
         {
@@ -78,7 +85,46 @@ public class AiContextBuilderService
             Facts = facts,
             Relationships = relationships?
                 .Select(BuildRelationshipContext)
+                .ToList() ?? [],
+            LifeEvents = lifeEvents?
+                .OrderBy(lifeEvent => lifeEvent.StartDate)
+                .ThenBy(lifeEvent => lifeEvent.Title)
+                .Select(BuildLifeEventContext)
+                .ToList() ?? [],
+            Routines = routines?
+                .Where(routine => routine.IsActive)
+                .OrderBy(routine => routine.PersonName)
+                .ThenBy(routine => routine.Title)
+                .Select(routine => new PersonRoutineContext
+                {
+                    PersonName = routine.PersonName,
+                    Title = routine.Title,
+                    Notes = routine.Notes
+                })
                 .ToList() ?? []
+        };
+    }
+
+    private static LifeEventContext BuildLifeEventContext(
+        LifeEventResponse lifeEvent)
+    {
+        return new LifeEventContext
+        {
+            PersonName = lifeEvent.PersonName,
+            StartDate = lifeEvent.StartDate,
+            EndDate = lifeEvent.EndDate,
+            DatePrecision = lifeEvent.DatePrecision,
+            Title = lifeEvent.Title,
+            Description = lifeEvent.Description,
+            Place = lifeEvent.Place,
+            IsPositiveMemory = lifeEvent.IsPositiveMemory,
+            Participants = lifeEvent.Participants
+                .Select(participant => new LifeEventParticipantContext
+                {
+                    PersonName = participant.PersonName,
+                    Role = participant.Role
+                })
+                .ToList()
         };
     }
 

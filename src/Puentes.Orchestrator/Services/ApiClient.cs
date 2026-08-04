@@ -6,6 +6,7 @@ using Puentes.Shared.Enums;
 using System.Net;
 using System.Net.Http.Json;
 using Puentes.Shared.Responses.People;
+using Puentes.Shared.Responses.LifeEvents;
 
 namespace Puentes.Orchestrator.Services;
 
@@ -126,6 +127,38 @@ public class ApiClient
 
         return await response.Content
             .ReadFromJsonAsync<List<PersonConnectionResponse>>(
+                JsonOptions,
+                cancellationToken) ?? [];
+    }
+
+    public async Task<List<LifeEventResponse>> GetPersonLifeEventsAsync(
+        Guid personId,
+        CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"people/{personId}/life-events",
+            cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content
+            .ReadFromJsonAsync<List<LifeEventResponse>>(
+                JsonOptions,
+                cancellationToken) ?? [];
+    }
+
+    public async Task<List<PersonRoutineResponse>> GetPersonRoutinesAsync(
+        Guid personId,
+        CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"people/{personId}/routines",
+            cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content
+            .ReadFromJsonAsync<List<PersonRoutineResponse>>(
                 JsonOptions,
                 cancellationToken) ?? [];
     }

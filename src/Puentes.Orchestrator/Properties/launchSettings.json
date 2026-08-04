@@ -4,6 +4,7 @@
     "Puentes.Orchestrator": {
       "commandName": "Project",
       "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5130",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

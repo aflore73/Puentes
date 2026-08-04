@@ -29,6 +29,20 @@ public class MemoryConversationWorkflowService
                 $"No se encontró la persona {personId}.");
         var relationships = await _apiClient
             .GetPersonRelationshipsAsync(personId, cancellationToken);
+        var lifeEventOwners = relationships
+            .Select(relationship => relationship.OtherPerson.Id)
+            .Append(personId)
+            .Distinct();
+        var lifeEvents = new List<Puentes.Shared.Responses.LifeEvents.LifeEventResponse>();
+        var routines = new List<Puentes.Shared.Responses.People.PersonRoutineResponse>();
+
+        foreach (var ownerId in lifeEventOwners)
+        {
+            lifeEvents.AddRange(await _apiClient
+                .GetPersonLifeEventsAsync(ownerId, cancellationToken));
+            routines.AddRange(await _apiClient
+                .GetPersonRoutinesAsync(ownerId, cancellationToken));
+        }
         var request = new ConversationRequest
         {
             Scenario = ConversationScenario.MemorySupport,
@@ -37,6 +51,8 @@ public class MemoryConversationWorkflowService
         var context = _contextBuilder.BuildConversationContext(
             request,
             relationships: relationships,
+            lifeEvents: lifeEvents,
+            routines: routines,
             person: person);
 
         return await _conversationService.ProcessAsync(

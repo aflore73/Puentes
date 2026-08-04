@@ -7,6 +7,7 @@ using Puentes.Shared.Responses;
 using Puentes.Shared.Requests.Medication;
 using Puentes.Shared.Requests.People;
 using Puentes.Shared.Responses.People;
+using Puentes.Shared.Responses.LifeEvents;
 using Puentes.Infrastructure.Configuration;
 using Puentes.Infrastructure.Database;
 using Puentes.Infrastructure.Repositories;
@@ -25,6 +26,8 @@ builder.Services.AddScoped<MedicationRepository>();
 builder.Services.AddScoped<MedicationScheduleRepository>();
 builder.Services.AddScoped<PersonRepository>();
 builder.Services.AddScoped<PersonRelationshipRepository>();
+builder.Services.AddScoped<LifeEventRepository>();
+builder.Services.AddScoped<PersonRoutineRepository>();
 // Repositorio de registros de medicación
 builder.Services.AddSingleton<MedicationRecordRepository>();
 //Configuración para serialización JSON de enums
@@ -55,6 +58,7 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 //Dapper
 SqlMapper.AddTypeHandler(new GuidTypeHandler());
 SqlMapper.AddTypeHandler(new DateTimeOffsetTypeHandler());
+SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
 var app = builder.Build();
 //Initialze database
 using var scope = app.Services.CreateScope();
@@ -438,6 +442,89 @@ async (
     return Results.Created(
         $"/people/{id}/relationships/{relationship.Id}",
         relationship);
+});
+
+app.MapGet("/people/{id:guid}/life-events",
+async (
+    Guid id,
+    PersonRepository personRepository,
+    LifeEventRepository lifeEventRepository) =>
+{
+    var owner = await personRepository.GetByIdAsync(id);
+    if (owner is null)
+    {
+        return Results.NotFound();
+    }
+
+    var lifeEvents = await lifeEventRepository.GetByPersonAsync(id);
+    var response = new List<LifeEventResponse>();
+
+    foreach (var lifeEvent in lifeEvents)
+    {
+        var participants = await lifeEventRepository
+            .GetParticipantsAsync(lifeEvent.Id);
+        var participantResponses = new List<LifeEventParticipantResponse>();
+
+        foreach (var participant in participants)
+        {
+            var person = await personRepository.GetByIdAsync(
+                participant.PersonId);
+
+            if (person is null)
+            {
+                continue;
+            }
+
+            participantResponses.Add(new LifeEventParticipantResponse
+            {
+                PersonName = person.Name,
+                Role = participant.Role
+            });
+        }
+
+        response.Add(new LifeEventResponse
+        {
+            Id = lifeEvent.Id,
+            PersonId = lifeEvent.PersonId,
+            PersonName = owner.Name,
+            StartDate = lifeEvent.StartDate,
+            EndDate = lifeEvent.EndDate,
+            DatePrecision = lifeEvent.DatePrecision,
+            Title = lifeEvent.Title,
+            Description = lifeEvent.Description,
+            Place = lifeEvent.Place,
+            IsPositiveMemory = lifeEvent.IsPositiveMemory,
+            Participants = participantResponses
+        });
+    }
+
+    return Results.Ok(response);
+});
+
+app.MapGet("/people/{id:guid}/routines",
+async (
+    Guid id,
+    PersonRepository personRepository,
+    PersonRoutineRepository routineRepository) =>
+{
+    var person = await personRepository.GetByIdAsync(id);
+    if (person is null)
+    {
+        return Results.NotFound();
+    }
+
+    var routines = await routineRepository.GetActiveByPersonAsync(id);
+    var response = routines.Select(routine => new PersonRoutineResponse
+    {
+        Id = routine.Id,
+        PersonId = routine.PersonId,
+        PersonName = person.Name,
+        Title = routine.Title,
+        Notes = routine.Notes,
+        IsActive = routine.IsActive
+    });
+
+    return Results.Ok(response);
 });
 
 app.Run();

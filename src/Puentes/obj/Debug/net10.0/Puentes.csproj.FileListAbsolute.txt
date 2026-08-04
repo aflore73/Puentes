@@ -24,7 +24,6 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\bin\Debug\net10.0\runt
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\bin\Debug\net10.0\runtimes\ios-arm64\native\e_sqlite3.a
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\bin\Debug\net10.0\runtimes\iossimulator-arm64\native\e_sqlite3.a
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\bin\Debug\net10.0\runtimes\iossimulator-x64\native\e_sqlite3.a
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\bin\Debug\net10.0\runtimes\iossimulator-x86\native\e_sqlite3.a
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\bin\Debug\net10.0\runtimes\linux-arm\native\libe_sqlite3.so
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\bin\Debug\net10.0\runtimes\linux-arm64\native\libe_sqlite3.so
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\bin\Debug\net10.0\runtimes\linux-armel\native\libe_sqlite3.so
@@ -74,4 +73,3 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\refi
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\Puentes.pdb
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\Puentes.genruntimeconfig.cache
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\ref\Puentes.dll
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
