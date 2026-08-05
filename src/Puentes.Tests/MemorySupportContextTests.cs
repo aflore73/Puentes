@@ -5,6 +5,7 @@ using Puentes.Shared.Domain;
 using Puentes.Shared.Enums;
 using Puentes.Shared.Responses.People;
 using Puentes.Shared.Responses.LifeEvents;
+using Puentes.Orchestrator.Services;
 
 namespace Puentes.Tests;
 
@@ -251,6 +252,74 @@ public class MemorySupportContextTests
         Assert.Contains(
             "Integrá esas alternativas en una misma oración",
             prompt.SystemMessage);
+    }
+
+    [Fact]
+    public void MemoryContextIncludesRecentConversationHistory()
+    {
+        var request = new ConversationRequest
+        {
+            Scenario = ConversationScenario.MemorySupport,
+            UserInput = "Está lloviendo y él está con la moto."
+        };
+        var history = new List<ConversationHistoryItemContext>
+        {
+            new()
+            {
+                Role = "user",
+                Content = "No sé nada de Ezequiel."
+            },
+            new()
+            {
+                Role = "assistant",
+                Content = "Si querés, podés enviarle un mensaje."
+            },
+            new()
+            {
+                Role = "user",
+                Content = "Ya le envié mensajes."
+            }
+        };
+
+        var context = new AiContextBuilderService()
+            .BuildConversationContext(
+                request,
+                conversationHistory: history);
+        var prompt = new PromptFactory().Create(context);
+
+        Assert.Equal(3, context.ConversationHistory.Count);
+        Assert.Equal(
+            "Ya le envié mensajes.",
+            context.ConversationHistory[^1].Content);
+        Assert.Contains("\"conversationHistory\"", prompt.UserMessage);
+        Assert.Contains(
+            "no trates cada mensaje como una conversación nueva",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No repitas preguntas, datos ni sugerencias",
+            prompt.SystemMessage);
+    }
+
+    [Fact]
+    public void ConversationStoreKeepsOnlyTenRecentMessages()
+    {
+        var store = new InMemoryConversationStore();
+        var conversationId = store.Create(Guid.NewGuid());
+
+        for (var turn = 1; turn <= 6; turn++)
+        {
+            store.AddExchange(
+                conversationId,
+                $"Usuario {turn}",
+                $"Asistente {turn}");
+        }
+
+        var snapshot = Assert.IsType<ConversationSnapshot>(
+            store.Get(conversationId));
+
+        Assert.Equal(10, snapshot.History.Count);
+        Assert.Equal("Usuario 2", snapshot.History[0].Content);
+        Assert.Equal("Asistente 6", snapshot.History[^1].Content);
     }
 
     private static MemoryFact CreateFact(

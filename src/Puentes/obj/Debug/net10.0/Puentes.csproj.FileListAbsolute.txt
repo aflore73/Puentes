@@ -73,3 +73,4 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\refi
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\Puentes.pdb
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\Puentes.genruntimeconfig.cache
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\ref\Puentes.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

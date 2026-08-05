@@ -14,6 +14,7 @@ public class AiContextBuilderService
         IReadOnlyCollection<PersonConnectionResponse>? relationships = null,
         IReadOnlyCollection<LifeEventResponse>? lifeEvents = null,
         IReadOnlyCollection<PersonRoutineResponse>? routines = null,
+        IReadOnlyCollection<ConversationHistoryItemContext>? conversationHistory = null,
         Person? person = null)
     {
         return new ConversationContext
@@ -45,6 +46,14 @@ public class AiContextBuilderService
                 relationships,
                 lifeEvents,
                 routines),
+
+            ConversationHistory = conversationHistory?
+                .Select(message => new ConversationHistoryItemContext
+                {
+                    Role = message.Role,
+                    Content = message.Content
+                })
+                .ToList() ?? [],
 
             State = new ConversationState
             {

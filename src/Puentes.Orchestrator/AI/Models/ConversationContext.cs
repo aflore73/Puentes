@@ -12,6 +12,8 @@ public class ConversationContext
 
     public MemorySupportContext? MemorySupport { get; set; }
 
+    public List<ConversationHistoryItemContext> ConversationHistory { get; set; } = [];
+
     public ConversationState State { get; set; } = new();
 
     public string? UserInput { get; set; }

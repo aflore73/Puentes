@@ -13,6 +13,7 @@ builder.Services.AddHttpClient<ApiClient>(client =>
 builder.Services.AddSingleton<MedicationReminderStateService>();
 builder.Services.AddSingleton<MedicationConfirmationService>();
 builder.Services.AddSingleton<AiContextBuilderService>();
+builder.Services.AddSingleton<InMemoryConversationStore>();
 if (builder.Configuration.GetValue<bool>("UseOpenAi"))
 {
     builder.Services.AddSingleton<IAssistantService, OpenAiAssistantService>();
@@ -60,6 +61,73 @@ async (
     {
         var response = await workflow.ProcessAsync(
             request.PersonId,
+            request.UserInput.Trim(),
+            cancellationToken);
+
+        return Results.Ok(response);
+    }
+    catch (InvalidOperationException exception)
+    {
+        return Results.NotFound(exception.Message);
+    }
+});
+
+host.MapPost("/memory-support/conversations",
+async (
+    MemoryConversationRequest request,
+    MemoryConversationWorkflowService workflow,
+    CancellationToken cancellationToken) =>
+{
+    if (request.PersonId == Guid.Empty)
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.PersonId)] = ["La persona es obligatoria."]
+        });
+    }
+
+    if (string.IsNullOrWhiteSpace(request.UserInput))
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.UserInput)] = ["El mensaje es obligatorio."]
+        });
+    }
+
+    try
+    {
+        var response = await workflow.StartAsync(
+            request.PersonId,
+            request.UserInput.Trim(),
+            cancellationToken);
+
+        return Results.Ok(response);
+    }
+    catch (InvalidOperationException exception)
+    {
+        return Results.NotFound(exception.Message);
+    }
+});
+
+host.MapPost("/memory-support/conversations/{conversationId:guid}/messages",
+async (
+    Guid conversationId,
+    ContinueMemoryConversationRequest request,
+    MemoryConversationWorkflowService workflow,
+    CancellationToken cancellationToken) =>
+{
+    if (string.IsNullOrWhiteSpace(request.UserInput))
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.UserInput)] = ["El mensaje es obligatorio."]
+        });
+    }
+
+    try
+    {
+        var response = await workflow.ContinueAsync(
+            conversationId,
             request.UserInput.Trim(),
             cancellationToken);
 

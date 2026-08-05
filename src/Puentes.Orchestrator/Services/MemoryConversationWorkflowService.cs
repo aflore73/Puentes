@@ -7,21 +7,90 @@ public class MemoryConversationWorkflowService
     private readonly ApiClient _apiClient;
     private readonly AiContextBuilderService _contextBuilder;
     private readonly IConversationService _conversationService;
+    private readonly InMemoryConversationStore _conversationStore;
 
     public MemoryConversationWorkflowService(
         ApiClient apiClient,
         AiContextBuilderService contextBuilder,
-        IConversationService conversationService)
+        IConversationService conversationService,
+        InMemoryConversationStore conversationStore)
     {
         _apiClient = apiClient;
         _contextBuilder = contextBuilder;
         _conversationService = conversationService;
+        _conversationStore = conversationStore;
     }
 
     public async Task<AssistantResponse> ProcessAsync(
         Guid personId,
         string userInput,
         CancellationToken cancellationToken = default)
+    {
+        return await ProcessCoreAsync(
+            personId,
+            userInput,
+            [],
+            conversationId: null,
+            cancellationToken);
+    }
+
+    public async Task<MemoryConversationTurnResponse> StartAsync(
+        Guid personId,
+        string userInput,
+        CancellationToken cancellationToken = default)
+    {
+        var conversationId = _conversationStore.Create(personId);
+
+        try
+        {
+            var response = await ProcessCoreAsync(
+                personId,
+                userInput,
+                [],
+                conversationId,
+                cancellationToken);
+
+            return new MemoryConversationTurnResponse
+            {
+                ConversationId = conversationId,
+                Response = response
+            };
+        }
+        catch
+        {
+            _conversationStore.Remove(conversationId);
+            throw;
+        }
+    }
+
+    public async Task<MemoryConversationTurnResponse> ContinueAsync(
+        Guid conversationId,
+        string userInput,
+        CancellationToken cancellationToken = default)
+    {
+        var conversation = _conversationStore.Get(conversationId)
+            ?? throw new InvalidOperationException(
+                "La conversación no existe o expiró.");
+        var response = await ProcessCoreAsync(
+            conversation.PersonId,
+            userInput,
+            conversation.History,
+            conversationId,
+            cancellationToken);
+
+        return new MemoryConversationTurnResponse
+        {
+            ConversationId = conversationId,
+            Response = response
+        };
+    }
+
+    private async Task<AssistantResponse> ProcessCoreAsync(
+        Guid personId,
+        string userInput,
+        IReadOnlyCollection<ConversationHistoryItemContext> history,
+        Guid? conversationId,
+        CancellationToken cancellationToken)
     {
         var person = await _apiClient.GetPersonAsync(
             personId,
@@ -53,10 +122,21 @@ public class MemoryConversationWorkflowService
             relationships: relationships,
             lifeEvents: lifeEvents,
             routines: routines,
+            conversationHistory: history,
             person: person);
 
-        return await _conversationService.ProcessAsync(
+        var response = await _conversationService.ProcessAsync(
             context,
             cancellationToken);
+
+        if (conversationId is not null)
+        {
+            _conversationStore.AddExchange(
+                conversationId.Value,
+                userInput,
+                response.Message);
+        }
+
+        return response;
     }
 }
