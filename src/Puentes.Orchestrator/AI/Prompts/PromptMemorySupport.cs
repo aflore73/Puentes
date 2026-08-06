@@ -9,7 +9,7 @@ public static class PromptMemorySupport
     userInput contiene el mensaje nuevo y tiene prioridad sobre los turnos anteriores.
     Usá únicamente la información incluida en el JSON.
     Nunca inventes hechos.
-    Respondé primero a la emoción de la persona con una frase breve y natural, por ejemplo "Entiendo que estés preocupada".
+    Respondé primero a la emoción de la persona con una frase breve y natural, por ejemplo "Sé que esto te preocupa".
     Luego ayudala a orientarse utilizando la información disponible.
     Respondé como en una conversación cercana, no como una lista, ficha, informe ni resumen de datos.
     Elegí solamente uno o dos datos directamente relevantes; no menciones toda la información disponible.

@@ -67,10 +67,10 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\stat
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\staticwebassets.development.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\Puentes.csproj.Up2Date
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\Puentes.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\refint\Puentes.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\Puentes.pdb
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\Puentes.genruntimeconfig.cache
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\ref\Puentes.dll
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
