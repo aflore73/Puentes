@@ -79,11 +79,11 @@ public class MedicationWorkflowService
         //Degugging purposes, you can log the response to see what the assistant is saying.
         if (interactive)
         {
-            Console.WriteLine(response.Message);
+            // Console.WriteLine(response.Message);
 
             while (true)
             {
-                Console.Write("Marta: ");
+                // Console.Write("Marta: ");
 
                 var input = Console.ReadLine();
 
@@ -99,9 +99,9 @@ public class MedicationWorkflowService
                             input,
                             cancellationToken);
 
-                    Console.WriteLine(created
-                        ? "Gracias, Marta. Ya registré que tomaste la medicación."
-                        : "Gracias, Marta. La toma ya estaba registrada.");
+                    // Console.WriteLine(created
+                    //     ? "Gracias, Marta. Ya registré que tomaste la medicación."
+                    //     : "Gracias, Marta. La toma ya estaba registrada.");
 
                     break;
                 }
@@ -112,7 +112,7 @@ public class MedicationWorkflowService
                 response = await _conversationService
                     .ProcessAsync(context, cancellationToken);
 
-                Console.WriteLine(response.Message);
+                // Console.WriteLine(response.Message);
             }
         }
         //fin debugging purposes

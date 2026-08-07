@@ -359,3 +359,4 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Tests\obj\Debug\net10.
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Tests\obj\Debug\net10.0\Puentes.Tests.pdb
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Tests\obj\Debug\net10.0\Puentes.Tests.genruntimeconfig.cache
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Tests\obj\Debug\net10.0\ref\Puentes.Tests.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Tests\bin\Debug\net10.0\Puentes.Orchestrator.staticwebassets.runtime.json

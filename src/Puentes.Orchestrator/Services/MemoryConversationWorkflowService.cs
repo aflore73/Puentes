@@ -102,16 +102,24 @@ public class MemoryConversationWorkflowService
             .Select(relationship => relationship.OtherPerson.Id)
             .Append(personId)
             .Distinct();
-        var lifeEvents = new List<Puentes.Shared.Responses.LifeEvents.LifeEventResponse>();
-        var routines = new List<Puentes.Shared.Responses.People.PersonRoutineResponse>();
-
-        foreach (var ownerId in lifeEventOwners)
+        var contextTasks = lifeEventOwners.Select(async ownerId =>
         {
-            lifeEvents.AddRange(await _apiClient
-                .GetPersonLifeEventsAsync(ownerId, cancellationToken));
-            routines.AddRange(await _apiClient
-                .GetPersonRoutinesAsync(ownerId, cancellationToken));
-        }
+            var lifeEventsTask = _apiClient.GetPersonLifeEventsAsync(
+                ownerId, cancellationToken);
+            var routinesTask = _apiClient.GetPersonRoutinesAsync(
+                ownerId, cancellationToken);
+            await Task.WhenAll(lifeEventsTask, routinesTask);
+            return (
+                LifeEvents: await lifeEventsTask,
+                Routines: await routinesTask);
+        });
+        var contextItems = await Task.WhenAll(contextTasks);
+        var lifeEvents = contextItems
+            .SelectMany(item => item.LifeEvents)
+            .ToList();
+        var routines = contextItems
+            .SelectMany(item => item.Routines)
+            .ToList();
         var request = new ConversationRequest
         {
             Scenario = ConversationScenario.MemorySupport,

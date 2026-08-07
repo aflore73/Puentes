@@ -4,10 +4,14 @@ using Puentes.Orchestrator.AI;
 
 namespace Puentes.Orchestrator.Services;
 
-public class OpenAiAudioService : IAudioService, ISpeechSynthesisService
+public class OpenAiAudioService :
+    IAudioService,
+    ISpeechSynthesisService,
+    IStreamingSpeechSynthesisService
 {
     private readonly AudioClient _transcriptionClient;
     private readonly AudioClient _speechClient;
+    private readonly AudioClient _streamingSpeechClient;
 
     public OpenAiAudioService(OpenAiAudioOptions options)
     {
@@ -21,6 +25,8 @@ public class OpenAiAudioService : IAudioService, ISpeechSynthesisService
         _transcriptionClient = client.GetAudioClient(
             options.TranscriptionModel);
         _speechClient = client.GetAudioClient(options.SpeechModel);
+        _streamingSpeechClient = client.GetAudioClient(
+            options.StreamingSpeechModel);
     }
 
     public async Task<string> TranscribeAsync(
@@ -56,4 +62,31 @@ public class OpenAiAudioService : IAudioService, ISpeechSynthesisService
             "audio/mpeg",
             "puentes-response.mp3");
     }
+
+#pragma warning disable OPENAI001
+    public async IAsyncEnumerable<byte[]> GenerateSpeechStreamAsync(
+        string text,
+        [System.Runtime.CompilerServices.EnumeratorCancellation]
+        CancellationToken cancellationToken = default)
+    {
+        var options = new SpeechGenerationOptions
+        {
+            ResponseFormat = GeneratedSpeechFormat.Mp3,
+            SpeedRatio = 0.9f
+        };
+
+        await foreach (StreamingSpeechUpdate update in _streamingSpeechClient
+            .GenerateSpeechStreamingAsync(
+                text,
+                GeneratedSpeechVoice.Alloy,
+                options,
+                cancellationToken))
+        {
+            if (update is StreamingSpeechAudioDeltaUpdate audioUpdate)
+            {
+                yield return audioUpdate.AudioBytes.ToArray();
+            }
+        }
+    }
+#pragma warning restore OPENAI001
 }

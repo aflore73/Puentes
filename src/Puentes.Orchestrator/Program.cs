@@ -4,11 +4,17 @@ using Puentes.Orchestrator.AI.Prompts;
 using Puentes.Orchestrator.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http.Features;
 using System.ClientModel;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHostedService<Worker>();
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+builder.Services.Configure<PeripheralActivationOptions>(
+    builder.Configuration.GetSection("PeripheralActivation"));
+builder.Services.AddHostedService<PeripheralActivationWorker>();
 builder.Services.AddHttpClient<ApiClient>(client =>
 {
     client.BaseAddress = new Uri("http://localhost:5121/");
@@ -18,6 +24,8 @@ builder.Services.AddSingleton<MedicationConfirmationService>();
 builder.Services.AddSingleton<AiContextBuilderService>();
 builder.Services.AddSingleton<InMemoryConversationStore>();
 builder.Services.AddSingleton<OpenAiAudioService>();
+builder.Services.AddSingleton<IStreamingSpeechSynthesisService>(services =>
+    services.GetRequiredService<OpenAiAudioService>());
 if (builder.Configuration.GetValue<bool>("UseOpenAi"))
 {
     builder.Services.AddSingleton<IAssistantService, OpenAiAssistantService>();
@@ -44,7 +52,9 @@ var openAiAudioOptions = new OpenAiAudioOptions
     TranscriptionModel = Environment.GetEnvironmentVariable(
         "OPENAI_TRANSCRIPTION_MODEL") ?? "gpt-4o-mini-transcribe",
     SpeechModel = Environment.GetEnvironmentVariable(
-        "OPENAI_SPEECH_MODEL") ?? "tts-1"
+        "OPENAI_SPEECH_MODEL") ?? "tts-1",
+    StreamingSpeechModel = Environment.GetEnvironmentVariable(
+        "OPENAI_STREAMING_SPEECH_MODEL") ?? "gpt-4o-mini-tts"
 };
 builder.Services.AddSingleton(openAiAudioOptions);
 var whisperOptions = builder.Configuration
@@ -163,6 +173,93 @@ async (
     return Results.File(audio.Content, audio.ContentType, audio.FileName);
 });
 
+host.MapPost("/audio/speech/stream",
+async (
+    SpeechRequest request,
+    IStreamingSpeechSynthesisService speechService,
+    HttpContext context,
+    CancellationToken cancellationToken) =>
+{
+    if (string.IsNullOrWhiteSpace(request.Text)
+        || request.Text.Length > 4096)
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        await context.Response.WriteAsJsonAsync(new
+        {
+            error = "El texto es obligatorio y no puede superar 4096 caracteres."
+        }, cancellationToken);
+        return;
+    }
+
+    context.Features.Get<IHttpResponseBodyFeature>()?.DisableBuffering();
+    context.Response.StatusCode = StatusCodes.Status200OK;
+    context.Response.ContentType = "audio/mpeg";
+    context.Response.Headers.CacheControl = "no-store";
+    context.Response.Headers.ContentDisposition =
+        "inline; filename=puentes-response.mp3";
+
+    await foreach (var audioChunk in speechService
+        .GenerateSpeechStreamAsync(request.Text.Trim(), cancellationToken))
+    {
+        await context.Response.Body.WriteAsync(
+            audioChunk,
+            cancellationToken);
+        await context.Response.Body.FlushAsync(cancellationToken);
+    }
+});
+
+host.MapPost("/memory-support/voice/text",
+async (
+    [FromForm] Guid? personId,
+    [FromForm] Guid? conversationId,
+    IFormFile audio,
+    IAudioService audioService,
+    MemoryConversationWorkflowService workflow,
+    CancellationToken cancellationToken) =>
+{
+    if (conversationId is null
+        && (personId is null || personId == Guid.Empty))
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(personId)] = ["La persona es obligatoria."]
+        });
+    }
+
+    if (audio.Length == 0 || audio.Length > MaximumAudioLength)
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(audio)] =
+                ["El audio debe tener contenido y no superar 20 MB."]
+        });
+    }
+
+    await using var stream = audio.OpenReadStream();
+    var transcript = await audioService.TranscribeAsync(
+        stream,
+        audio.FileName,
+        cancellationToken);
+    var turn = conversationId is null
+        ? await workflow.StartAsync(
+            personId!.Value,
+            transcript,
+            cancellationToken)
+        : await workflow.ContinueAsync(
+            conversationId.Value,
+            transcript,
+            cancellationToken);
+    var responseText = VoiceResponseFormatter.Prepare(turn.Response.Message);
+
+    return Results.Ok(new VoiceConversationTextResponse
+    {
+        ConversationId = turn.ConversationId,
+        Transcript = transcript,
+        ResponseText = responseText
+    });
+})
+.DisableAntiforgery();
+
 host.MapPost("/memory-support/voice",
 async (
     [FromForm] Guid? personId,
@@ -206,12 +303,7 @@ async (
             conversationId.Value,
             transcript,
             cancellationToken);
-    var responseText = turn.Response.Message.StartsWith(
-        "FAKE AI",
-        StringComparison.Ordinal)
-        ? "Sé que esto te preocupa. Ezequiel puede estar trabajando o en su casa. " +
-          "Si querés, podés enviarle un mensaje y cuando pueda te va a contestar."
-        : turn.Response.Message;
+    var responseText = VoiceResponseFormatter.Prepare(turn.Response.Message);
     var speech = await speechService.GenerateSpeechAsync(
         responseText,
         cancellationToken);

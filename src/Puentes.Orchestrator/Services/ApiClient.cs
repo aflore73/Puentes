@@ -38,7 +38,7 @@ public class ApiClient
 
         var json = await response.Content.ReadAsStringAsync(
             cancellationToken);
-        Console.WriteLine(json);
+        // Console.WriteLine(json); // Diagnostico: respuesta JSON completa.
         return JsonSerializer.Deserialize<List<MedicationPlanResponse>>(
             json,
             JsonOptions
