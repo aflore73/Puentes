@@ -38,7 +38,7 @@ public class MedicationWorkflowService
             return;
         }
 
-        var currentTurn = GetCurrentTurn();
+        var currentTurn = MedicationTurnResolver.Resolve(DateTime.Now);
 
         var plan = plans.FirstOrDefault(
             x => x.Turn == currentTurn);
@@ -118,15 +118,4 @@ public class MedicationWorkflowService
         //fin debugging purposes
     }
 
-    private static MedicationTurnType GetCurrentTurn()
-    {
-        var hour = DateTime.Now.Hour;
-
-        return hour switch
-        {
-            >= 6 and < 12 => MedicationTurnType.Morning,
-            >= 12 and < 18 => MedicationTurnType.Midday,
-            _ => MedicationTurnType.Night
-        };
-    }
 }

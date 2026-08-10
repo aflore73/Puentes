@@ -162,4 +162,20 @@ public class ApiClient
                 JsonOptions,
                 cancellationToken) ?? [];
     }
+
+    public async Task<List<PersonPreferenceResponse>> GetPersonPreferencesAsync(
+        Guid personId,
+        CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"people/{personId}/preferences",
+            cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content
+            .ReadFromJsonAsync<List<PersonPreferenceResponse>>(
+                JsonOptions,
+                cancellationToken) ?? [];
+    }
 }

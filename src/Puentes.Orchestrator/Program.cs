@@ -35,13 +35,17 @@ else
     builder.Services.AddSingleton<IAssistantService, FakeAiAssistantService>();
 }
 builder.Services.AddSingleton<MedicationWorkflowService>();
+builder.Services.AddSingleton<MedicationQueryWorkflowService>();
 builder.Services.AddSingleton<MemoryConversationWorkflowService>();
+builder.Services.AddSingleton<RealtimeSessionContextService>();
+builder.Services.AddSingleton<OpenAiRealtimeService>();
 builder.Services.AddSingleton<IConversationService,ConversationService>();
 builder.Services.AddSingleton<PromptFactory>();
 var openAiOptions = new OpenAiOptions
 {
     ApiKey = Environment.GetEnvironmentVariable("PUENTES_API_KEY") ?? string.Empty,
-    Model = Environment.GetEnvironmentVariable("OPENAI_MODEL") ?? "gpt-5.5"
+    Model = Environment.GetEnvironmentVariable("OPENAI_MODEL")
+        ?? "gpt-5.4-mini"
 };
 
 builder.Services.AddSingleton(openAiOptions);
@@ -52,11 +56,21 @@ var openAiAudioOptions = new OpenAiAudioOptions
     TranscriptionModel = Environment.GetEnvironmentVariable(
         "OPENAI_TRANSCRIPTION_MODEL") ?? "gpt-4o-mini-transcribe",
     SpeechModel = Environment.GetEnvironmentVariable(
-        "OPENAI_SPEECH_MODEL") ?? "tts-1",
+        "OPENAI_SPEECH_MODEL") ?? "gpt-4o-mini-tts",
     StreamingSpeechModel = Environment.GetEnvironmentVariable(
         "OPENAI_STREAMING_SPEECH_MODEL") ?? "gpt-4o-mini-tts"
 };
 builder.Services.AddSingleton(openAiAudioOptions);
+var openAiRealtimeOptions = new OpenAiRealtimeOptions
+{
+    ApiKey = Environment.GetEnvironmentVariable("PUENTES_API_KEY")
+        ?? string.Empty,
+    Model = Environment.GetEnvironmentVariable("OPENAI_REALTIME_MODEL")
+        ?? "gpt-realtime-2.1-mini",
+    Voice = Environment.GetEnvironmentVariable("OPENAI_REALTIME_VOICE")
+        ?? "marin"
+};
+builder.Services.AddSingleton(openAiRealtimeOptions);
 var whisperOptions = builder.Configuration
     .GetSection("Audio:Whisper")
     .Get<WhisperOptions>() ?? new WhisperOptions();

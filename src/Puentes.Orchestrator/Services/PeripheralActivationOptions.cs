@@ -4,6 +4,8 @@ public sealed class PeripheralActivationOptions
 {
     public bool Enabled { get; set; } = true;
 
+    public bool UseRealtime { get; set; } = true;
+
     public Guid PersonId { get; set; } =
         Guid.Parse("20f78dba-4fd8-494e-9bd7-7867bff67df3");
 

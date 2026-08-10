@@ -14,6 +14,7 @@ public class AiContextBuilderService
         IReadOnlyCollection<PersonConnectionResponse>? relationships = null,
         IReadOnlyCollection<LifeEventResponse>? lifeEvents = null,
         IReadOnlyCollection<PersonRoutineResponse>? routines = null,
+        IReadOnlyCollection<PersonPreferenceResponse>? preferences = null,
         IReadOnlyCollection<ConversationHistoryItemContext>? conversationHistory = null,
         Person? person = null)
     {
@@ -45,7 +46,8 @@ public class AiContextBuilderService
                 memoryFacts,
                 relationships,
                 lifeEvents,
-                routines),
+                routines,
+                preferences),
 
             ConversationHistory = conversationHistory?
                 .Select(message => new ConversationHistoryItemContext
@@ -70,7 +72,8 @@ public class AiContextBuilderService
         IReadOnlyCollection<MemoryFact>? memoryFacts,
         IReadOnlyCollection<PersonConnectionResponse>? relationships,
         IReadOnlyCollection<LifeEventResponse>? lifeEvents,
-        IReadOnlyCollection<PersonRoutineResponse>? routines)
+        IReadOnlyCollection<PersonRoutineResponse>? routines,
+        IReadOnlyCollection<PersonPreferenceResponse>? preferences)
     {
         if (scenario != ConversationScenario.MemorySupport)
         {
@@ -109,6 +112,17 @@ public class AiContextBuilderService
                     PersonName = routine.PersonName,
                     Title = routine.Title,
                     Notes = routine.Notes
+                })
+                .ToList() ?? [],
+            Preferences = preferences?
+                .Where(preference => preference.IsActive)
+                .OrderBy(preference => preference.PersonName)
+                .ThenBy(preference => preference.Title)
+                .Select(preference => new PersonPreferenceContext
+                {
+                    PersonName = preference.PersonName,
+                    Title = preference.Title,
+                    Notes = preference.Notes
                 })
                 .ToList() ?? []
         };

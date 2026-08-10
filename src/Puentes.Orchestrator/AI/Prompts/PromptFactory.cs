@@ -26,6 +26,8 @@ public class PromptFactory
         {
             ConversationScenario.MemorySupport =>
                 PromptMemorySupport.Contenido,
+            ConversationScenario.MedicationQuery =>
+                PromptMedicationQuery.Contenido,
             _ => string.Empty
         };
 

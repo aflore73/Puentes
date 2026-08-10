@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using NAudio.Wave;
+using Puentes.Orchestrator.AI.Models;
 
 namespace Puentes.Orchestrator.Services;
 
@@ -9,22 +10,33 @@ public sealed class PeripheralActivationWorker : BackgroundService
     private readonly IAudioService _audioService;
     private readonly ISpeechSynthesisService _speechService;
     private readonly MemoryConversationWorkflowService _conversationWorkflow;
+    private readonly MedicationQueryWorkflowService _medicationQueryWorkflow;
+    private readonly RealtimeSessionContextService _realtimeContext;
+    private readonly OpenAiRealtimeService _realtimeService;
     private readonly PeripheralActivationOptions _options;
     private int _busy;
     private DateTimeOffset _availableAt = DateTimeOffset.MinValue;
     private Guid? _conversationId;
+    private Task? _realtimePreparationTask;
+    private RealtimeSessionContext? _realtimeContextData;
 
     public PeripheralActivationWorker(
         ILogger<PeripheralActivationWorker> logger,
         IAudioService audioService,
         ISpeechSynthesisService speechService,
         MemoryConversationWorkflowService conversationWorkflow,
+        MedicationQueryWorkflowService medicationQueryWorkflow,
+        RealtimeSessionContextService realtimeContext,
+        OpenAiRealtimeService realtimeService,
         IOptions<PeripheralActivationOptions> options)
     {
         _logger = logger;
         _audioService = audioService;
         _speechService = speechService;
         _conversationWorkflow = conversationWorkflow;
+        _medicationQueryWorkflow = medicationQueryWorkflow;
+        _realtimeContext = realtimeContext;
+        _realtimeService = realtimeService;
         _options = options.Value;
     }
 
@@ -41,6 +53,10 @@ public sealed class PeripheralActivationWorker : BackgroundService
 
         _logger.LogInformation(
             "Puentes esta en espera. Presione una tecla o use el mouse para hablar.");
+        if (_options.UseRealtime)
+        {
+            _realtimePreparationTask = PrepareRealtimeAsync(stoppingToken);
+        }
 
         await Task.Run(() => listener.Run(stoppingToken), stoppingToken);
     }
@@ -61,6 +77,16 @@ public sealed class PeripheralActivationWorker : BackgroundService
         try
         {
             _logger.LogInformation("Puentes activado. Escuchando...");
+            if (_options.UseRealtime)
+            {
+                _realtimePreparationTask ??=
+                    PrepareRealtimeAsync(cancellationToken);
+                await _realtimePreparationTask;
+                await _realtimeService.RunTurnAsync(
+                    _realtimeContextData!, _options, cancellationToken);
+                return;
+            }
+
             var audio = await RecordAsync(cancellationToken);
             await using var audioStream = new MemoryStream(audio);
             var transcript = await _audioService.TranscribeAsync(
@@ -72,15 +98,27 @@ public sealed class PeripheralActivationWorker : BackgroundService
                 return;
             }
 
-            var turn = _conversationId is null
-                ? await _conversationWorkflow.StartAsync(
-                    _options.PersonId, transcript, cancellationToken)
-                : await _conversationWorkflow.ContinueAsync(
-                    _conversationId.Value, transcript, cancellationToken);
+            AssistantResponse assistantResponse;
+            if (MedicationIntentDetector.IsMedicationQuery(transcript))
+            {
+                assistantResponse = await _medicationQueryWorkflow.ProcessAsync(
+                    _options.PersonId,
+                    transcript,
+                    cancellationToken);
+            }
+            else
+            {
+                var turn = _conversationId is null
+                    ? await _conversationWorkflow.StartAsync(
+                        _options.PersonId, transcript, cancellationToken)
+                    : await _conversationWorkflow.ContinueAsync(
+                        _conversationId.Value, transcript, cancellationToken);
+                _conversationId = turn.ConversationId;
+                assistantResponse = turn.Response;
+            }
 
-            _conversationId = turn.ConversationId;
             var responseText = VoiceResponseFormatter.Prepare(
-                turn.Response.Message);
+                assistantResponse.Message);
             _logger.LogInformation("Marta: {Transcript}", transcript);
             _logger.LogInformation("Puentes: {Response}", responseText);
 
@@ -93,6 +131,10 @@ public sealed class PeripheralActivationWorker : BackgroundService
         }
         catch (Exception exception)
         {
+            if (_options.UseRealtime)
+            {
+                _realtimePreparationTask = null;
+            }
             _logger.LogError(exception,
                 "No se pudo completar la conversacion activada por perifericos.");
         }
@@ -102,6 +144,14 @@ public sealed class PeripheralActivationWorker : BackgroundService
                 Math.Max(0, _options.CooldownSeconds));
             Interlocked.Exchange(ref _busy, 0);
         }
+    }
+
+    private async Task PrepareRealtimeAsync(CancellationToken cancellationToken)
+    {
+        _realtimeContextData = await _realtimeContext.BuildAsync(
+            _options.PersonId, cancellationToken);
+        await _realtimeService.PrepareAsync(
+            _realtimeContextData, cancellationToken);
     }
 
     private async Task<byte[]> RecordAsync(CancellationToken cancellationToken)

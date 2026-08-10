@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS PersonRelationships;
 DROP TABLE IF EXISTS LifeEventParticipants;
 DROP TABLE IF EXISTS PersonLifeEvents;
 DROP TABLE IF EXISTS PersonRoutines;
+DROP TABLE IF EXISTS PersonPreferences;
 DROP TABLE IF EXISTS People;
 
 CREATE TABLE People
@@ -110,6 +111,27 @@ CREATE TABLE PersonRoutines
 
 CREATE INDEX IX_PersonRoutines_PersonId
 ON PersonRoutines (PersonId);
+
+CREATE TABLE PersonPreferences
+(
+    Id TEXT PRIMARY KEY,
+    PersonId TEXT NOT NULL,
+    Title TEXT NOT NULL,
+    Notes TEXT NOT NULL,
+    Tags TEXT NULL,
+    IsActive INTEGER NOT NULL DEFAULT 1,
+
+    FOREIGN KEY (PersonId)
+        REFERENCES People(Id)
+        ON DELETE CASCADE,
+
+    CHECK (length(trim(Title)) > 0),
+    CHECK (length(trim(Notes)) > 0),
+    CHECK (IsActive IN (0, 1))
+);
+
+CREATE INDEX IX_PersonPreferences_PersonId
+ON PersonPreferences (PersonId);
 
 COMMIT;
 

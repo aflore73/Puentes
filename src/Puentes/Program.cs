@@ -28,6 +28,7 @@ builder.Services.AddScoped<PersonRepository>();
 builder.Services.AddScoped<PersonRelationshipRepository>();
 builder.Services.AddScoped<LifeEventRepository>();
 builder.Services.AddScoped<PersonRoutineRepository>();
+builder.Services.AddScoped<PersonPreferenceRepository>();
 // Repositorio de registros de medicación
 builder.Services.AddSingleton<MedicationRecordRepository>();
 //Configuración para serialización JSON de enums
@@ -523,6 +524,34 @@ async (
         Notes = routine.Notes,
         IsActive = routine.IsActive
     });
+
+    return Results.Ok(response);
+});
+
+app.MapGet("/people/{id:guid}/preferences",
+async (
+    Guid id,
+    PersonRepository personRepository,
+    PersonPreferenceRepository preferenceRepository) =>
+{
+    var person = await personRepository.GetByIdAsync(id);
+    if (person is null)
+    {
+        return Results.NotFound();
+    }
+
+    var preferences = await preferenceRepository.GetActiveByPersonAsync(id);
+    var response = preferences.Select(preference =>
+        new PersonPreferenceResponse
+        {
+            Id = preference.Id,
+            PersonId = preference.PersonId,
+            PersonName = person.Name,
+            Title = preference.Title,
+            Notes = preference.Notes,
+            Tags = preference.Tags,
+            IsActive = preference.IsActive
+        });
 
     return Results.Ok(response);
 });

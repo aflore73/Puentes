@@ -37,7 +37,8 @@ public class MemoryConversationWorkflowService
     public async Task<MemoryConversationTurnResponse> StartAsync(
         Guid personId,
         string userInput,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        string? focusedPersonName = null)
     {
         var conversationId = _conversationStore.Create(personId);
 
@@ -48,7 +49,8 @@ public class MemoryConversationWorkflowService
                 userInput,
                 [],
                 conversationId,
-                cancellationToken);
+                cancellationToken,
+                focusedPersonName);
 
             return new MemoryConversationTurnResponse
             {
@@ -66,7 +68,8 @@ public class MemoryConversationWorkflowService
     public async Task<MemoryConversationTurnResponse> ContinueAsync(
         Guid conversationId,
         string userInput,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        string? focusedPersonName = null)
     {
         var conversation = _conversationStore.Get(conversationId)
             ?? throw new InvalidOperationException(
@@ -76,7 +79,8 @@ public class MemoryConversationWorkflowService
             userInput,
             conversation.History,
             conversationId,
-            cancellationToken);
+            cancellationToken,
+            focusedPersonName);
 
         return new MemoryConversationTurnResponse
         {
@@ -90,7 +94,8 @@ public class MemoryConversationWorkflowService
         string userInput,
         IReadOnlyCollection<ConversationHistoryItemContext> history,
         Guid? conversationId,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        string? focusedPersonName = null)
     {
         var person = await _apiClient.GetPersonAsync(
             personId,
@@ -108,17 +113,35 @@ public class MemoryConversationWorkflowService
                 ownerId, cancellationToken);
             var routinesTask = _apiClient.GetPersonRoutinesAsync(
                 ownerId, cancellationToken);
-            await Task.WhenAll(lifeEventsTask, routinesTask);
+            var preferencesTask = _apiClient.GetPersonPreferencesAsync(
+                ownerId, cancellationToken);
+            await Task.WhenAll(
+                lifeEventsTask,
+                routinesTask,
+                preferencesTask);
             return (
                 LifeEvents: await lifeEventsTask,
-                Routines: await routinesTask);
+                Routines: await routinesTask,
+                Preferences: await preferencesTask);
         });
         var contextItems = await Task.WhenAll(contextTasks);
         var lifeEvents = contextItems
             .SelectMany(item => item.LifeEvents)
+            .Where(item => focusedPersonName is null || item.PersonName.Equals(
+                focusedPersonName,
+                StringComparison.OrdinalIgnoreCase))
             .ToList();
         var routines = contextItems
             .SelectMany(item => item.Routines)
+            .Where(item => focusedPersonName is null || item.PersonName.Equals(
+                focusedPersonName,
+                StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        var preferences = contextItems
+            .SelectMany(item => item.Preferences)
+            .Where(item => focusedPersonName is null || item.PersonName.Equals(
+                focusedPersonName,
+                StringComparison.OrdinalIgnoreCase))
             .ToList();
         var request = new ConversationRequest
         {
@@ -130,6 +153,7 @@ public class MemoryConversationWorkflowService
             relationships: relationships,
             lifeEvents: lifeEvents,
             routines: routines,
+            preferences: preferences,
             conversationHistory: history,
             person: person);
 

@@ -10,4 +10,6 @@ public class MemorySupportContext
     public List<LifeEventContext> LifeEvents { get; set; } = [];
 
     public List<PersonRoutineContext> Routines { get; set; } = [];
+
+    public List<PersonPreferenceContext> Preferences { get; set; } = [];
 }

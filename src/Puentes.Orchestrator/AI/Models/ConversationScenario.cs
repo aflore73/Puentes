@@ -5,5 +5,6 @@ public enum ConversationScenario
     GeneralConversation = 0,
     MedicationReminder = 1,
     WaitingMedicationConfirmation = 2,
-    MemorySupport = 3
+    MemorySupport = 3,
+    MedicationQuery = 4
 }

@@ -6,7 +6,7 @@ public class OpenAiAudioOptions
 
     public string TranscriptionModel { get; set; } = "gpt-4o-mini-transcribe";
 
-    public string SpeechModel { get; set; } = "tts-1";
+    public string SpeechModel { get; set; } = "gpt-4o-mini-tts";
 
     public string StreamingSpeechModel { get; set; } = "gpt-4o-mini-tts";
 }

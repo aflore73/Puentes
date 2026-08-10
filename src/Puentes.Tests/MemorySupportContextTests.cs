@@ -78,6 +78,54 @@ public class MemorySupportContextTests
     }
 
     [Fact]
+    public void MemoryContextProjectsActivePreferencesWithoutSearchTags()
+    {
+        var preferences = new List<PersonPreferenceResponse>
+        {
+            new()
+            {
+                Id = Guid.NewGuid(),
+                PersonId = Guid.NewGuid(),
+                PersonName = "Marta",
+                Title = "Música",
+                Notes = "A Marta le gusta escuchar a Sandro.",
+                Tags = "musica,sandro,canciones",
+                IsActive = true
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                PersonId = Guid.NewGuid(),
+                PersonName = "Marta",
+                Title = "Preferencia anterior",
+                Notes = "No debe enviarse.",
+                Tags = "inactiva",
+                IsActive = false
+            }
+        };
+        var request = new ConversationRequest
+        {
+            Scenario = ConversationScenario.MemorySupport,
+            UserInput = "Quiero escuchar música."
+        };
+
+        var context = new AiContextBuilderService()
+            .BuildConversationContext(request, preferences: preferences);
+        var preference = Assert.Single(
+            context.MemorySupport!.Preferences);
+        var prompt = new PromptFactory().Create(context);
+
+        Assert.Equal("Música", preference.Title);
+        Assert.Contains("Sandro", preference.Notes);
+        Assert.Contains("\"preferences\"", prompt.UserMessage);
+        Assert.DoesNotContain("musica,sandro,canciones", prompt.UserMessage);
+        Assert.DoesNotContain("No debe enviarse", prompt.UserMessage);
+        Assert.Contains(
+            "memorySupport.preferences contiene gustos e intereses",
+            prompt.SystemMessage);
+    }
+
+    [Fact]
     public void MemoryContextIncludesRelationshipDirectionAndOtherPerson()
     {
         var marta = new Person
@@ -238,7 +286,7 @@ public class MemorySupportContextTests
             "No digas \"no puedo confirmar dónde está\"",
             prompt.SystemMessage);
         Assert.Contains(
-            "podés enviarles un mensaje y cuando puedan te van a contestar",
+            "No uses siempre las mismas palabras",
             prompt.SystemMessage);
         Assert.Contains(
             "un único párrafo de dos o tres oraciones",
@@ -247,10 +295,58 @@ public class MemorySupportContextTests
             "no como una lista, ficha, informe ni resumen de datos",
             prompt.SystemMessage);
         Assert.Contains(
-            "hasta dos alternativas tranquilizadoras compatibles con el día y la hora actuales",
+            "dos alternativas si ambas son compatibles con el día y la hora actuales",
             prompt.SystemMessage);
         Assert.Contains(
             "Integrá esas alternativas en una misma oración",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no repitas una estructura fija",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no la repitas salvo que la persona la pregunte de nuevo",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no desvíes la respuesta hacia su trabajo, domicilio o rutina",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No inventes explicaciones posibles",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "sin completar la respuesta con frases vagas",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no lo introduzcas con frases como \"solo tengo la información\"",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "expresiones que sugieran monitoreo",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "información general sobre música, canciones, artistas",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no digas que el tema, artista o canción no está en el contexto",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No describas tu manera de acompañar",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "usá voseo de manera consistente",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no sugieras enviar otro",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "coincida con memorySupport.relationships.otherPersonName",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "histórica, religiosa, ficticia, famosa ni externa al JSON",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "solamente cuando userInput lo pida explícitamente",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No uses sucesos, rutinas ni características de otra persona",
             prompt.SystemMessage);
     }
 

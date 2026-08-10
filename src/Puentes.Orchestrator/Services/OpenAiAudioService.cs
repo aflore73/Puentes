@@ -50,10 +50,10 @@ public class OpenAiAudioService :
     {
         BinaryData audio = await _speechClient.GenerateSpeechAsync(
             text,
-            GeneratedSpeechVoice.Alloy,
+            GeneratedSpeechVoice.Nova,
             new SpeechGenerationOptions
             {
-                SpeedRatio = 0.9f
+                SpeedRatio = 0.95f
             },
             cancellationToken);
 
@@ -78,7 +78,32 @@ public class OpenAiAudioService :
         await foreach (StreamingSpeechUpdate update in _streamingSpeechClient
             .GenerateSpeechStreamingAsync(
                 text,
-                GeneratedSpeechVoice.Alloy,
+                GeneratedSpeechVoice.Nova,
+                options,
+                cancellationToken))
+        {
+            if (update is StreamingSpeechAudioDeltaUpdate audioUpdate)
+            {
+                yield return audioUpdate.AudioBytes.ToArray();
+            }
+        }
+    }
+
+    public async IAsyncEnumerable<byte[]> GeneratePcmSpeechStreamAsync(
+        string text,
+        [System.Runtime.CompilerServices.EnumeratorCancellation]
+        CancellationToken cancellationToken = default)
+    {
+        var options = new SpeechGenerationOptions
+        {
+            ResponseFormat = GeneratedSpeechFormat.Pcm,
+            SpeedRatio = 0.95f
+        };
+
+        await foreach (StreamingSpeechUpdate update in _streamingSpeechClient
+            .GenerateSpeechStreamingAsync(
+                text,
+                GeneratedSpeechVoice.Nova,
                 options,
                 cancellationToken))
         {
