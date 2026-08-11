@@ -24,6 +24,8 @@ public class DatabaseInitializer
         var lifeEventRepository = new LifeEventRepository(_accessDb);
         var routineRepository = new PersonRoutineRepository(_accessDb);
         var preferenceRepository = new PersonPreferenceRepository(_accessDb);
+        var supportContentRepository =
+            new PersonSupportContentRepository(_accessDb);
 
         await _medicationRepository.CreateTableAsync();
 
@@ -40,5 +42,7 @@ public class DatabaseInitializer
         await routineRepository.CreateTableAsync();
 
         await preferenceRepository.CreateTableAsync();
+
+        await supportContentRepository.CreateTableAsync();
     }
 }

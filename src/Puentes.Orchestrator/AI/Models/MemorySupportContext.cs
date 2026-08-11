@@ -12,4 +12,8 @@ public class MemorySupportContext
     public List<PersonRoutineContext> Routines { get; set; } = [];
 
     public List<PersonPreferenceContext> Preferences { get; set; } = [];
+
+    public List<PersonSupportContentContext> SupportContents { get; set; } = [];
+
+    public List<PersonBelongingContext> Belongings { get; set; } = [];
 }

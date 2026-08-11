@@ -126,6 +126,111 @@ public class MemorySupportContextTests
     }
 
     [Fact]
+    public void MemoryContextProjectsActiveSupportContentWithoutTagsOrIds()
+    {
+        var activeId = Guid.NewGuid();
+        var contents = new List<PersonSupportContentResponse>
+        {
+            new()
+            {
+                Id = activeId,
+                PersonId = Guid.NewGuid(),
+                PersonName = "Marta",
+                Title = "Un texto de consuelo",
+                Content = "Contenido elegido para Marta.",
+                Attribution = "Autor",
+                Reference = "Referencia",
+                Tags = "tristeza,consuelo",
+                IsActive = true
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                PersonId = Guid.NewGuid(),
+                PersonName = "Marta",
+                Title = "Texto inactivo",
+                Content = "No debe enviarse.",
+                Tags = "inactivo",
+                IsActive = false
+            }
+        };
+        var request = new ConversationRequest
+        {
+            Scenario = ConversationScenario.MemorySupport,
+            UserInput = "Me siento triste."
+        };
+
+        var context = new AiContextBuilderService()
+            .BuildConversationContext(request, supportContents: contents);
+        var content = Assert.Single(
+            context.MemorySupport!.SupportContents);
+        var prompt = new PromptFactory().Create(context);
+
+        Assert.Equal("Un texto de consuelo", content.Title);
+        Assert.Contains("Contenido elegido", prompt.UserMessage);
+        Assert.DoesNotContain(activeId.ToString(), prompt.UserMessage);
+        Assert.DoesNotContain("tristeza,consuelo", prompt.UserMessage);
+        Assert.DoesNotContain("No debe enviarse", prompt.UserMessage);
+        Assert.Contains(
+            "no leas el texto en ese primer turno",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "conversationHistory muestre que fue ofrecido",
+            prompt.SystemMessage);
+    }
+
+    [Fact]
+    public void MemoryContextProjectsActiveBelongingsWithoutTagsOrIds()
+    {
+        var activeId = Guid.NewGuid();
+        var belongings = new List<PersonBelongingResponse>
+        {
+            new()
+            {
+                Id = activeId,
+                PersonId = Guid.NewGuid(),
+                PersonName = "Marta",
+                Name = "Llaves",
+                Notes = "Suelen quedar en el recipiente de la entrada.",
+                Tags = "llaves,llavero,entrada",
+                IsActive = true
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                PersonId = Guid.NewGuid(),
+                PersonName = "Marta",
+                Name = "Objeto inactivo",
+                Notes = "No debe enviarse.",
+                Tags = "inactivo",
+                IsActive = false
+            }
+        };
+        var request = new ConversationRequest
+        {
+            Scenario = ConversationScenario.MemorySupport,
+            UserInput = "No encuentro las llaves."
+        };
+
+        var context = new AiContextBuilderService()
+            .BuildConversationContext(request, belongings: belongings);
+        var belonging = Assert.Single(context.MemorySupport!.Belongings);
+        var prompt = new PromptFactory().Create(context);
+
+        Assert.Equal("Llaves", belonging.Name);
+        Assert.Contains("recipiente de la entrada", prompt.UserMessage);
+        Assert.DoesNotContain(activeId.ToString(), prompt.UserMessage);
+        Assert.DoesNotContain("llaves,llavero,entrada", prompt.UserMessage);
+        Assert.DoesNotContain("Objeto inactivo", prompt.UserMessage);
+        Assert.Contains(
+            "Sugerí revisar un solo lugar por turno",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no vuelvas a sugerir un lugar",
+            prompt.SystemMessage);
+    }
+
+    [Fact]
     public void MemoryContextIncludesRelationshipDirectionAndOtherPerson()
     {
         var marta = new Person

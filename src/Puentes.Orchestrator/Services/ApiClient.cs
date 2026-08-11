@@ -178,4 +178,37 @@ public class ApiClient
                 JsonOptions,
                 cancellationToken) ?? [];
     }
+
+    public async Task<List<PersonSupportContentResponse>>
+        GetPersonSupportContentsAsync(
+            Guid personId,
+            CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"people/{personId}/support-contents",
+            cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content
+            .ReadFromJsonAsync<List<PersonSupportContentResponse>>(
+                JsonOptions,
+                cancellationToken) ?? [];
+    }
+
+    public async Task<List<PersonBelongingResponse>> GetPersonBelongingsAsync(
+        Guid personId,
+        CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"people/{personId}/belongings",
+            cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content
+            .ReadFromJsonAsync<List<PersonBelongingResponse>>(
+                JsonOptions,
+                cancellationToken) ?? [];
+    }
 }

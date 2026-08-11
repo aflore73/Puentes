@@ -15,6 +15,8 @@ public class AiContextBuilderService
         IReadOnlyCollection<LifeEventResponse>? lifeEvents = null,
         IReadOnlyCollection<PersonRoutineResponse>? routines = null,
         IReadOnlyCollection<PersonPreferenceResponse>? preferences = null,
+        IReadOnlyCollection<PersonSupportContentResponse>? supportContents = null,
+        IReadOnlyCollection<PersonBelongingResponse>? belongings = null,
         IReadOnlyCollection<ConversationHistoryItemContext>? conversationHistory = null,
         Person? person = null)
     {
@@ -47,7 +49,9 @@ public class AiContextBuilderService
                 relationships,
                 lifeEvents,
                 routines,
-                preferences),
+                preferences,
+                supportContents,
+                belongings),
 
             ConversationHistory = conversationHistory?
                 .Select(message => new ConversationHistoryItemContext
@@ -73,7 +77,9 @@ public class AiContextBuilderService
         IReadOnlyCollection<PersonConnectionResponse>? relationships,
         IReadOnlyCollection<LifeEventResponse>? lifeEvents,
         IReadOnlyCollection<PersonRoutineResponse>? routines,
-        IReadOnlyCollection<PersonPreferenceResponse>? preferences)
+        IReadOnlyCollection<PersonPreferenceResponse>? preferences,
+        IReadOnlyCollection<PersonSupportContentResponse>? supportContents,
+        IReadOnlyCollection<PersonBelongingResponse>? belongings)
     {
         if (scenario != ConversationScenario.MemorySupport)
         {
@@ -123,6 +129,26 @@ public class AiContextBuilderService
                     PersonName = preference.PersonName,
                     Title = preference.Title,
                     Notes = preference.Notes
+                })
+                .ToList() ?? [],
+            SupportContents = supportContents?
+                .Where(content => content.IsActive)
+                .OrderBy(content => content.Title)
+                .Select(content => new PersonSupportContentContext
+                {
+                    Title = content.Title,
+                    Content = content.Content,
+                    Attribution = content.Attribution,
+                    Reference = content.Reference
+                })
+                .ToList() ?? [],
+            Belongings = belongings?
+                .Where(belonging => belonging.IsActive)
+                .OrderBy(belonging => belonging.Name)
+                .Select(belonging => new PersonBelongingContext
+                {
+                    Name = belonging.Name,
+                    Notes = belonging.Notes
                 })
                 .ToList() ?? []
         };

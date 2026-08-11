@@ -103,6 +103,10 @@ public class MemoryConversationWorkflowService
                 $"No se encontró la persona {personId}.");
         var relationships = await _apiClient
             .GetPersonRelationshipsAsync(personId, cancellationToken);
+        var supportContents = await _apiClient
+            .GetPersonSupportContentsAsync(personId, cancellationToken);
+        var belongings = await _apiClient
+            .GetPersonBelongingsAsync(personId, cancellationToken);
         var lifeEventOwners = relationships
             .Select(relationship => relationship.OtherPerson.Id)
             .Append(personId)
@@ -154,6 +158,8 @@ public class MemoryConversationWorkflowService
             lifeEvents: lifeEvents,
             routines: routines,
             preferences: preferences,
+            supportContents: supportContents,
+            belongings: belongings,
             conversationHistory: history,
             person: person);
 

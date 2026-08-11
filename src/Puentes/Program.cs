@@ -29,6 +29,8 @@ builder.Services.AddScoped<PersonRelationshipRepository>();
 builder.Services.AddScoped<LifeEventRepository>();
 builder.Services.AddScoped<PersonRoutineRepository>();
 builder.Services.AddScoped<PersonPreferenceRepository>();
+builder.Services.AddScoped<PersonSupportContentRepository>();
+builder.Services.AddScoped<PersonBelongingRepository>();
 // Repositorio de registros de medicación
 builder.Services.AddSingleton<MedicationRecordRepository>();
 //Configuración para serialización JSON de enums
@@ -551,6 +553,65 @@ async (
             Notes = preference.Notes,
             Tags = preference.Tags,
             IsActive = preference.IsActive
+        });
+
+    return Results.Ok(response);
+});
+
+app.MapGet("/people/{id:guid}/support-contents",
+async (
+    Guid id,
+    PersonRepository personRepository,
+    PersonSupportContentRepository supportContentRepository) =>
+{
+    var person = await personRepository.GetByIdAsync(id);
+    if (person is null)
+    {
+        return Results.NotFound();
+    }
+
+    var contents = await supportContentRepository
+        .GetActiveByPersonAsync(id);
+    var response = contents.Select(content =>
+        new PersonSupportContentResponse
+        {
+            Id = content.Id,
+            PersonId = content.PersonId,
+            PersonName = person.Name,
+            Title = content.Title,
+            Content = content.Content,
+            Attribution = content.Attribution,
+            Reference = content.Reference,
+            Tags = content.Tags,
+            IsActive = content.IsActive
+        });
+
+    return Results.Ok(response);
+});
+
+app.MapGet("/people/{id:guid}/belongings",
+async (
+    Guid id,
+    PersonRepository personRepository,
+    PersonBelongingRepository belongingRepository) =>
+{
+    var person = await personRepository.GetByIdAsync(id);
+    if (person is null)
+    {
+        return Results.NotFound();
+    }
+
+    var belongings = await belongingRepository.GetActiveByPersonAsync(id);
+    var response = belongings.Select(belonging =>
+        new PersonBelongingResponse
+        {
+            Id = belonging.Id,
+            PersonId = belonging.PersonId,
+            PersonName = person.Name,
+            Name = belonging.Name,
+            Notes = belonging.Notes,
+            Tags = belonging.Tags,
+            IsActive = belonging.IsActive
         });
 
     return Results.Ok(response);
