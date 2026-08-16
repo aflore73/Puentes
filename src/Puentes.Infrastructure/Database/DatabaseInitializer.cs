@@ -26,6 +26,9 @@ public class DatabaseInitializer
         var preferenceRepository = new PersonPreferenceRepository(_accessDb);
         var supportContentRepository =
             new PersonSupportContentRepository(_accessDb);
+        var belongingRepository = new PersonBelongingRepository(_accessDb);
+        var trustedContactRepository =
+            new PersonTrustedContactRepository(_accessDb);
 
         await _medicationRepository.CreateTableAsync();
 
@@ -44,5 +47,10 @@ public class DatabaseInitializer
         await preferenceRepository.CreateTableAsync();
 
         await supportContentRepository.CreateTableAsync();
+
+        await belongingRepository.CreateTableAsync();
+
+        await trustedContactRepository.CreateTableAsync();
+
     }
 }

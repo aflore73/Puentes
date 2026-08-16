@@ -16,8 +16,6 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Deb
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Debug\net10.0\refint\Puentes.Infrastructure.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Debug\net10.0\Puentes.Infrastructure.pdb
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Debug\net10.0\ref\Puentes.Infrastructure.dll
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\appsettings.Development.json
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\appsettings.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\Puentes.Infrastructure.deps.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\Puentes.Infrastructure.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\Puentes.Infrastructure.pdb

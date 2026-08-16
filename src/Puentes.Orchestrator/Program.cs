@@ -14,10 +14,14 @@ builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 builder.Services.Configure<PeripheralActivationOptions>(
     builder.Configuration.GetSection("PeripheralActivation"));
+builder.Services.AddSingleton<AudioCueService>();
 builder.Services.AddHostedService<PeripheralActivationWorker>();
+builder.Services.AddSingleton<PuentesDiagnosticsService>();
 builder.Services.AddHttpClient<ApiClient>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5121/");
+    client.BaseAddress = new Uri(
+        builder.Configuration["PuentesApi:BaseUrl"]
+        ?? "http://localhost:5121/");
 });
 builder.Services.AddSingleton<MedicationReminderStateService>();
 builder.Services.AddSingleton<MedicationConfirmationService>();
@@ -109,6 +113,16 @@ else
         services.GetRequiredService<OpenAiAudioService>());
 }
 var host = builder.Build();
+
+host.MapGet("/health", async (
+    PuentesDiagnosticsService diagnostics,
+    CancellationToken cancellationToken) =>
+{
+    var result = await diagnostics.CheckAsync(cancellationToken);
+    return result.Ready
+        ? Results.Ok(result)
+        : Results.Json(result, statusCode: StatusCodes.Status503ServiceUnavailable);
+});
 
 host.UseExceptionHandler(errorApp =>
 {

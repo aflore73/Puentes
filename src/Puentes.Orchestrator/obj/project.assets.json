@@ -207,6 +207,213 @@
           "bin/placeholder/Puentes.Shared.dll": {}
         }
       }
+    },
+    "net10.0/win-x64": {
+      "Microsoft.Extensions.AI.Abstractions/10.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Microsoft.Extensions.AI.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.AI.Abstractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio/2.3.0": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Asio": "2.3.0",
+          "NAudio.Core": "2.3.0",
+          "NAudio.Midi": "2.3.0",
+          "NAudio.Wasapi": "2.3.0",
+          "NAudio.WinMM": "2.3.0"
+        },
+        "compile": {
+          "lib/net6.0/NAudio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/NAudio.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Asio/2.3.0": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Core": "2.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Asio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Asio.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Core/2.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/NAudio.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Midi/2.3.0": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Core": "2.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Midi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Midi.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Wasapi/2.3.0": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Core": "2.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Wasapi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Wasapi.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.WinMM/2.3.0": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Core": "2.3.0"
+        },
+        "compile": {
+          "lib/net6.0/NAudio.WinMM.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/NAudio.WinMM.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "OpenAI/2.12.0": {
+        "type": "package",
+        "dependencies": {
+          "System.ClientModel": "1.14.0"
+        },
+        "compile": {
+          "lib/net10.0/OpenAI.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/OpenAI.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netstandard2.0/OpenAI.targets": {}
+        }
+      },
+      "System.ClientModel/1.14.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Memory.Data": "10.0.3"
+        },
+        "compile": {
+          "lib/net10.0/System.ClientModel.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/System.ClientModel.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net10.0/System.ClientModel.targets": {}
+        }
+      },
+      "System.Memory.Data/10.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/System.Memory.Data.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/System.Memory.Data.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "Whisper.net/1.9.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.AI.Abstractions": "10.2.0"
+        },
+        "compile": {
+          "lib/net10.0/Whisper.net.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Whisper.net.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Whisper.net.Runtime/1.9.1": {
+        "type": "package",
+        "dependencies": {
+          "Whisper.net.Runtime.Metal": "1.9.1"
+        },
+        "build": {
+          "build/Whisper.net.Runtime.targets": {}
+        }
+      },
+      "Whisper.net.Runtime.Metal/1.9.1": {
+        "type": "package",
+        "build": {
+          "build/Whisper.net.Runtime.Metal.targets": {}
+        }
+      },
+      "Puentes.Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/Puentes.Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Puentes.Shared.dll": {}
+        }
+      }
     }
   },
   "libraries": {
@@ -649,6 +856,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+            "version": "[10.0.9, 10.0.9]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Runtime.win-x64",
+            "version": "[10.0.9, 10.0.9]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+            "version": "[10.0.9, 10.0.9]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -1072,6 +1293,11 @@
           "System.Xml.XPath": "(,4.3.32767]",
           "System.Xml.XPath.XDocument": "(,5.0.32767]"
         }
+      }
+    },
+    "runtimes": {
+      "win-x64": {
+        "#import": []
       }
     }
   }

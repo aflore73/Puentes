@@ -45,4 +45,15 @@ public static class PersonSupportContentScripts
           AND IsActive = 1
         ORDER BY Title;
         """;
+
+    public const string Update = """
+        UPDATE PersonSupportContents
+        SET Title = @Title,
+            Content = @Content,
+            Attribution = @Attribution,
+            Reference = @Reference,
+            Tags = @Tags,
+            IsActive = @IsActive
+        WHERE Id = @Id AND PersonId = @PersonId;
+        """;
 }

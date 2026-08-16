@@ -27,6 +27,22 @@ public class ApiClient
             new JsonStringEnumConverter()
         }
     };
+
+    public async Task<bool> IsHealthyAsync(
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var response = await _httpClient.GetAsync(
+                "health",
+                cancellationToken);
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException)
+        {
+            return false;
+        }
+    }
     public async Task<List<MedicationPlanResponse>> GetMedicationPlanAsync(
      CancellationToken cancellationToken = default)
     {
@@ -210,5 +226,18 @@ public class ApiClient
             .ReadFromJsonAsync<List<PersonBelongingResponse>>(
                 JsonOptions,
                 cancellationToken) ?? [];
+    }
+
+    public async Task<List<PersonTrustedContactResponse>>
+        GetPersonTrustedContactsAsync(
+            Guid personId,
+            CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"people/{personId}/trusted-contacts", cancellationToken);
+        response.EnsureSuccessStatusCode();
+        return await response.Content
+            .ReadFromJsonAsync<List<PersonTrustedContactResponse>>(
+                JsonOptions, cancellationToken) ?? [];
     }
 }

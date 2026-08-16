@@ -16,4 +16,7 @@ public class MemorySupportContext
     public List<PersonSupportContentContext> SupportContents { get; set; } = [];
 
     public List<PersonBelongingContext> Belongings { get; set; } = [];
+
+    public List<PersonTrustedContactContext> TrustedContacts { get; set; } = [];
+
 }

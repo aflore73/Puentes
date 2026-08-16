@@ -400,7 +400,22 @@ public class MemorySupportContextTests
             "no como una lista, ficha, informe ni resumen de datos",
             prompt.SystemMessage);
         Assert.Contains(
+            "lectura en voz alta fluida y natural",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "evitá puntos, puntos suspensivos, saltos de línea o pausas largas",
+            prompt.SystemMessage);
+        Assert.Contains(
             "dos alternativas si ambas son compatibles con el día y la hora actuales",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "compará de forma obligatoria sus días y horarios",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no menciones esa actividad los sábados ni los domingos",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "descartala por completo para responder dónde puede estar",
             prompt.SystemMessage);
         Assert.Contains(
             "Integrá esas alternativas en una misma oración",

@@ -12,6 +12,7 @@ using Puentes.Infrastructure.Configuration;
 using Puentes.Infrastructure.Database;
 using Puentes.Infrastructure.Repositories;
 using System.Text.Json.Serialization;
+using Puentes.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 //Acceso a la base de datos
@@ -31,6 +32,7 @@ builder.Services.AddScoped<PersonRoutineRepository>();
 builder.Services.AddScoped<PersonPreferenceRepository>();
 builder.Services.AddScoped<PersonSupportContentRepository>();
 builder.Services.AddScoped<PersonBelongingRepository>();
+builder.Services.AddScoped<PersonTrustedContactRepository>();
 // Repositorio de registros de medicación
 builder.Services.AddSingleton<MedicationRecordRepository>();
 //Configuración para serialización JSON de enums
@@ -68,17 +70,28 @@ using var scope = app.Services.CreateScope();
     var initializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
     await initializer.InitializeAsync();
 
-// Habilitar Swagger en desarrollo
-if (app.Environment.IsDevelopment())
+// Panel local de mantenimiento para la familia.
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Puentes API V1");
-        c.RoutePrefix = string.Empty; // Swagger en la raíz (http://localhost:5000/)
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Puentes API V1");
+    c.RoutePrefix = "family";
+});
 List<Event> events = [];
+
+app.MapGet("/health", (AccessDb accessDb) =>
+{
+    using var connection = accessDb.OpenConnection();
+    using var command = connection.CreateCommand();
+    command.CommandText = "SELECT 1;";
+    command.ExecuteScalar();
+
+    return Results.Ok(new
+    {
+        status = "healthy",
+        database = "available"
+    });
+});
 
 app.MapGet("/events",
 async (EventRepository repository) =>
@@ -616,5 +629,33 @@ async (
 
     return Results.Ok(response);
 });
+
+app.MapGet("/people/{id:guid}/trusted-contacts", async (
+    Guid id,
+    PersonRepository people,
+    PersonTrustedContactRepository repository) =>
+{
+    if (await people.GetByIdAsync(id) is null) return Results.NotFound();
+    var contacts = await repository.GetActiveAsync(id);
+    var response = new List<PersonTrustedContactResponse>();
+    foreach (var contact in contacts)
+    {
+        var person = await people.GetByIdAsync(contact.ContactPersonId);
+        if (person is null) continue;
+        response.Add(new PersonTrustedContactResponse
+        {
+            Id = contact.Id,
+            PersonId = contact.PersonId,
+            ContactPersonId = contact.ContactPersonId,
+            ContactPersonName = person.Name,
+            Priority = contact.Priority,
+            Notes = contact.Notes,
+            IsActive = contact.IsActive
+        });
+    }
+    return Results.Ok(response);
+});
+
+app.MapFamilyMaintenanceEndpoints();
 
 app.Run();

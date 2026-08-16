@@ -1,0 +1,16 @@
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\bin\Release\net10.0\Puentes.Infrastructure.deps.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\bin\Release\net10.0\Puentes.Infrastructure.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\bin\Release\net10.0\Puentes.Infrastructure.pdb
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\bin\Release\net10.0\Puentes.Shared.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\bin\Release\net10.0\Puentes.Shared.pdb
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\Puentes.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\Puentes.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\Puentes.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\Puentes.Infrastructure.AssemblyInfo.cs
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\Puentes.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\Puentes.Infrastructure.sourcelink.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\Puentes..943E49FF.Up2Date
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\Puentes.Infrastructure.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\refint\Puentes.Infrastructure.dll
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\Puentes.Infrastructure.pdb
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Infrastructure\obj\Release\net10.0\ref\Puentes.Infrastructure.dll

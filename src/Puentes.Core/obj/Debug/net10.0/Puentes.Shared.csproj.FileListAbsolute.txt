@@ -137,13 +137,9 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification-hybrid\appsettin
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification-hybrid\Puentes.Shared.deps.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification-hybrid\Puentes.Shared.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification-hybrid\Puentes.Shared.pdb
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\appsettings.Development.json
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\appsettings.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\Puentes.Shared.deps.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\Puentes.Shared.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\api\Puentes.Shared.pdb
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\tests\appsettings.Development.json
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\tests\appsettings.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\tests\Puentes.Shared.deps.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\tests\Puentes.Shared.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\tests\Puentes.Shared.pdb

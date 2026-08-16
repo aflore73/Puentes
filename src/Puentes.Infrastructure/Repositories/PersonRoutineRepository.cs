@@ -34,4 +34,11 @@ public class PersonRoutineRepository
             PersonRoutineScripts.SelectActiveByPersonId,
             new { PersonId = personId });
     }
+
+    public async Task<bool> UpdateAsync(PersonRoutine routine)
+    {
+        using var connection = _accessDb.OpenConnection();
+        return await connection.ExecuteAsync(
+            PersonRoutineScripts.Update, routine) == 1;
+    }
 }

@@ -13,10 +13,12 @@ public sealed class PeripheralActivationWorker : BackgroundService
     private readonly MedicationQueryWorkflowService _medicationQueryWorkflow;
     private readonly RealtimeSessionContextService _realtimeContext;
     private readonly OpenAiRealtimeService _realtimeService;
+    private readonly AudioCueService _audioCues;
     private readonly PeripheralActivationOptions _options;
     private int _busy;
     private DateTimeOffset _availableAt = DateTimeOffset.MinValue;
     private Guid? _conversationId;
+    private DateTimeOffset _lastConversationActivityUtc = DateTimeOffset.MinValue;
     private Task? _realtimePreparationTask;
     private RealtimeSessionContext? _realtimeContextData;
 
@@ -28,6 +30,7 @@ public sealed class PeripheralActivationWorker : BackgroundService
         MedicationQueryWorkflowService medicationQueryWorkflow,
         RealtimeSessionContextService realtimeContext,
         OpenAiRealtimeService realtimeService,
+        AudioCueService audioCues,
         IOptions<PeripheralActivationOptions> options)
     {
         _logger = logger;
@@ -37,6 +40,7 @@ public sealed class PeripheralActivationWorker : BackgroundService
         _medicationQueryWorkflow = medicationQueryWorkflow;
         _realtimeContext = realtimeContext;
         _realtimeService = realtimeService;
+        _audioCues = audioCues;
         _options = options.Value;
     }
 
@@ -49,10 +53,12 @@ public sealed class PeripheralActivationWorker : BackgroundService
         }
 
         using var listener = new GlobalInputListener(
-            () => TryActivate(stoppingToken));
+            () => TryActivate(stoppingToken),
+            _options.ActivationVirtualKey,
+            _options.EnableMouseActivation);
 
         _logger.LogInformation(
-            "Puentes esta en espera. Presione una tecla o use el mouse para hablar.");
+            "Puentes esta en espera. Presione Enter para hablar.");
         if (_options.UseRealtime)
         {
             _realtimePreparationTask = PrepareRealtimeAsync(stoppingToken);
@@ -76,6 +82,7 @@ public sealed class PeripheralActivationWorker : BackgroundService
     {
         try
         {
+            await _audioCues.ListeningAsync();
             _logger.LogInformation("Puentes activado. Escuchando...");
             if (_options.UseRealtime)
             {
@@ -88,6 +95,7 @@ public sealed class PeripheralActivationWorker : BackgroundService
             }
 
             var audio = await RecordAsync(cancellationToken);
+            await _audioCues.CapturedAsync();
             await using var audioStream = new MemoryStream(audio);
             var transcript = await _audioService.TranscribeAsync(
                 audioStream, "entrada-periferico.wav", cancellationToken);
@@ -99,6 +107,11 @@ public sealed class PeripheralActivationWorker : BackgroundService
             }
 
             AssistantResponse assistantResponse;
+            if (DateTimeOffset.UtcNow - _lastConversationActivityUtc >=
+                TimeSpan.FromMinutes(30))
+            {
+                _conversationId = null;
+            }
             if (MedicationIntentDetector.IsMedicationQuery(transcript))
             {
                 assistantResponse = await _medicationQueryWorkflow.ProcessAsync(
@@ -116,6 +129,7 @@ public sealed class PeripheralActivationWorker : BackgroundService
                 _conversationId = turn.ConversationId;
                 assistantResponse = turn.Response;
             }
+            _lastConversationActivityUtc = DateTimeOffset.UtcNow;
 
             var responseText = VoiceResponseFormatter.Prepare(
                 assistantResponse.Message);
@@ -137,6 +151,7 @@ public sealed class PeripheralActivationWorker : BackgroundService
             }
             _logger.LogError(exception,
                 "No se pudo completar la conversacion activada por perifericos.");
+            await _audioCues.ErrorAsync();
         }
         finally
         {

@@ -17,13 +17,20 @@ internal sealed class GlobalInputListener : IDisposable
     private readonly HookProc _keyboardProc;
     private readonly HookProc _mouseProc;
     private readonly Action _onInput;
+    private readonly int _activationVirtualKey;
+    private readonly bool _enableMouseActivation;
     private IntPtr _keyboardHook;
     private IntPtr _mouseHook;
     private uint _threadId;
 
-    public GlobalInputListener(Action onInput)
+    public GlobalInputListener(
+        Action onInput,
+        int activationVirtualKey,
+        bool enableMouseActivation)
     {
         _onInput = onInput;
+        _activationVirtualKey = activationVirtualKey;
+        _enableMouseActivation = enableMouseActivation;
         _keyboardProc = KeyboardCallback;
         _mouseProc = MouseCallback;
     }
@@ -73,7 +80,11 @@ internal sealed class GlobalInputListener : IDisposable
     {
         if (code >= 0 && (wParam == WmKeyDown || wParam == WmSysKeyDown))
         {
-            _onInput();
+            var virtualKey = Marshal.ReadInt32(lParam);
+            if (virtualKey == _activationVirtualKey)
+            {
+                _onInput();
+            }
         }
 
         return CallNextHookEx(_keyboardHook, code, wParam, lParam);
@@ -81,7 +92,7 @@ internal sealed class GlobalInputListener : IDisposable
 
     private IntPtr MouseCallback(int code, IntPtr wParam, IntPtr lParam)
     {
-        if (code >= 0 && (wParam == WmLeftButtonDown ||
+        if (_enableMouseActivation && code >= 0 && (wParam == WmLeftButtonDown ||
             wParam == WmRightButtonDown ||
             wParam == WmMiddleButtonDown ||
             wParam == WmExtraButtonDown))

@@ -17,6 +17,7 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
     private readonly MemoryConversationWorkflowService _conversationWorkflow;
     private readonly MedicationQueryWorkflowService _medicationQueryWorkflow;
     private readonly IStreamingSpeechSynthesisService _speechService;
+    private readonly AudioCueService _audioCues;
     private readonly SemaphoreSlim _sendLock = new(1, 1);
     private readonly SemaphoreSlim _connectionLock = new(1, 1);
     private readonly Channel<string> _transcriptions =
@@ -32,19 +33,22 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
     private RealtimeSessionContext? _context;
     private Guid? _conversationId;
     private RealtimeKnownPerson? _focusedPerson;
+    private DateTimeOffset _lastConversationActivityUtc = DateTimeOffset.MinValue;
 
     public OpenAiRealtimeService(
         OpenAiRealtimeOptions options,
         ILogger<OpenAiRealtimeService> logger,
         MemoryConversationWorkflowService conversationWorkflow,
         MedicationQueryWorkflowService medicationQueryWorkflow,
-        IStreamingSpeechSynthesisService speechService)
+        IStreamingSpeechSynthesisService speechService,
+        AudioCueService audioCues)
     {
         _options = options;
         _logger = logger;
         _conversationWorkflow = conversationWorkflow;
         _medicationQueryWorkflow = medicationQueryWorkflow;
         _speechService = speechService;
+        _audioCues = audioCues;
     }
 
     public async Task RunTurnAsync(
@@ -71,6 +75,7 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
         var sendTask = SendAudioAsync(audioChannel.Reader, cancellationToken);
         await CaptureAudioAsync(
             audioChannel.Writer, activationOptions, cancellationToken);
+        await _audioCues.CapturedAsync();
         audioChannel.Writer.TryComplete();
         await sendTask;
         await SendEventAsync(new
@@ -346,6 +351,13 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
         string transcript,
         CancellationToken cancellationToken)
     {
+        if (DateTimeOffset.UtcNow - _lastConversationActivityUtc >=
+            TimeSpan.FromMinutes(30))
+        {
+            _conversationId = null;
+            _focusedPerson = null;
+        }
+
         var stageTimer = Stopwatch.StartNew();
         var matches = FindKnownPeople(transcript);
         if (matches.Count > 0)
@@ -393,6 +405,7 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
             _conversationId = turn.ConversationId;
             assistantResponse = turn.Response;
         }
+        _lastConversationActivityUtc = DateTimeOffset.UtcNow;
 
         var responseText = ValidateResponse(
             VoiceResponseFormatter.Prepare(assistantResponse.Message),

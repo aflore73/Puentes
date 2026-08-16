@@ -6,6 +6,12 @@ public sealed class PeripheralActivationOptions
 
     public bool UseRealtime { get; set; } = true;
 
+    public int ActivationVirtualKey { get; set; } = 13;
+
+    public bool EnableMouseActivation { get; set; }
+
+    public bool EnableAudioCues { get; set; } = true;
+
     public Guid PersonId { get; set; } =
         Guid.Parse("20f78dba-4fd8-494e-9bd7-7867bff67df3");
 
@@ -15,5 +21,5 @@ public sealed class PeripheralActivationOptions
 
     public float SpeechThreshold { get; set; } = 0.015f;
 
-    public int CooldownSeconds { get; set; } = 5;
+    public double CooldownSeconds { get; set; } = 0.25;
 }

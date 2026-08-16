@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Lo4Qar7IPPg=",
+  "dgSpecHash": "fjE/rC8XJNo=",
   "success": true,
   "projectFilePath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Puentes.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -11,7 +11,10 @@
     "C:\\Users\\aflorentin\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\3.0.5\\sqlitepclraw.bundle_e_sqlite3.3.0.5.nupkg.sha512",
     "C:\\Users\\aflorentin\\.nuget\\packages\\sqlitepclraw.config.e_sqlite3\\3.0.5\\sqlitepclraw.config.e_sqlite3.3.0.5.nupkg.sha512",
     "C:\\Users\\aflorentin\\.nuget\\packages\\sqlitepclraw.core\\3.0.5\\sqlitepclraw.core.3.0.5.nupkg.sha512",
-    "C:\\Users\\aflorentin\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\3.0.5\\sqlitepclraw.provider.e_sqlite3.3.0.5.nupkg.sha512"
+    "C:\\Users\\aflorentin\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\3.0.5\\sqlitepclraw.provider.e_sqlite3.3.0.5.nupkg.sha512",
+    "C:\\Users\\aflorentin\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.9\\microsoft.netcore.app.runtime.win-x64.10.0.9.nupkg.sha512",
+    "C:\\Users\\aflorentin\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.9\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.9.nupkg.sha512",
+    "C:\\Users\\aflorentin\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.9\\microsoft.aspnetcore.app.runtime.win-x64.10.0.9.nupkg.sha512"
   ],
   "logs": []
 }

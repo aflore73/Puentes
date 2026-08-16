@@ -36,4 +36,11 @@ public class PersonPreferenceRepository
             PersonPreferenceScripts.SelectActiveByPersonId,
             new { PersonId = personId });
     }
+
+    public async Task<bool> UpdateAsync(PersonPreference preference)
+    {
+        using var connection = _accessDb.OpenConnection();
+        return await connection.ExecuteAsync(
+            PersonPreferenceScripts.Update, preference) == 1;
+    }
 }

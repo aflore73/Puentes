@@ -107,6 +107,8 @@ public class MemoryConversationWorkflowService
             .GetPersonSupportContentsAsync(personId, cancellationToken);
         var belongings = await _apiClient
             .GetPersonBelongingsAsync(personId, cancellationToken);
+        var trustedContacts = await _apiClient
+            .GetPersonTrustedContactsAsync(personId, cancellationToken);
         var lifeEventOwners = relationships
             .Select(relationship => relationship.OtherPerson.Id)
             .Append(personId)
@@ -160,6 +162,7 @@ public class MemoryConversationWorkflowService
             preferences: preferences,
             supportContents: supportContents,
             belongings: belongings,
+            trustedContacts: trustedContacts,
             conversationHistory: history,
             person: person);
 

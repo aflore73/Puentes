@@ -32,4 +32,10 @@ public static class PersonRoutineScripts
           AND IsActive = 1
         ORDER BY Title;
         """;
+
+    public const string Update = """
+        UPDATE PersonRoutines
+        SET Title = @Title, Notes = @Notes, IsActive = @IsActive
+        WHERE Id = @Id AND PersonId = @PersonId;
+        """;
 }

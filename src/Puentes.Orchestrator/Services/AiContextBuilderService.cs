@@ -17,6 +17,7 @@ public class AiContextBuilderService
         IReadOnlyCollection<PersonPreferenceResponse>? preferences = null,
         IReadOnlyCollection<PersonSupportContentResponse>? supportContents = null,
         IReadOnlyCollection<PersonBelongingResponse>? belongings = null,
+        IReadOnlyCollection<PersonTrustedContactResponse>? trustedContacts = null,
         IReadOnlyCollection<ConversationHistoryItemContext>? conversationHistory = null,
         Person? person = null)
     {
@@ -51,7 +52,8 @@ public class AiContextBuilderService
                 routines,
                 preferences,
                 supportContents,
-                belongings),
+                belongings,
+                trustedContacts),
 
             ConversationHistory = conversationHistory?
                 .Select(message => new ConversationHistoryItemContext
@@ -79,7 +81,8 @@ public class AiContextBuilderService
         IReadOnlyCollection<PersonRoutineResponse>? routines,
         IReadOnlyCollection<PersonPreferenceResponse>? preferences,
         IReadOnlyCollection<PersonSupportContentResponse>? supportContents,
-        IReadOnlyCollection<PersonBelongingResponse>? belongings)
+        IReadOnlyCollection<PersonBelongingResponse>? belongings,
+        IReadOnlyCollection<PersonTrustedContactResponse>? trustedContacts)
     {
         if (scenario != ConversationScenario.MemorySupport)
         {
@@ -149,6 +152,16 @@ public class AiContextBuilderService
                 {
                     Name = belonging.Name,
                     Notes = belonging.Notes
+                })
+                .ToList() ?? [],
+            TrustedContacts = trustedContacts?
+                .Where(contact => contact.IsActive)
+                .OrderBy(contact => contact.Priority)
+                .Select(contact => new PersonTrustedContactContext
+                {
+                    ContactPersonName = contact.ContactPersonName,
+                    Priority = contact.Priority,
+                    Notes = contact.Notes
                 })
                 .ToList() ?? []
         };

@@ -30,11 +30,14 @@ public sealed class RealtimeSessionContextService
             personId, cancellationToken);
         var belongingsTask = _apiClient.GetPersonBelongingsAsync(
             personId, cancellationToken);
+        var trustedContactsTask = _apiClient.GetPersonTrustedContactsAsync(
+            personId, cancellationToken);
         await Task.WhenAll(
             personTask,
             relationshipsTask,
             supportContentsTask,
-            belongingsTask);
+            belongingsTask,
+            trustedContactsTask);
 
         var person = await personTask ?? throw new InvalidOperationException(
             $"No se encontro la persona {personId}.");
@@ -74,6 +77,7 @@ public sealed class RealtimeSessionContextService
                 .ToList(),
             supportContents: await supportContentsTask,
             belongings: await belongingsTask,
+            trustedContacts: await trustedContactsTask,
             person: person);
         var prompt = _promptFactory.Create(context);
         var knownPersonItems = relationships

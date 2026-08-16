@@ -37,4 +37,11 @@ public class PersonSupportContentRepository
             PersonSupportContentScripts.SelectActiveByPersonId,
             new { PersonId = personId });
     }
+
+    public async Task<bool> UpdateAsync(PersonSupportContent supportContent)
+    {
+        using var connection = _accessDb.OpenConnection();
+        return await connection.ExecuteAsync(
+            PersonSupportContentScripts.Update, supportContent) == 1;
+    }
 }

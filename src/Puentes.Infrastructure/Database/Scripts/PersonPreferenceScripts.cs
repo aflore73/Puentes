@@ -35,4 +35,10 @@ public static class PersonPreferenceScripts
           AND IsActive = 1
         ORDER BY Title;
         """;
+
+    public const string Update = """
+        UPDATE PersonPreferences
+        SET Title = @Title, Notes = @Notes, Tags = @Tags, IsActive = @IsActive
+        WHERE Id = @Id AND PersonId = @PersonId;
+        """;
 }
