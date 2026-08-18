@@ -39,6 +39,10 @@ public class InMemoryConversationStore
             return new ConversationSnapshot
             {
                 PersonId = session.PersonId,
+                WaitingForCompanionProposalChoice =
+                    session.WaitingForCompanionProposalChoice,
+                CompanionProposalCategories =
+                    [.. session.CompanionProposalCategories],
                 History = session.Messages
                     .TakeLast(MaximumHistoryItems)
                     .Select(message => new ConversationHistoryItemContext
@@ -89,6 +93,28 @@ public class InMemoryConversationStore
         _sessions.TryRemove(conversationId, out _);
     }
 
+    public void SetWaitingForCompanionProposalChoice(
+        Guid conversationId,
+        bool waiting,
+        IEnumerable<string>? categories = null)
+    {
+        if (!_sessions.TryGetValue(conversationId, out var session))
+        {
+            return;
+        }
+
+        lock (session.SyncRoot)
+        {
+            session.WaitingForCompanionProposalChoice = waiting;
+            session.CompanionProposalCategories.Clear();
+            if (waiting && categories is not null)
+            {
+                session.CompanionProposalCategories.AddRange(categories);
+            }
+            session.LastActivityUtc = DateTimeOffset.UtcNow;
+        }
+    }
+
     private void RemoveExpiredSessions()
     {
         var expiration = DateTimeOffset.UtcNow - SessionLifetime;
@@ -107,6 +133,8 @@ public class InMemoryConversationStore
         public Guid Id { get; init; }
         public Guid PersonId { get; init; }
         public DateTimeOffset LastActivityUtc { get; set; }
+        public bool WaitingForCompanionProposalChoice { get; set; }
+        public List<string> CompanionProposalCategories { get; } = [];
         public List<ConversationHistoryItemContext> Messages { get; } = [];
         public object SyncRoot { get; } = new();
     }
@@ -115,6 +143,10 @@ public class InMemoryConversationStore
 public class ConversationSnapshot
 {
     public Guid PersonId { get; set; }
+
+    public bool WaitingForCompanionProposalChoice { get; set; }
+
+    public List<string> CompanionProposalCategories { get; set; } = [];
 
     public List<ConversationHistoryItemContext> History { get; set; } = [];
 }

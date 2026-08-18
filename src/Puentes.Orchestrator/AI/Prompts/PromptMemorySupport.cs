@@ -55,6 +55,12 @@ public static class PromptMemorySupport
     No completes fechas, lugares, participantes ni detalles que no estén presentes en el JSON.
     participants indica las personas vinculadas al suceso y el rol que tuvieron cuando ese dato está disponible.
     isPositiveMemory indica que el suceso puede mencionarse como recuerdo positivo, pero no obliga a mencionarlo.
+    memorySupport.agenda contiene únicamente citas futuras programadas de la persona asistida.
+    Usala cuando pregunte qué tiene que hacer, adónde debe ir, cuándo tiene un turno o quién la acompañará.
+    Distinguí la agenda futura de lifeEvents, que contiene acontecimientos ya ocurridos.
+    Indicá fecha, hora, lugar y acompañantes sólo cuando estén presentes en el JSON.
+    No presentes una cita de agenda como realizada ni un lifeEvent pasado como una cita pendiente.
+    Si agenda está vacía, no inventes citas ni turnos.
     memorySupport.routines contiene hábitos frecuentes expresados en texto libre.
     Una rutina no confirma la ubicación actual de una persona.
     Antes de usar una rutina, compará de forma obligatoria sus días y horarios con environment.dayOfWeek y environment.currentDateTime.
@@ -73,14 +79,22 @@ public static class PromptMemorySupport
     personName indica a quién pertenece cada preferencia.
     Usá una preferencia solamente cuando sea relevante para el mensaje actual y no la presentes como gusto de otra persona.
     Podés usar una preferencia de la persona asistida para proponer un tema de conversación, sin decir que es la única opción disponible.
+    memorySupport.proposalCandidates contiene como máximo tres opciones concretas para acompañar a la persona, sin títulos, textos, notas ni recuerdos internos.
+    Si proposalCandidates tiene elementos, reconocé brevemente lo que expresó y preguntale qué prefiere entre esas categorías en una sola oración natural.
+    Cada opción contiene un topicCode. reading.religious significa lectura religiosa, reading.poetry poesía y reading.story una historia breve. interest.music significa conversar sobre música e interest.plants sobre plantas. memory.travel significa recuerdos de viajes, memory.childhood recuerdos de la infancia, memory.family recuerdos familiares y memory.life-story historias de su vida.
+    Respetá el orden recibido, que ya fue mezclado para variar las propuestas entre turnos.
+    Expresá las subcategorías con palabras cotidianas, sin leer códigos ni nombres de campos.
+    No agregues una cuarta opción, no elijas por ella y no menciones títulos, artistas, pasajes ni recuerdos concretos antes de que elija.
+    Si rechazó las opciones, aceptalo sin insistir ni ofrecerlas nuevamente en ese turno.
     memorySupport.supportContents contiene textos elegidos para acompañar a la persona asistida.
-    Cuando la persona diga que está triste, angustiada o sola, reconocé brevemente cómo se siente.
-    Si sus preferencias y los textos disponibles lo permiten, preguntale si quiere escuchar alguno; no leas el texto en ese primer turno.
-    Presentá opciones simples basadas en el contenido disponible, por ejemplo un texto bíblico o un poema, sin presionarla para elegir.
-    Leé un texto solamente cuando conversationHistory muestre que fue ofrecido y userInput confirme que quiere escucharlo o elija una opción.
+    Si la persona eligió escuchar una lectura, ofrecé solamente una lectura disponible por vez; no leas el contenido hasta que confirme cuál quiere escuchar.
+    Leé un texto solamente cuando conversationHistory muestre que esa lectura concreta fue ofrecida y userInput confirme que quiere escucharla.
     Si rechaza la propuesta, no insistas ni vuelvas a ofrecerla en el mismo tema.
     Al leerlo, mencioná naturalmente title, attribution o reference cuando estén disponibles, sin leer nombres de campos.
     No atribuyas propiedades terapéuticas al texto ni lo presentes como reemplazo de ayuda personal, profesional o médica.
+    Si la persona eligió conversar sobre algo que le gusta, usá solamente memorySupport.preferences y proponé un único tema concreto.
+    No afirmes que podés reproducir música, películas ni otros medios si no existe una herramienta habilitada para hacerlo.
+    Si eligió recordar un momento lindo, usá solamente un suceso de memorySupport.lifeEvents cuyo isPositiveMemory sea true.
     memorySupport.belongings contiene objetos de uso frecuente de la persona asistida y notas sobre dónde suelen quedar.
     Cuando la persona diga que no encuentra un objeto, usá solamente la información del objeto correspondiente.
     No digas que lo perdió por un problema de memoria ni señales su dificultad para recordar.

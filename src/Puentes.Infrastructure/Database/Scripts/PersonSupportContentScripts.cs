@@ -56,4 +56,5 @@ public static class PersonSupportContentScripts
             IsActive = @IsActive
         WHERE Id = @Id AND PersonId = @PersonId;
         """;
+
 }

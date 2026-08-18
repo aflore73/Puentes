@@ -8,6 +8,19 @@
           "build/net10.0/coverlet.collector.targets": {}
         }
       },
+      "Dapper/2.1.79": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.CodeCoverage/18.8.1": {
         "type": "package",
         "compile": {
@@ -19,6 +32,36 @@
         "build": {
           "build/netstandard2.0/Microsoft.CodeCoverage.props": {},
           "build/netstandard2.0/Microsoft.CodeCoverage.targets": {}
+        }
+      },
+      "Microsoft.Data.Sqlite/10.0.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Data.Sqlite.Core": "10.0.10",
+          "SQLitePCLRaw.bundle_e_sqlite3": "2.1.11",
+          "SQLitePCLRaw.core": "2.1.11"
+        },
+        "compile": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/_._": {}
+        }
+      },
+      "Microsoft.Data.Sqlite.Core/10.0.10": {
+        "type": "package",
+        "dependencies": {
+          "SQLitePCLRaw.core": "2.1.11"
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.Data.Sqlite.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Data.Sqlite.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Microsoft.Extensions.AI.Abstractions/10.2.0": {
@@ -565,6 +608,180 @@
           "buildTransitive/netstandard2.0/OpenAI.targets": {}
         }
       },
+      "SQLite/3.53.4": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "build": {
+          "buildTransitive/net9.0/SQLite.targets": {}
+        },
+        "runtimeTargets": {
+          "runtimes/android-arm/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "android-arm"
+          },
+          "runtimes/android-arm64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "android-arm64"
+          },
+          "runtimes/android-x64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "android-x64"
+          },
+          "runtimes/android-x86/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "android-x86"
+          },
+          "runtimes/browser-wasm/nativeassets/net9.0/e_sqlite3.a": {
+            "assetType": "native",
+            "rid": "browser-wasm"
+          },
+          "runtimes/ios-arm/native/e_sqlite3.a": {
+            "assetType": "native",
+            "rid": "ios-arm"
+          },
+          "runtimes/ios-arm64/native/e_sqlite3.a": {
+            "assetType": "native",
+            "rid": "ios-arm64"
+          },
+          "runtimes/iossimulator-arm64/native/e_sqlite3.a": {
+            "assetType": "native",
+            "rid": "iossimulator-arm64"
+          },
+          "runtimes/iossimulator-x64/native/e_sqlite3.a": {
+            "assetType": "native",
+            "rid": "iossimulator-x64"
+          },
+          "runtimes/linux-arm/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-arm"
+          },
+          "runtimes/linux-arm64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-arm64"
+          },
+          "runtimes/linux-armel/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-armel"
+          },
+          "runtimes/linux-mips64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-mips64"
+          },
+          "runtimes/linux-musl-arm/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-musl-arm"
+          },
+          "runtimes/linux-musl-arm64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-musl-arm64"
+          },
+          "runtimes/linux-musl-riscv64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-musl-riscv64"
+          },
+          "runtimes/linux-musl-s390x/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-musl-s390x"
+          },
+          "runtimes/linux-musl-x64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-musl-x64"
+          },
+          "runtimes/linux-ppc64le/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-ppc64le"
+          },
+          "runtimes/linux-riscv64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-riscv64"
+          },
+          "runtimes/linux-s390x/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-s390x"
+          },
+          "runtimes/linux-x64/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/linux-x86/native/libe_sqlite3.so": {
+            "assetType": "native",
+            "rid": "linux-x86"
+          },
+          "runtimes/maccatalyst-arm64/native/libe_sqlite3.dylib": {
+            "assetType": "native",
+            "rid": "maccatalyst-arm64"
+          },
+          "runtimes/maccatalyst-x64/native/libe_sqlite3.dylib": {
+            "assetType": "native",
+            "rid": "maccatalyst-x64"
+          },
+          "runtimes/osx-arm64/native/libe_sqlite3.dylib": {
+            "assetType": "native",
+            "rid": "osx-arm64"
+          },
+          "runtimes/osx-x64/native/libe_sqlite3.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-arm64/native/e_sqlite3.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-x64/native/e_sqlite3.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/e_sqlite3.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
+      "SQLitePCLRaw.bundle_e_sqlite3/3.0.5": {
+        "type": "package",
+        "dependencies": {
+          "SQLite": "3.53.4",
+          "SQLitePCLRaw.config.e_sqlite3": "3.0.5"
+        }
+      },
+      "SQLitePCLRaw.config.e_sqlite3/3.0.5": {
+        "type": "package",
+        "dependencies": {
+          "SQLitePCLRaw.provider.e_sqlite3": "3.0.5"
+        },
+        "compile": {
+          "lib/net8.0/SQLitePCLRaw.batteries_v2.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/SQLitePCLRaw.batteries_v2.dll": {}
+        }
+      },
+      "SQLitePCLRaw.core/3.0.5": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/SQLitePCLRaw.core.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/SQLitePCLRaw.core.dll": {}
+        }
+      },
+      "SQLitePCLRaw.provider.e_sqlite3/3.0.5": {
+        "type": "package",
+        "dependencies": {
+          "SQLitePCLRaw.core": "3.0.5"
+        },
+        "compile": {
+          "lib/net8.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
+        }
+      },
       "System.ClientModel/1.14.0": {
         "type": "package",
         "dependencies": {
@@ -728,6 +945,22 @@
         },
         "build": {
           "build/net8.0/xunit.runner.visualstudio.props": {}
+        }
+      },
+      "Puentes.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Dapper": "2.1.79",
+          "Microsoft.Data.Sqlite": "10.0.10",
+          "Puentes.Shared": "1.0.0",
+          "SQLitePCLRaw.bundle_e_sqlite3": "3.0.5"
+        },
+        "compile": {
+          "bin/placeholder/Puentes.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Puentes.Infrastructure.dll": {}
         }
       },
       "Puentes.Orchestrator/1.0.0": {
@@ -929,6 +1162,27 @@
         "coverlet.collector.nuspec"
       ]
     },
+    "Dapper/2.1.79": {
+      "sha512": "8YijbzgTfmqmQOnVNorYM6K++pxqnW3nJ4aC1sRHzxUA2CcuoJ9gsTem3kgBnPRMc38zZHl4Esb6hAezXIEEuw==",
+      "type": "package",
+      "path": "dapper/2.1.79",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Dapper.png",
+        "dapper.2.1.79.nupkg.sha512",
+        "dapper.nuspec",
+        "lib/net10.0/Dapper.dll",
+        "lib/net10.0/Dapper.xml",
+        "lib/net461/Dapper.dll",
+        "lib/net461/Dapper.xml",
+        "lib/net8.0/Dapper.dll",
+        "lib/net8.0/Dapper.xml",
+        "lib/netstandard2.0/Dapper.dll",
+        "lib/netstandard2.0/Dapper.xml",
+        "readme.md"
+      ]
+    },
     "Microsoft.CodeCoverage/18.8.1": {
       "sha512": "Eclse/ZZjr4lmWzZFNN9h/OluhKL+SK/QbUyKUewgX139aGeyMEO/DkMPwuFs2MixvanTnz6891rF8UHDg+W4Q==",
       "type": "package",
@@ -1010,6 +1264,37 @@
         "lib/net8.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll",
         "microsoft.codecoverage.18.8.1.nupkg.sha512",
         "microsoft.codecoverage.nuspec"
+      ]
+    },
+    "Microsoft.Data.Sqlite/10.0.10": {
+      "sha512": "58JwZ39lCvRXHfV5O6RQfbHEDu8ZsXI7weRoVRR4jrGRxxkS+qyeuGrN2xD+9VYEICApYr0iTSL6PuU+DdsvPg==",
+      "type": "package",
+      "path": "microsoft.data.sqlite/10.0.10",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "lib/netstandard2.0/_._",
+        "microsoft.data.sqlite.10.0.10.nupkg.sha512",
+        "microsoft.data.sqlite.nuspec"
+      ]
+    },
+    "Microsoft.Data.Sqlite.Core/10.0.10": {
+      "sha512": "TPCs0ldm7AWqcKmp6f/Xr+14sat7hx4rHfRlS4RgCURBH2thEWbAKEyX7cCWr63zVJVOJIJZTg2cBiUXa8ys6g==",
+      "type": "package",
+      "path": "microsoft.data.sqlite.core/10.0.10",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "lib/net8.0/Microsoft.Data.Sqlite.dll",
+        "lib/net8.0/Microsoft.Data.Sqlite.xml",
+        "lib/netstandard2.0/Microsoft.Data.Sqlite.dll",
+        "lib/netstandard2.0/Microsoft.Data.Sqlite.xml",
+        "microsoft.data.sqlite.core.10.0.10.nupkg.sha512",
+        "microsoft.data.sqlite.core.nuspec"
       ]
     },
     "Microsoft.Extensions.AI.Abstractions/10.2.0": {
@@ -1653,6 +1938,117 @@
         "openai.nuspec"
       ]
     },
+    "SQLite/3.53.4": {
+      "sha512": "KN7jeWqgUPeBRe1FlcpZURzxomuKKEKHmBBQfg+Nx7NkY1LjKhzHvH+3ASkNvhayESE34nMBinL9CV21JfPRJw==",
+      "type": "package",
+      "path": "sqlite/3.53.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "build/net471/SQLite.props",
+        "build/net471/SQLite.targets",
+        "buildTransitive/net471/SQLite.props",
+        "buildTransitive/net471/SQLite.targets",
+        "buildTransitive/net8.0/SQLite.targets",
+        "buildTransitive/net9.0/SQLite.targets",
+        "lib/net471/_._",
+        "lib/netstandard2.0/_._",
+        "runtimes/android-arm/native/libe_sqlite3.so",
+        "runtimes/android-arm64/native/libe_sqlite3.so",
+        "runtimes/android-x64/native/libe_sqlite3.so",
+        "runtimes/android-x86/native/libe_sqlite3.so",
+        "runtimes/browser-wasm/nativeassets/net8.0/e_sqlite3.a",
+        "runtimes/browser-wasm/nativeassets/net9.0/e_sqlite3.a",
+        "runtimes/ios-arm/native/e_sqlite3.a",
+        "runtimes/ios-arm64/native/e_sqlite3.a",
+        "runtimes/iossimulator-arm64/native/e_sqlite3.a",
+        "runtimes/iossimulator-x64/native/e_sqlite3.a",
+        "runtimes/linux-arm/native/libe_sqlite3.so",
+        "runtimes/linux-arm64/native/libe_sqlite3.so",
+        "runtimes/linux-armel/native/libe_sqlite3.so",
+        "runtimes/linux-mips64/native/libe_sqlite3.so",
+        "runtimes/linux-musl-arm/native/libe_sqlite3.so",
+        "runtimes/linux-musl-arm64/native/libe_sqlite3.so",
+        "runtimes/linux-musl-riscv64/native/libe_sqlite3.so",
+        "runtimes/linux-musl-s390x/native/libe_sqlite3.so",
+        "runtimes/linux-musl-x64/native/libe_sqlite3.so",
+        "runtimes/linux-ppc64le/native/libe_sqlite3.so",
+        "runtimes/linux-riscv64/native/libe_sqlite3.so",
+        "runtimes/linux-s390x/native/libe_sqlite3.so",
+        "runtimes/linux-x64/native/libe_sqlite3.so",
+        "runtimes/linux-x86/native/libe_sqlite3.so",
+        "runtimes/maccatalyst-arm64/native/libe_sqlite3.dylib",
+        "runtimes/maccatalyst-x64/native/libe_sqlite3.dylib",
+        "runtimes/osx-arm64/native/libe_sqlite3.dylib",
+        "runtimes/osx-x64/native/libe_sqlite3.dylib",
+        "runtimes/win-arm64/native/e_sqlite3.dll",
+        "runtimes/win-x64/native/e_sqlite3.dll",
+        "runtimes/win-x86/native/e_sqlite3.dll",
+        "sqlite.3.53.4.nupkg.sha512",
+        "sqlite.nuspec"
+      ]
+    },
+    "SQLitePCLRaw.bundle_e_sqlite3/3.0.5": {
+      "sha512": "SW8iASIyWMrLzqabUHYQRvALhvD4ylSBsj4PgEVGwc36kQjc9xT5kSV/XQ9rU7nIpBWD+LPyX3Hlw5FzyUzGeQ==",
+      "type": "package",
+      "path": "sqlitepclraw.bundle_e_sqlite3/3.0.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "sqlitepclraw.bundle_e_sqlite3.3.0.5.nupkg.sha512",
+        "sqlitepclraw.bundle_e_sqlite3.nuspec"
+      ]
+    },
+    "SQLitePCLRaw.config.e_sqlite3/3.0.5": {
+      "sha512": "aSk8WE5tF2MybESMgtZAEyMVCAWA0nBqOMc48HFoa9UoSdtm3goDXVzNRnefeKIwE6bV9NaNXptn1F9ReMQI0Q==",
+      "type": "package",
+      "path": "sqlitepclraw.config.e_sqlite3/3.0.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net10.0-ios26.0/SQLitePCLRaw.batteries_v2.dll",
+        "lib/net10.0-maccatalyst26.0/SQLitePCLRaw.batteries_v2.dll",
+        "lib/net10.0-tvos26.0/SQLitePCLRaw.batteries_v2.dll",
+        "lib/net471/SQLitePCLRaw.batteries_v2.dll",
+        "lib/net8.0/SQLitePCLRaw.batteries_v2.dll",
+        "lib/netstandard2.0/SQLitePCLRaw.batteries_v2.dll",
+        "sqlitepclraw.config.e_sqlite3.3.0.5.nupkg.sha512",
+        "sqlitepclraw.config.e_sqlite3.nuspec"
+      ]
+    },
+    "SQLitePCLRaw.core/3.0.5": {
+      "sha512": "k81AYXXRCw3Zj8rOhyBoCsx/U97KYDFI2CSKr/ijl5BwpsW/hX/4kBiDmerFaoust8nxBwa0IHQFw8MmSHRtnQ==",
+      "type": "package",
+      "path": "sqlitepclraw.core/3.0.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net8.0/SQLitePCLRaw.core.dll",
+        "lib/netstandard2.0/SQLitePCLRaw.core.dll",
+        "sqlitepclraw.core.3.0.5.nupkg.sha512",
+        "sqlitepclraw.core.nuspec"
+      ]
+    },
+    "SQLitePCLRaw.provider.e_sqlite3/3.0.5": {
+      "sha512": "um8YSWduhhuskTG2bHfZrBqMNQOydfU8pcseT+cu5RivOGyoUbCrGXxgoRNTmRYw2VbMWnEZVVFcneZT/5dsBg==",
+      "type": "package",
+      "path": "sqlitepclraw.provider.e_sqlite3/3.0.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net471/SQLitePCLRaw.provider.e_sqlite3.dll",
+        "lib/net8.0-windows7.0/SQLitePCLRaw.provider.e_sqlite3.dll",
+        "lib/net8.0/SQLitePCLRaw.provider.e_sqlite3.dll",
+        "lib/netstandard2.0/SQLitePCLRaw.provider.e_sqlite3.dll",
+        "sqlitepclraw.provider.e_sqlite3.3.0.5.nupkg.sha512",
+        "sqlitepclraw.provider.e_sqlite3.nuspec"
+      ]
+    },
     "System.ClientModel/1.14.0": {
       "sha512": "yhIJHDW3Hh5kcvhHv3ww1T8qvya06Nlwo/SR/rke4/fHXtyKiqQV/9b/VDhnVI7QUcMnpfvh4pIEFhNsTDLeKQ==",
       "type": "package",
@@ -1992,6 +2388,11 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
+    "Puentes.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Puentes.Infrastructure/Puentes.Infrastructure.csproj",
+      "msbuildProject": "../Puentes.Infrastructure/Puentes.Infrastructure.csproj"
+    },
     "Puentes.Orchestrator/1.0.0": {
       "type": "project",
       "path": "../Puentes.Orchestrator/Puentes.Orchestrator.csproj",
@@ -2005,7 +2406,9 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "Dapper >= 2.1.79",
       "Microsoft.NET.Test.Sdk >= 18.8.1",
+      "Puentes.Infrastructure >= 1.0.0",
       "Puentes.Orchestrator >= 1.0.0",
       "Puentes.Shared >= 1.0.0",
       "coverlet.collector >= 10.0.1",
@@ -2049,6 +2452,9 @@
             "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Puentes.Shared.csproj": {
               "projectPath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Core\\Puentes.Shared.csproj"
             },
+            "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Puentes.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Infrastructure\\Puentes.Infrastructure.csproj"
+            },
             "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj": {
               "projectPath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj"
             }
@@ -2072,6 +2478,10 @@
         "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
+          "Dapper": {
+            "target": "Package",
+            "version": "[2.1.79, )"
+          },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[18.8.1, )"
@@ -2386,5 +2796,13 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error al obtener los datos de vulnerabilidad del paquete: No se puede cargar el índice de servicio del origen https://api.nuget.org/v3/index.json."
+    }
+  ]
 }

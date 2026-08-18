@@ -212,6 +212,18 @@ public class ApiClient
                 cancellationToken) ?? [];
     }
 
+    public async Task<List<PersonAgendaItemResponse>> GetPersonAgendaAsync(
+        Guid personId,
+        CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.GetAsync(
+            $"people/{personId}/agenda", cancellationToken);
+        response.EnsureSuccessStatusCode();
+        return await response.Content
+            .ReadFromJsonAsync<List<PersonAgendaItemResponse>>(
+                JsonOptions, cancellationToken) ?? [];
+    }
+
     public async Task<List<PersonBelongingResponse>> GetPersonBelongingsAsync(
         Guid personId,
         CancellationToken cancellationToken = default)

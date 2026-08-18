@@ -31,7 +31,9 @@ public class MemoryConversationWorkflowService
             userInput,
             [],
             conversationId: null,
-            cancellationToken);
+            cancellationToken,
+            waitingForProposalChoice: false,
+            offeredProposalCategories: []);
     }
 
     public async Task<MemoryConversationTurnResponse> StartAsync(
@@ -50,7 +52,9 @@ public class MemoryConversationWorkflowService
                 [],
                 conversationId,
                 cancellationToken,
-                focusedPersonName);
+                focusedPersonName,
+                waitingForProposalChoice: false,
+                offeredProposalCategories: []);
 
             return new MemoryConversationTurnResponse
             {
@@ -80,7 +84,9 @@ public class MemoryConversationWorkflowService
             conversation.History,
             conversationId,
             cancellationToken,
-            focusedPersonName);
+            focusedPersonName,
+            conversation.WaitingForCompanionProposalChoice,
+            conversation.CompanionProposalCategories);
 
         return new MemoryConversationTurnResponse
         {
@@ -95,7 +101,9 @@ public class MemoryConversationWorkflowService
         IReadOnlyCollection<ConversationHistoryItemContext> history,
         Guid? conversationId,
         CancellationToken cancellationToken,
-        string? focusedPersonName = null)
+        string? focusedPersonName = null,
+        bool waitingForProposalChoice = false,
+        IReadOnlyCollection<string>? offeredProposalCategories = null)
     {
         var person = await _apiClient.GetPersonAsync(
             personId,
@@ -109,6 +117,8 @@ public class MemoryConversationWorkflowService
             .GetPersonBelongingsAsync(personId, cancellationToken);
         var trustedContacts = await _apiClient
             .GetPersonTrustedContactsAsync(personId, cancellationToken);
+        var agenda = await _apiClient.GetPersonAgendaAsync(
+            personId, cancellationToken);
         var lifeEventOwners = relationships
             .Select(relationship => relationship.OtherPerson.Id)
             .Append(personId)
@@ -154,6 +164,14 @@ public class MemoryConversationWorkflowService
             Scenario = ConversationScenario.MemorySupport,
             UserInput = userInput
         };
+        var selectedProposalCategory =
+            CompanionProposalModeDetector.FindSelectedCategory(
+                userInput,
+                offeredProposalCategories ?? []);
+        var proposalMode = CompanionProposalModeDetector.Resolve(
+            userInput,
+            waitingForProposalChoice,
+            selectedProposalCategory);
         var context = _contextBuilder.BuildConversationContext(
             request,
             relationships: relationships,
@@ -163,8 +181,12 @@ public class MemoryConversationWorkflowService
             supportContents: supportContents,
             belongings: belongings,
             trustedContacts: trustedContacts,
+            agenda: agenda,
             conversationHistory: history,
-            person: person);
+            person: person,
+            companionProposalMode: proposalMode,
+            companionProposalCategory: selectedProposalCategory,
+            companionProposalCategories: offeredProposalCategories);
 
         var response = await _conversationService.ProcessAsync(
             context,
@@ -176,6 +198,11 @@ public class MemoryConversationWorkflowService
                 conversationId.Value,
                 userInput,
                 response.Message);
+            _conversationStore.SetWaitingForCompanionProposalChoice(
+                conversationId.Value,
+                proposalMode == CompanionProposalMode.CategoriesOnly,
+                context.MemorySupport?.ProposalCandidates
+                    .Select(item => item.TopicCode));
         }
 
         return response;

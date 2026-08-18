@@ -1,6 +1,8 @@
 using Puentes.Infrastructure.Repositories;
 using Puentes.Shared.Domain;
 using Puentes.Shared.Requests.People;
+using Puentes.Shared.Responses.LifeEvents;
+using Puentes.Shared.Responses.People;
 
 namespace Puentes.Api;
 
@@ -18,6 +20,12 @@ public static class FamilyMaintenanceEndpoints
         app.MapPut("/people/{personId:guid}/belongings/{id:guid}", UpdateBelongingAsync);
         app.MapPost("/people/{personId:guid}/trusted-contacts", AddTrustedContactAsync);
         app.MapPut("/people/{personId:guid}/trusted-contacts/{id:guid}", UpdateTrustedContactAsync);
+        app.MapGet("/content-topics", async (ContentTopicRepository topics) =>
+            Results.Ok(await topics.GetAllAsync()));
+        app.MapPut("/life-events/{id:guid}/topics", UpdateLifeEventTopicsAsync);
+        app.MapPost("/people/{personId:guid}/life-events", AddLifeEventAsync);
+        app.MapGet("/people/{personId:guid}/agenda", GetAgendaAsync);
+        app.MapPost("/people/{personId:guid}/agenda", AddAgendaItemAsync);
     }
 
     private static async Task<IResult> AddRoutineAsync(
@@ -52,43 +60,59 @@ public static class FamilyMaintenanceEndpoints
 
     private static async Task<IResult> AddPreferenceAsync(
         Guid personId, PersonPreferenceRequest request,
-        PersonRepository people, PersonPreferenceRepository repository)
+        PersonRepository people, PersonPreferenceRepository repository,
+        ContentTopicRepository topics)
     {
         if (await people.GetByIdAsync(personId) is null) return Results.NotFound();
         if (Missing(request.Title, request.Notes)) return Results.BadRequest();
+        if (!await topics.AreCodesValidAsync(request.TopicCodes, "Interest"))
+            return Results.BadRequest("TopicCodes de preferencias invalidos.");
         var item = Preference(Guid.NewGuid(), personId, request);
         await repository.AddAsync(item);
+        await topics.ReplacePreferenceCodesAsync(item.Id, request.TopicCodes);
         return Results.Created($"/people/{personId}/preferences/{item.Id}", item);
     }
 
     private static async Task<IResult> UpdatePreferenceAsync(
         Guid personId, Guid id, PersonPreferenceRequest request,
-        PersonPreferenceRepository repository)
+        PersonPreferenceRepository repository, ContentTopicRepository topics)
     {
         if (Missing(request.Title, request.Notes)) return Results.BadRequest();
-        return await repository.UpdateAsync(Preference(id, personId, request))
-            ? Results.NoContent() : Results.NotFound();
+        if (!await topics.AreCodesValidAsync(request.TopicCodes, "Interest"))
+            return Results.BadRequest("TopicCodes de preferencias invalidos.");
+        if (!await repository.UpdateAsync(Preference(id, personId, request)))
+            return Results.NotFound();
+        await topics.ReplacePreferenceCodesAsync(id, request.TopicCodes);
+        return Results.NoContent();
     }
 
     private static async Task<IResult> AddSupportContentAsync(
         Guid personId, PersonSupportContentRequest request,
-        PersonRepository people, PersonSupportContentRepository repository)
+        PersonRepository people, PersonSupportContentRepository repository,
+        ContentTopicRepository topics)
     {
         if (await people.GetByIdAsync(personId) is null) return Results.NotFound();
         if (Missing(request.Title, request.Content)) return Results.BadRequest();
+        if (!await topics.AreCodesValidAsync(request.TopicCodes, "Reading"))
+            return Results.BadRequest("TopicCodes de lecturas invalidos.");
         var item = SupportContent(Guid.NewGuid(), personId, request);
         await repository.AddAsync(item);
+        await topics.ReplaceSupportContentCodesAsync(item.Id, request.TopicCodes);
         return Results.Created(
             $"/people/{personId}/support-contents/{item.Id}", item);
     }
 
     private static async Task<IResult> UpdateSupportContentAsync(
         Guid personId, Guid id, PersonSupportContentRequest request,
-        PersonSupportContentRepository repository)
+        PersonSupportContentRepository repository, ContentTopicRepository topics)
     {
         if (Missing(request.Title, request.Content)) return Results.BadRequest();
-        return await repository.UpdateAsync(SupportContent(id, personId, request))
-            ? Results.NoContent() : Results.NotFound();
+        if (!await topics.AreCodesValidAsync(request.TopicCodes, "Reading"))
+            return Results.BadRequest("TopicCodes de lecturas invalidos.");
+        if (!await repository.UpdateAsync(SupportContent(id, personId, request)))
+            return Results.NotFound();
+        await topics.ReplaceSupportContentCodesAsync(id, request.TopicCodes);
+        return Results.NoContent();
     }
 
     private static async Task<IResult> AddBelongingAsync(
@@ -139,6 +163,209 @@ public static class FamilyMaintenanceEndpoints
 
     private static bool Missing(string first, string second) =>
         string.IsNullOrWhiteSpace(first) || string.IsNullOrWhiteSpace(second);
+
+    private static async Task<IResult> UpdateLifeEventTopicsAsync(
+        Guid id, TopicAssignmentRequest request, LifeEventRepository events,
+        ContentTopicRepository topics)
+    {
+        if (!await events.ExistsAsync(id)) return Results.NotFound();
+        if (!await topics.AreCodesValidAsync(request.TopicCodes, "Memory"))
+            return Results.BadRequest("TopicCodes de recuerdos invalidos.");
+        await topics.ReplaceLifeEventCodesAsync(id, request.TopicCodes);
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> AddLifeEventAsync(
+        Guid personId,
+        PersonLifeEventRequest request,
+        PersonRepository people,
+        LifeEventRepository events,
+        ContentTopicRepository topics)
+    {
+        var person = await people.GetByIdAsync(personId);
+        if (person is null) return Results.NotFound();
+        if (string.IsNullOrWhiteSpace(request.Title) ||
+            request.EndDate is not null && request.StartDate is not null &&
+            request.EndDate < request.StartDate)
+        {
+            return Results.BadRequest(
+                "El titulo es obligatorio y EndDate no puede ser anterior a StartDate.");
+        }
+        if (!await topics.AreCodesValidAsync(request.TopicCodes, "Memory"))
+        {
+            return Results.BadRequest(
+                "TopicCodes contiene temas inexistentes o que no pertenecen a Memory.");
+        }
+
+        var lifeEvent = new LifeEvent
+        {
+            Id = Guid.NewGuid(),
+            PersonId = personId,
+            StartDate = request.StartDate,
+            EndDate = request.EndDate,
+            DatePrecision = request.DatePrecision,
+            Title = request.Title.Trim(),
+            Description = request.Description?.Trim(),
+            Place = request.Place?.Trim(),
+            IsPositiveMemory = request.IsPositiveMemory
+        };
+        var participantResponses = new List<LifeEventParticipantResponse>();
+        var participantItems = new List<LifeEventParticipant>();
+        foreach (var participant in request.Participants
+            .GroupBy(item => item.PersonId)
+            .Select(group => group.First()))
+        {
+            if (participant.PersonId == personId)
+            {
+                return Results.BadRequest(
+                    "La persona dueña del evento no debe repetirse como participante.");
+            }
+            var participantPerson = await people.GetByIdAsync(
+                participant.PersonId);
+            if (participantPerson is null)
+            {
+                return Results.BadRequest(
+                    $"El participante {participant.PersonId} no existe.");
+            }
+            var role = participant.Role?.Trim();
+            participantItems.Add(new LifeEventParticipant
+            {
+                LifeEventId = lifeEvent.Id,
+                PersonId = participant.PersonId,
+                Role = role
+            });
+            participantResponses.Add(new LifeEventParticipantResponse
+            {
+                PersonName = participantPerson.Name,
+                Role = role
+            });
+        }
+        await events.AddWithTopicsAsync(
+            lifeEvent, request.TopicCodes, participantItems);
+
+        return Results.Created(
+            $"/people/{personId}/life-events/{lifeEvent.Id}",
+            new LifeEventResponse
+            {
+                Id = lifeEvent.Id,
+                PersonId = lifeEvent.PersonId,
+                PersonName = person.Name,
+                StartDate = lifeEvent.StartDate,
+                EndDate = lifeEvent.EndDate,
+                DatePrecision = lifeEvent.DatePrecision,
+                Title = lifeEvent.Title,
+                Description = lifeEvent.Description,
+                Place = lifeEvent.Place,
+                IsPositiveMemory = lifeEvent.IsPositiveMemory,
+                TopicCodes = [.. request.TopicCodes
+                    .Where(code => !string.IsNullOrWhiteSpace(code))
+                    .Select(code => code.Trim())
+                    .Distinct(StringComparer.OrdinalIgnoreCase)],
+                Participants = participantResponses
+            });
+    }
+
+    private static async Task<IResult> GetAgendaAsync(
+        Guid personId,
+        bool? includePast,
+        PersonRepository people,
+        PersonAgendaItemRepository agenda,
+        ContentTopicRepository topics)
+    {
+        var person = await people.GetByIdAsync(personId);
+        if (person is null) return Results.NotFound();
+        var items = await agenda.GetByPersonAsync(
+            personId, includePast ?? false, DateTimeOffset.UtcNow);
+        var response = new List<PersonAgendaItemResponse>();
+        foreach (var item in items)
+        {
+            var participantResponses = new List<LifeEventParticipantResponse>();
+            foreach (var participant in await agenda.GetParticipantsAsync(item.Id))
+            {
+                var participantPerson = await people.GetByIdAsync(
+                    participant.PersonId);
+                if (participantPerson is not null)
+                    participantResponses.Add(new LifeEventParticipantResponse
+                    {
+                        PersonName = participantPerson.Name,
+                        Role = participant.Role
+                    });
+            }
+            response.Add(new PersonAgendaItemResponse
+            {
+                Id = item.Id, PersonId = item.PersonId,
+                PersonName = person.Name, ScheduledAt = item.ScheduledAt,
+                EndAt = item.EndAt, Title = item.Title,
+                Description = item.Description, Place = item.Place,
+                Status = item.Status,
+                TopicCodes = [.. await topics.GetAgendaItemCodesAsync(item.Id)],
+                Participants = participantResponses
+            });
+        }
+        return Results.Ok(response);
+    }
+
+    private static async Task<IResult> AddAgendaItemAsync(
+        Guid personId,
+        PersonAgendaItemRequest request,
+        PersonRepository people,
+        PersonAgendaItemRepository agenda,
+        ContentTopicRepository topics)
+    {
+        var person = await people.GetByIdAsync(personId);
+        if (person is null) return Results.NotFound();
+        if (string.IsNullOrWhiteSpace(request.Title) ||
+            request.ScheduledAt == default ||
+            request.EndAt is not null && request.EndAt < request.ScheduledAt)
+            return Results.BadRequest(
+                "Titulo y ScheduledAt son obligatorios; EndAt no puede ser anterior.");
+        if (!Enum.IsDefined(request.Status))
+            return Results.BadRequest("El estado de agenda no es valido.");
+        if (!await topics.AreCodesValidAsync(request.TopicCodes, "Agenda"))
+            return Results.BadRequest("TopicCodes contiene temas que no son de Agenda.");
+
+        var participantItems = new List<LifeEventParticipant>();
+        var participantResponses = new List<LifeEventParticipantResponse>();
+        foreach (var participant in request.Participants
+            .GroupBy(item => item.PersonId).Select(group => group.First()))
+        {
+            if (participant.PersonId == personId)
+                return Results.BadRequest(
+                    "La persona de la agenda no debe repetirse como participante.");
+            var participantPerson = await people.GetByIdAsync(participant.PersonId);
+            if (participantPerson is null)
+                return Results.BadRequest(
+                    $"El participante {participant.PersonId} no existe.");
+            var role = participant.Role?.Trim();
+            participantItems.Add(new LifeEventParticipant
+            {
+                PersonId = participant.PersonId, Role = role
+            });
+            participantResponses.Add(new LifeEventParticipantResponse
+            {
+                PersonName = participantPerson.Name, Role = role
+            });
+        }
+        var item = new PersonAgendaItem
+        {
+            Id = Guid.NewGuid(), PersonId = personId,
+            ScheduledAt = request.ScheduledAt, EndAt = request.EndAt,
+            Title = request.Title.Trim(),
+            Description = request.Description?.Trim(),
+            Place = request.Place?.Trim(), Status = request.Status
+        };
+        await agenda.AddAsync(item, request.TopicCodes, participantItems);
+        return Results.Created($"/people/{personId}/agenda/{item.Id}",
+            new PersonAgendaItemResponse
+            {
+                Id = item.Id, PersonId = personId, PersonName = person.Name,
+                ScheduledAt = item.ScheduledAt, EndAt = item.EndAt,
+                Title = item.Title, Description = item.Description,
+                Place = item.Place, Status = item.Status,
+                TopicCodes = [.. request.TopicCodes],
+                Participants = participantResponses
+            });
+    }
 
     private static PersonPreference Preference(
         Guid id, Guid personId, PersonPreferenceRequest request) => new()

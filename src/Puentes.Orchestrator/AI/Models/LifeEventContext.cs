@@ -14,6 +14,8 @@ public class LifeEventContext
 
     public string Title { get; set; } = string.Empty;
 
+    public List<string> TopicCodes { get; set; } = [];
+
     public string? Description { get; set; }
 
     public string? Place { get; set; }

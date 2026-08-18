@@ -14,5 +14,7 @@ public class PersonPreferenceResponse
 
     public string? Tags { get; set; }
 
+    public List<string> TopicCodes { get; set; } = [];
+
     public bool IsActive { get; set; }
 }

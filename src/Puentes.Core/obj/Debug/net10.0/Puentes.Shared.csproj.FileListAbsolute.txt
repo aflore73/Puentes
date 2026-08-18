@@ -1,5 +1,3 @@
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\appsettings.Development.json
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\appsettings.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\Puentes.Shared.deps.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\Puentes.Shared.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\orchestrator\Puentes.Shared.pdb
@@ -33,8 +31,6 @@ C:\Users\AFLORE~1\AppData\Local\Temp\puentes-voice-build\appsettings.json
 C:\Users\AFLORE~1\AppData\Local\Temp\puentes-voice-build\Puentes.Shared.deps.json
 C:\Users\AFLORE~1\AppData\Local\Temp\puentes-voice-build\Puentes.Shared.dll
 C:\Users\AFLORE~1\AppData\Local\Temp\puentes-voice-build\Puentes.Shared.pdb
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\appsettings.Development.json
-C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\appsettings.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\Puentes.Shared.deps.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\Puentes.Shared.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Core\bin\Debug\net10.0\Puentes.Shared.pdb

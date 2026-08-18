@@ -29,6 +29,10 @@ public class DatabaseInitializer
         var belongingRepository = new PersonBelongingRepository(_accessDb);
         var trustedContactRepository =
             new PersonTrustedContactRepository(_accessDb);
+        var contentTopicRepository = new ContentTopicRepository(_accessDb);
+        var agendaRepository = new PersonAgendaItemRepository(_accessDb);
+        var guidNormalizationRepository =
+            new GuidNormalizationRepository(_accessDb);
 
         await _medicationRepository.CreateTableAsync();
 
@@ -51,6 +55,12 @@ public class DatabaseInitializer
         await belongingRepository.CreateTableAsync();
 
         await trustedContactRepository.CreateTableAsync();
+
+        await agendaRepository.CreateTablesAsync();
+
+        await contentTopicRepository.CreateTablesAndMigrateAsync();
+
+        await guidNormalizationRepository.NormalizeAsync();
 
     }
 }

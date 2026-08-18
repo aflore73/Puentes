@@ -19,4 +19,8 @@ public class MemorySupportContext
 
     public List<PersonTrustedContactContext> TrustedContacts { get; set; } = [];
 
+    public List<AgendaItemContext> Agenda { get; set; } = [];
+
+    public List<CompanionProposalContext> ProposalCandidates { get; set; } = [];
+
 }

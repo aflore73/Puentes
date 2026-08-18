@@ -33,6 +33,8 @@ builder.Services.AddScoped<PersonPreferenceRepository>();
 builder.Services.AddScoped<PersonSupportContentRepository>();
 builder.Services.AddScoped<PersonBelongingRepository>();
 builder.Services.AddScoped<PersonTrustedContactRepository>();
+builder.Services.AddScoped<ContentTopicRepository>();
+builder.Services.AddScoped<PersonAgendaItemRepository>();
 // Repositorio de registros de medicación
 builder.Services.AddSingleton<MedicationRecordRepository>();
 //Configuración para serialización JSON de enums
@@ -464,7 +466,8 @@ app.MapGet("/people/{id:guid}/life-events",
 async (
     Guid id,
     PersonRepository personRepository,
-    LifeEventRepository lifeEventRepository) =>
+    LifeEventRepository lifeEventRepository,
+    ContentTopicRepository topicRepository) =>
 {
     var owner = await personRepository.GetByIdAsync(id);
     if (owner is null)
@@ -507,6 +510,8 @@ async (
             EndDate = lifeEvent.EndDate,
             DatePrecision = lifeEvent.DatePrecision,
             Title = lifeEvent.Title,
+            TopicCodes = [.. await topicRepository
+                .GetLifeEventCodesAsync(lifeEvent.Id)],
             Description = lifeEvent.Description,
             Place = lifeEvent.Place,
             IsPositiveMemory = lifeEvent.IsPositiveMemory,
@@ -547,7 +552,8 @@ app.MapGet("/people/{id:guid}/preferences",
 async (
     Guid id,
     PersonRepository personRepository,
-    PersonPreferenceRepository preferenceRepository) =>
+    PersonPreferenceRepository preferenceRepository,
+    ContentTopicRepository topicRepository) =>
 {
     var person = await personRepository.GetByIdAsync(id);
     if (person is null)
@@ -556,8 +562,10 @@ async (
     }
 
     var preferences = await preferenceRepository.GetActiveByPersonAsync(id);
-    var response = preferences.Select(preference =>
-        new PersonPreferenceResponse
+    var response = new List<PersonPreferenceResponse>();
+    foreach (var preference in preferences)
+    {
+        response.Add(new PersonPreferenceResponse
         {
             Id = preference.Id,
             PersonId = preference.PersonId,
@@ -565,8 +573,11 @@ async (
             Title = preference.Title,
             Notes = preference.Notes,
             Tags = preference.Tags,
+            TopicCodes = [.. await topicRepository
+                .GetPreferenceCodesAsync(preference.Id)],
             IsActive = preference.IsActive
         });
+    }
 
     return Results.Ok(response);
 });
@@ -575,7 +586,8 @@ app.MapGet("/people/{id:guid}/support-contents",
 async (
     Guid id,
     PersonRepository personRepository,
-    PersonSupportContentRepository supportContentRepository) =>
+    PersonSupportContentRepository supportContentRepository,
+    ContentTopicRepository topicRepository) =>
 {
     var person = await personRepository.GetByIdAsync(id);
     if (person is null)
@@ -585,19 +597,24 @@ async (
 
     var contents = await supportContentRepository
         .GetActiveByPersonAsync(id);
-    var response = contents.Select(content =>
-        new PersonSupportContentResponse
+    var response = new List<PersonSupportContentResponse>();
+    foreach (var content in contents)
+    {
+        response.Add(new PersonSupportContentResponse
         {
             Id = content.Id,
             PersonId = content.PersonId,
             PersonName = person.Name,
             Title = content.Title,
             Content = content.Content,
+            TopicCodes = [.. await topicRepository
+                .GetSupportContentCodesAsync(content.Id)],
             Attribution = content.Attribution,
             Reference = content.Reference,
             Tags = content.Tags,
             IsActive = content.IsActive
         });
+    }
 
     return Results.Ok(response);
 });

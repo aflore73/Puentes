@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6baNVvZaQpY=",
+  "dgSpecHash": "sXDDrlbFR2o=",
   "success": true,
   "projectFilePath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj",
   "expectedPackageFiles": [
@@ -16,10 +16,17 @@
     "C:\\Users\\aflorentin\\.nuget\\packages\\system.memory.data\\10.0.3\\system.memory.data.10.0.3.nupkg.sha512",
     "C:\\Users\\aflorentin\\.nuget\\packages\\whisper.net\\1.9.1\\whisper.net.1.9.1.nupkg.sha512",
     "C:\\Users\\aflorentin\\.nuget\\packages\\whisper.net.runtime\\1.9.1\\whisper.net.runtime.1.9.1.nupkg.sha512",
-    "C:\\Users\\aflorentin\\.nuget\\packages\\whisper.net.runtime.metal\\1.9.1\\whisper.net.runtime.metal.1.9.1.nupkg.sha512",
-    "C:\\Users\\aflorentin\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.9\\microsoft.netcore.app.runtime.win-x64.10.0.9.nupkg.sha512",
-    "C:\\Users\\aflorentin\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.9\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.9.nupkg.sha512",
-    "C:\\Users\\aflorentin\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.9\\microsoft.aspnetcore.app.runtime.win-x64.10.0.9.nupkg.sha512"
+    "C:\\Users\\aflorentin\\.nuget\\packages\\whisper.net.runtime.metal\\1.9.1\\whisper.net.runtime.metal.1.9.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error al obtener los datos de vulnerabilidad del paquete: No se puede cargar el índice de servicio del origen https://api.nuget.org/v3/index.json.",
+      "projectPath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\aflorentin\\source\\repos\\Repo_Puentes\\src\\Puentes.Orchestrator\\Puentes.Orchestrator.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

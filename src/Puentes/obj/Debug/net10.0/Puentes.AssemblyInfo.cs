@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Puentes")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3cdb1c280b4f8ad0ac1e9d5c63921faa4f4cecfc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dbf4275bff6b43e71b446a224b71400a8dfbf7b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Puentes")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Puentes")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

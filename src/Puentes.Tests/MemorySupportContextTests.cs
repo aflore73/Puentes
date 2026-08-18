@@ -172,10 +172,10 @@ public class MemorySupportContextTests
         Assert.DoesNotContain("tristeza,consuelo", prompt.UserMessage);
         Assert.DoesNotContain("No debe enviarse", prompt.UserMessage);
         Assert.Contains(
-            "no leas el texto en ese primer turno",
+            "no leas el contenido hasta que confirme cuál quiere escuchar",
             prompt.SystemMessage);
         Assert.Contains(
-            "conversationHistory muestre que fue ofrecido",
+            "conversationHistory muestre que esa lectura concreta fue ofrecida",
             prompt.SystemMessage);
     }
 
