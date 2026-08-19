@@ -25,7 +25,9 @@ public class AiContextBuilderService
         CompanionProposalMode companionProposalMode =
             CompanionProposalMode.FullContext,
         string? companionProposalCategory = null,
-        IReadOnlyCollection<string>? companionProposalCategories = null)
+        IReadOnlyCollection<string>? companionProposalCategories = null,
+        DialogueOffer? pendingOffer = null,
+        IReadOnlyCollection<string>? recentProposalCategories = null)
     {
         return new ConversationContext
         {
@@ -40,6 +42,7 @@ public class AiContextBuilderService
                     : person.BirthDate is null
                         ? null
                         : DateOnly.FromDateTime(person.BirthDate.Value),
+                Notes = person?.Notes,
                 Language = "es-AR"
             },
 
@@ -64,7 +67,8 @@ public class AiContextBuilderService
                 person?.Name ?? "Marta",
                 companionProposalMode,
                 companionProposalCategory,
-                companionProposalCategories),
+                companionProposalCategories,
+                recentProposalCategories),
 
             ConversationHistory = conversationHistory?
                 .Select(message => new ConversationHistoryItemContext
@@ -79,9 +83,49 @@ public class AiContextBuilderService
                 WaitingMedicationConfirmation =
                     request.WaitingMedicationConfirmation,
 
-                ReminderAlreadySent = false
+                ReminderAlreadySent = false,
+                PendingOffer = BuildPendingOfferContext(
+                    pendingOffer, supportContents)
             }
         };
+    }
+
+    private static PendingOfferContext? BuildPendingOfferContext(
+        DialogueOffer? pendingOffer,
+        IReadOnlyCollection<PersonSupportContentResponse>? supportContents)
+    {
+        if (pendingOffer is null ||
+            pendingOffer.Type == DialogueOfferType.None)
+        {
+            return null;
+        }
+
+        var result = new PendingOfferContext
+        {
+            Type = pendingOffer.Type,
+            CategoryCode = pendingOffer.CategoryCode,
+            ContentTitle = pendingOffer.ContentTitle
+        };
+        if (pendingOffer.Type != DialogueOfferType.Category ||
+            string.IsNullOrWhiteSpace(pendingOffer.CategoryCode))
+        {
+            return result;
+        }
+
+        var candidates = supportContents?
+            .Where(item => item.IsActive && item.TopicCodes.Contains(
+                pendingOffer.CategoryCode,
+                StringComparer.OrdinalIgnoreCase))
+            .ToArray() ?? [];
+        if (candidates.Length == 0)
+        {
+            return result;
+        }
+
+        var candidate = candidates[Random.Shared.Next(candidates.Length)];
+        result.SuggestedContentTitle = candidate.Title;
+        result.SuggestedContentReference = candidate.Reference;
+        return result;
     }
 
     private static MemorySupportContext? BuildMemorySupportContext(
@@ -98,7 +142,8 @@ public class AiContextBuilderService
         string assistedPersonName,
         CompanionProposalMode companionProposalMode,
         string? companionProposalCategory,
-        IReadOnlyCollection<string>? companionProposalCategories)
+        IReadOnlyCollection<string>? companionProposalCategories,
+        IReadOnlyCollection<string>? recentProposalCategories)
     {
         if (scenario != ConversationScenario.MemorySupport)
         {
@@ -233,7 +278,8 @@ public class AiContextBuilderService
                         assistedPersonName,
                         lifeEvents,
                         preferences,
-                        supportContents)
+                        supportContents,
+                        recentProposalCategories)
                 : []
         };
     }
@@ -243,8 +289,12 @@ public class AiContextBuilderService
         string assistedPersonName,
         IReadOnlyCollection<LifeEventResponse>? lifeEvents,
         IReadOnlyCollection<PersonPreferenceResponse>? preferences,
-        IReadOnlyCollection<PersonSupportContentResponse>? supportContents)
+        IReadOnlyCollection<PersonSupportContentResponse>? supportContents,
+        IReadOnlyCollection<string>? recentProposalCategories)
     {
+        var recent = recentProposalCategories?.ToHashSet(
+            StringComparer.OrdinalIgnoreCase) ??
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var proposals = new List<CompanionProposalContext>();
         var readingTopics = supportContents?
             .Where(item => item.IsActive)
@@ -252,6 +302,7 @@ public class AiContextBuilderService
             .Where(code => code.StartsWith("reading.",
                 StringComparison.OrdinalIgnoreCase))
             .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Where(code => !recent.Contains(code))
             .ToArray() ?? [];
         if (readingTopics.Length > 0)
         {
@@ -269,6 +320,7 @@ public class AiContextBuilderService
             .Where(code => code.StartsWith("interest.",
                 StringComparison.OrdinalIgnoreCase))
             .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Where(code => !recent.Contains(code))
             .ToArray() ?? [];
         if (interestTopics.Length > 0)
         {
@@ -286,6 +338,7 @@ public class AiContextBuilderService
             .Where(code => code.StartsWith("memory.",
                 StringComparison.OrdinalIgnoreCase))
             .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Where(code => !recent.Contains(code))
             .ToArray() ?? [];
         if (memoryTopics.Length > 0)
         {
@@ -293,6 +346,16 @@ public class AiContextBuilderService
             {
                 TopicCode = memoryTopics[Random.Shared.Next(memoryTopics.Length)]
             });
+        }
+
+        if (proposals.Count == 0 && recent.Count > 0)
+        {
+            return BuildCompanionProposalCategories(
+                assistedPersonName,
+                lifeEvents,
+                preferences,
+                supportContents,
+                recentProposalCategories: []);
         }
 
         for (var index = proposals.Count - 1; index > 0; index--)

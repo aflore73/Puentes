@@ -58,7 +58,8 @@ Content-Type: application/json
   "birthDate": "1950-07-01",
   "city": "Villa Ballester",
   "province": "Buenos Aires",
-  "country": "Argentina"
+  "country": "Argentina",
+  "notes": "Marta es viuda."
 }
 ```
 
@@ -69,6 +70,18 @@ Content-Type: application/json
 | `city` | ciudad o localidad |
 | `province` | provincia |
 | `country` | pais |
+| `notes` | informacion actual confirmada de la persona |
+
+### Modificar una persona
+
+```http
+PUT /people/{id}
+Content-Type: application/json
+```
+
+Se envia el objeto completo con nombre, fecha de nacimiento, domicilio y notas.
+Por ejemplo, `notes` puede contener un estado actual estable como
+`"Marta es viuda."`.
 
 ## Relaciones entre personas
 
@@ -112,6 +125,7 @@ Content-Type: application/json
 | `DaughterSonInLaw` | nuera o yerno |
 | `ParentInLaw` | suegra o suegro |
 | `Cousin` | prima o primo |
+| `Neighbor` | vecino o vecina |
 | `Other` | otra relacion |
 
 ## Rutinas
@@ -547,6 +561,200 @@ GET /content-topics
 | `priority` | prioridad; 1 es la mas alta |
 | `quantity` | cantidad |
 | `confirmed` | confirmado |
+
+## Valores posibles de campos codificados
+
+Esta seccion indica que valores deben escribirse literalmente en el JSON. Los
+valores tecnicos se envian en ingles porque son los nombres que reconoce la API.
+
+### `role` - funcion del participante
+
+`role` describe por que participa o que funcion cumple una persona dentro de un
+recuerdo o una actividad de agenda.
+
+Actualmente **no es un campo codificado ni una clave foranea**. Es texto libre y
+tambien puede enviarse como `null`. Para mantener la informacion uniforme se
+recomienda utilizar estos valores:
+
+| Valor recomendado | Significado |
+|---|---|
+| `Acompañante` | acompaña a la persona a una cita, salida o tramite |
+| `Familiar` | participa como integrante de la familia |
+| `Amigo` / `Amiga` | participa como amistad |
+| `Cuidador` / `Cuidadora` | brinda cuidado o asistencia |
+| `Profesional` | participa como medico, terapeuta u otro profesional |
+| `Organizador` / `Organizadora` | organiza la actividad o el encuentro |
+| `Invitado` / `Invitada` | asiste como invitado |
+| `Conductor` / `Conductora` | realiza el traslado |
+| `null` | no se desea especificar una funcion |
+
+Ejemplo:
+
+```json
+"participants": [
+  {
+    "personId": "ID-DE-EZEQUIEL",
+    "role": "Acompañante"
+  }
+]
+```
+
+La persona indicada mediante `personId` debe existir previamente en `People`.
+La persona dueña de la agenda o del recuerdo no debe repetirse en
+`participants`.
+
+### `isActive` - registro activo
+
+| Valor JSON | Español | Efecto |
+|---|---|---|
+| `true` | activo | el orquestador puede consultar y utilizar el registro |
+| `false` | inactivo | el registro se conserva, pero no aparece entre los activos |
+
+Se utiliza en rutinas, preferencias, contenidos, objetos, contactos y
+medicamentos. Es un booleano JSON, por lo que no debe escribirse entre comillas.
+
+### `status` - estado de agenda
+
+| Valor tecnico | Español | Uso |
+|---|---|---|
+| `Scheduled` | programado | la cita o actividad esta pendiente |
+| `Completed` | completado | la actividad ya se realizo |
+| `Cancelled` | cancelado | la actividad fue cancelada |
+
+`Scheduled` es el valor predeterminado. Debe enviarse `"status": "Scheduled"`,
+no `"Schedule"`.
+
+### `datePrecision` - precision de una fecha de recuerdo
+
+| Valor tecnico | Español |
+|---|---|
+| `Unknown` | desconocida |
+| `ExactDate` | fecha exacta |
+| `Month` | se conoce el mes |
+| `Year` | se conoce el año |
+| `Approximate` | fecha aproximada |
+
+### `type` - tipo de relacion
+
+| Valor tecnico | Español |
+|---|---|
+| `Child` | hijo o hija |
+| `Parent` | padre o madre |
+| `Partner` | pareja |
+| `Spouse` | conyuge |
+| `Sibling` | hermano o hermana |
+| `Grandchild` | nieto o nieta |
+| `Grandparent` | abuelo o abuela |
+| `Friend` | amigo o amiga |
+| `Caregiver` | cuidador o cuidadora |
+| `Cohabitant` | conviviente |
+| `NieceNephew` | sobrina o sobrino |
+| `AuntUncle` | tia o tio |
+| `DaughterSonInLaw` | nuera o yerno |
+| `ParentInLaw` | suegra o suegro |
+| `Cousin` | prima o primo |
+| `Neighbor` | vecino o vecina |
+| `Other` | otro tipo de relacion |
+
+`Unknown` existe internamente, pero la API no lo acepta para crear relaciones.
+
+### `direction` - direccion de una relacion consultada
+
+Este campo aparece en las respuestas de consulta, no se envia al crear la
+relacion.
+
+| Valor tecnico | Español |
+|---|---|
+| `Outgoing` | saliente: la persona consultada es el origen de la relacion |
+| `Incoming` | entrante: la persona consultada es la persona relacionada |
+
+### `turn` - turno de medicacion
+
+| Valor tecnico | Español |
+|---|---|
+| `Morning` | mañana |
+| `Midday` | mediodia |
+| `Afternoon` | tarde |
+| `Night` | noche |
+
+### `form` - presentacion de un medicamento
+
+| Valor tecnico | Español |
+|---|---|
+| `Pill` | comprimido |
+| `Capsule` | capsula |
+| `Syrup` | jarabe |
+| `Drops` | gotas |
+| `Injection` | inyeccion |
+| `Cream` | crema |
+| `Ointment` | pomada |
+| `Spray` | aerosol |
+| `Inhaler` | inhalador |
+| `Patch` | parche |
+| `Other` | otra presentacion |
+
+`Unknown` existe internamente para indicar que la presentacion es desconocida.
+
+### `shape` - forma fisica de un medicamento
+
+| Valor tecnico | Español |
+|---|---|
+| `Round` | redondo |
+| `Oval` | ovalado |
+| `Oblong` | alargado |
+| `Capsule` | con forma de capsula |
+| `Other` | otra forma |
+
+`Unknown` existe internamente para indicar que la forma es desconocida.
+
+### `confirmed` - confirmacion de una toma
+
+| Valor JSON | Español |
+|---|---|
+| `true` | la persona confirmo que realizo la toma |
+| `false` | la toma no esta confirmada |
+
+### `includePast` - incluir agenda pasada
+
+Este valor se envia en la URL, no en el cuerpo JSON:
+
+| Valor | Español |
+|---|---|
+| omitido o `false` | devuelve solamente agenda futura |
+| `true` | incluye tambien actividades pasadas |
+
+```http
+GET /people/{personId}/agenda?includePast=true
+```
+
+### `topicCodes` - temas permitidos
+
+No admite cualquier texto: cada codigo debe existir en `ContentTopics` y debe
+pertenecer al grupo correspondiente al registro.
+
+| Prefijo o grupo | Se utiliza en | Ejemplos |
+|---|---|---|
+| `memory.*` / `Memory` | recuerdos | `memory.family`, `memory.childhood` |
+| `reading.*` / `Reading` | contenidos de apoyo | `reading.religious`, `reading.poetry` |
+| `interest.*` / `Interest` | preferencias | `interest.music`, `interest.plants` |
+| `agenda.*` / `Agenda` | agenda | `agenda.medical-appointment`, `agenda.personal` |
+
+Los codigos vigentes pueden consultarse mediante `GET /content-topics`.
+
+### Campos que relacionan registros existentes
+
+| Campo | Registro relacionado | Como obtenerlo |
+|---|---|---|
+| `{personId}` en la URL | persona dueña del dato | `GET /people` |
+| `relatedPersonId` | otra persona de una relacion | `GET /people` |
+| `participants[].personId` | participante de agenda o recuerdo | `GET /people` |
+| `contactPersonId` | persona elegida como contacto | `GET /people` |
+| `{id}` de rutina, preferencia, contenido u objeto | registro que se actualiza | consultar la coleccion correspondiente |
+| `{id}` de medicamento | medicamento que se actualiza | `GET /medications` |
+| `topicCodes` | temas almacenados en `ContentTopics` | `GET /content-topics` |
+
+Los campos terminados en `Id` contienen un GUID. No se debe escribir el nombre
+de la persona en lugar de su identificador.
 
 ## Respuestas habituales
 

@@ -1,10 +1,19 @@
 namespace Puentes.Orchestrator.Services;
 
+public enum PeripheralInputMode
+{
+    Audio,
+    Keyboard
+}
+
 public sealed class PeripheralActivationOptions
 {
     public bool Enabled { get; set; } = true;
 
     public bool UseRealtime { get; set; } = true;
+
+    public PeripheralInputMode InputMode { get; set; } =
+        PeripheralInputMode.Audio;
 
     public int ActivationVirtualKey { get; set; } = 13;
 

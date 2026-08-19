@@ -11,4 +11,6 @@ public class CreatePersonRequest
     public string Province { get; set; } = string.Empty;
 
     public string Country { get; set; } = "Argentina";
+
+    public string? Notes { get; set; }
 }

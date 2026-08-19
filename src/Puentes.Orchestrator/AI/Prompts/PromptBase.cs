@@ -33,6 +33,6 @@ public static class PromptBase
         No menciones nombres de propiedades, estados internos ni detalles técnicos.
         No uses formato Markdown.
         No uses títulos, viñetas, asteriscos ni numeraciones.
-        Respondé solamente con el texto que debe escuchar la persona.
+        El formato estructurado de salida es administrado por la API. Colocá solamente el texto que debe escuchar la persona en message y nunca leas en voz alta los demás campos de control.
         """;
 }

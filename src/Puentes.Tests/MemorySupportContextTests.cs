@@ -177,6 +177,9 @@ public class MemorySupportContextTests
         Assert.Contains(
             "conversationHistory muestre que esa lectura concreta fue ofrecida",
             prompt.SystemMessage);
+        Assert.Contains(
+            "No vuelvas a preguntar si quiere una lectura general",
+            prompt.SystemMessage);
     }
 
     [Fact]
@@ -468,6 +471,24 @@ public class MemorySupportContextTests
         Assert.Contains(
             "No uses sucesos, rutinas ni características de otra persona",
             prompt.SystemMessage);
+        Assert.Contains(
+            "no es una lista de personas disponibles para conversar",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no nombres a ninguna persona como contacto sugerido",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No propongas hablar de otra persona",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No uses fórmulas técnicas como",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "Formulá las propuestas con palabras directas y cotidianas",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No menciones dos o más títulos de lecturas",
+            prompt.SystemMessage);
     }
 
     [Fact]
@@ -536,6 +557,27 @@ public class MemorySupportContextTests
         Assert.Equal(10, snapshot.History.Count);
         Assert.Equal("Usuario 2", snapshot.History[0].Content);
         Assert.Equal("Asistente 6", snapshot.History[^1].Content);
+    }
+
+    [Fact]
+    public void ConversationStoreKeepsStructuredPendingOffer()
+    {
+        var store = new InMemoryConversationStore();
+        var conversationId = store.Create(Guid.NewGuid());
+        store.SetPendingOffer(conversationId, new DialogueOffer
+        {
+            Type = DialogueOfferType.Category,
+            CategoryCode = "reading.religious"
+        });
+
+        var snapshot = Assert.IsType<ConversationSnapshot>(
+            store.Get(conversationId));
+
+        Assert.Equal(DialogueOfferType.Category, snapshot.PendingOffer?.Type);
+        Assert.Equal("reading.religious",
+            snapshot.PendingOffer?.CategoryCode);
+        Assert.Contains("reading.religious",
+            snapshot.RecentProposalCategories);
     }
 
     private static MemoryFact CreateFact(

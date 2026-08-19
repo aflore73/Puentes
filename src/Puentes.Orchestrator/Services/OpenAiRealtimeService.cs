@@ -111,6 +111,20 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
             turnTimer.ElapsedMilliseconds);
     }
 
+    public async Task RunTextTurnAsync(
+        RealtimeSessionContext context,
+        string userInput,
+        CancellationToken cancellationToken)
+    {
+        _context = context;
+        var turnTimer = Stopwatch.StartNew();
+        _logger.LogInformation("Marta: {UserInput}", userInput);
+        await GenerateHybridResponseAsync(userInput, cancellationToken);
+        _logger.LogInformation(
+            "Latencia total del turno de texto: {ElapsedMilliseconds} ms.",
+            turnTimer.ElapsedMilliseconds);
+    }
+
     public Task PrepareAsync(
         RealtimeSessionContext context,
         CancellationToken cancellationToken) =>
@@ -563,7 +577,8 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var matched = nameWords.Any(nameWord =>
                 transcriptWords.Any(transcriptWord =>
-                    IsSimilarName(transcriptWord, nameWord)));
+                    KnownPersonNameMatcher.IsSimilarWord(
+                        transcriptWord, nameWord)));
             if (matched)
             {
                 matches.Add(person);
@@ -571,23 +586,6 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
         }
 
         return matches;
-    }
-
-    private static bool IsSimilarName(string heard, string known)
-    {
-        if (heard.Equals(known, StringComparison.Ordinal))
-        {
-            return true;
-        }
-
-        var maximumLength = Math.Max(heard.Length, known.Length);
-        if (maximumLength < 5 || Math.Abs(heard.Length - known.Length) > 3)
-        {
-            return false;
-        }
-
-        var distance = LevenshteinDistance(heard, known);
-        return 1d - (double)distance / maximumLength >= 0.6d;
     }
 
     private static string Normalize(string value)
@@ -608,28 +606,4 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
         return builder.ToString().Normalize(NormalizationForm.FormC);
     }
 
-    private static int LevenshteinDistance(string left, string right)
-    {
-        var previous = Enumerable.Range(0, right.Length + 1).ToArray();
-        var current = new int[right.Length + 1];
-
-        for (var leftIndex = 1; leftIndex <= left.Length; leftIndex++)
-        {
-            current[0] = leftIndex;
-            for (var rightIndex = 1; rightIndex <= right.Length; rightIndex++)
-            {
-                var substitutionCost = left[leftIndex - 1] == right[rightIndex - 1]
-                    ? 0
-                    : 1;
-                current[rightIndex] = Math.Min(
-                    Math.Min(
-                        current[rightIndex - 1] + 1,
-                        previous[rightIndex] + 1),
-                    previous[rightIndex - 1] + substitutionCost);
-            }
-            (previous, current) = (current, previous);
-        }
-
-        return previous[right.Length];
-    }
 }

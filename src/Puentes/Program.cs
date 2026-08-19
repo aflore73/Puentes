@@ -350,12 +350,44 @@ async (CreatePersonRequest request, PersonRepository repository) =>
         BirthDate = request.BirthDate?.ToDateTime(TimeOnly.MinValue),
         City = request.City.Trim(),
         Province = request.Province.Trim(),
-        Country = request.Country.Trim()
+        Country = request.Country.Trim(),
+        Notes = request.Notes?.Trim()
     };
 
     await repository.AddAsync(person);
 
     return Results.Created($"/people/{person.Id}", person);
+});
+
+app.MapPut("/people/{id:guid}",
+async (Guid id, CreatePersonRequest request, PersonRepository repository) =>
+{
+    if (string.IsNullOrWhiteSpace(request.Name) ||
+        string.IsNullOrWhiteSpace(request.City) ||
+        string.IsNullOrWhiteSpace(request.Province) ||
+        string.IsNullOrWhiteSpace(request.Country))
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.Name)] =
+                ["Nombre, ciudad, provincia y pais son obligatorios."]
+        });
+    }
+
+    var person = new Person
+    {
+        Id = id,
+        Name = request.Name.Trim(),
+        BirthDate = request.BirthDate?.ToDateTime(TimeOnly.MinValue),
+        City = request.City.Trim(),
+        Province = request.Province.Trim(),
+        Country = request.Country.Trim(),
+        Notes = request.Notes?.Trim()
+    };
+
+    return await repository.UpdateAsync(person)
+        ? Results.NoContent()
+        : Results.NotFound();
 });
 
 app.MapGet("/people/{id:guid}/relationships",

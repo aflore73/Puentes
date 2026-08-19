@@ -18,5 +18,6 @@ public enum PersonRelationshipType
     DaughterSonInLaw= 13,    //nuera o yerno.
     ParentInLaw= 14,    //suegra o suegro.
     Cousin= 15,    //  prima o primo.
+    Neighbor = 16, // vecino o vecina.
     Other = 99
 }

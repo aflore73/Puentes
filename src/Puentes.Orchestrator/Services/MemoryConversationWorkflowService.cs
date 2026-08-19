@@ -33,7 +33,9 @@ public class MemoryConversationWorkflowService
             conversationId: null,
             cancellationToken,
             waitingForProposalChoice: false,
-            offeredProposalCategories: []);
+            offeredProposalCategories: [],
+            pendingOffer: null,
+            recentProposalCategories: []);
     }
 
     public async Task<MemoryConversationTurnResponse> StartAsync(
@@ -54,7 +56,9 @@ public class MemoryConversationWorkflowService
                 cancellationToken,
                 focusedPersonName,
                 waitingForProposalChoice: false,
-                offeredProposalCategories: []);
+                offeredProposalCategories: [],
+                pendingOffer: null,
+                recentProposalCategories: []);
 
             return new MemoryConversationTurnResponse
             {
@@ -84,9 +88,11 @@ public class MemoryConversationWorkflowService
             conversation.History,
             conversationId,
             cancellationToken,
-            focusedPersonName,
+            conversation.PendingOffer is null ? focusedPersonName : null,
             conversation.WaitingForCompanionProposalChoice,
-            conversation.CompanionProposalCategories);
+            conversation.CompanionProposalCategories,
+            conversation.PendingOffer,
+            conversation.RecentProposalCategories);
 
         return new MemoryConversationTurnResponse
         {
@@ -103,7 +109,9 @@ public class MemoryConversationWorkflowService
         CancellationToken cancellationToken,
         string? focusedPersonName = null,
         bool waitingForProposalChoice = false,
-        IReadOnlyCollection<string>? offeredProposalCategories = null)
+        IReadOnlyCollection<string>? offeredProposalCategories = null,
+        DialogueOffer? pendingOffer = null,
+        IReadOnlyCollection<string>? recentProposalCategories = null)
     {
         var person = await _apiClient.GetPersonAsync(
             personId,
@@ -186,11 +194,26 @@ public class MemoryConversationWorkflowService
             person: person,
             companionProposalMode: proposalMode,
             companionProposalCategory: selectedProposalCategory,
-            companionProposalCategories: offeredProposalCategories);
+            companionProposalCategories: offeredProposalCategories,
+            pendingOffer: pendingOffer,
+            recentProposalCategories: recentProposalCategories);
 
         var response = await _conversationService.ProcessAsync(
             context,
             cancellationToken);
+        if (MustOfferSuggestedContent(context, response))
+        {
+            context.State.RequiredDialogueAction =
+                RequiredDialogueAction.OfferSuggestedContent;
+            response = await _conversationService.ProcessAsync(
+                context,
+                cancellationToken);
+        }
+        response.OfferedAction = ValidateOfferedAction(
+            response.OfferedAction,
+            lifeEvents,
+            preferences,
+            supportContents);
 
         if (conversationId is not null)
         {
@@ -203,8 +226,83 @@ public class MemoryConversationWorkflowService
                 proposalMode == CompanionProposalMode.CategoriesOnly,
                 context.MemorySupport?.ProposalCandidates
                     .Select(item => item.TopicCode));
+            _conversationStore.SetPendingOffer(
+                conversationId.Value,
+                response.OfferedAction);
         }
 
         return response;
+    }
+
+    private static bool MustOfferSuggestedContent(
+        ConversationContext context,
+        AssistantResponse response)
+    {
+        var pending = context.State.PendingOffer;
+        return pending?.Type == DialogueOfferType.Category &&
+            !string.IsNullOrWhiteSpace(pending.SuggestedContentTitle) &&
+            response.PendingOfferDisposition ==
+                PendingOfferDisposition.Accepted &&
+            (response.OfferedAction.Type != DialogueOfferType.Content ||
+                !string.Equals(
+                    response.OfferedAction.ContentTitle,
+                    pending.SuggestedContentTitle,
+                    StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static DialogueOffer ValidateOfferedAction(
+        DialogueOffer offer,
+        IReadOnlyCollection<Puentes.Shared.Responses.LifeEvents.LifeEventResponse>
+            lifeEvents,
+        IReadOnlyCollection<Puentes.Shared.Responses.People.PersonPreferenceResponse>
+            preferences,
+        IReadOnlyCollection<Puentes.Shared.Responses.People.PersonSupportContentResponse>
+            supportContents)
+    {
+        if (offer.Type == DialogueOfferType.Category &&
+            !string.IsNullOrWhiteSpace(offer.CategoryCode))
+        {
+            var knownCode = lifeEvents.SelectMany(item => item.TopicCodes)
+                .Concat(preferences.SelectMany(item => item.TopicCodes))
+                .Concat(supportContents.SelectMany(item => item.TopicCodes))
+                .FirstOrDefault(code => code.Equals(
+                    offer.CategoryCode,
+                    StringComparison.OrdinalIgnoreCase));
+            if (knownCode is not null)
+            {
+                return new DialogueOffer
+                {
+                    Type = DialogueOfferType.Category,
+                    CategoryCode = knownCode
+                };
+            }
+        }
+
+        if (offer.Type == DialogueOfferType.Content &&
+            !string.IsNullOrWhiteSpace(offer.ContentTitle))
+        {
+            var content = supportContents.FirstOrDefault(item =>
+                item.IsActive && item.Title.Equals(
+                    offer.ContentTitle,
+                    StringComparison.OrdinalIgnoreCase) &&
+                (string.IsNullOrWhiteSpace(offer.CategoryCode) ||
+                    item.TopicCodes.Contains(
+                        offer.CategoryCode,
+                        StringComparer.OrdinalIgnoreCase)));
+            if (content is not null)
+            {
+                return new DialogueOffer
+                {
+                    Type = DialogueOfferType.Content,
+                    CategoryCode = content.TopicCodes.FirstOrDefault(code =>
+                        string.IsNullOrWhiteSpace(offer.CategoryCode) ||
+                        code.Equals(offer.CategoryCode,
+                            StringComparison.OrdinalIgnoreCase)),
+                    ContentTitle = content.Title
+                };
+            }
+        }
+
+        return new DialogueOffer();
     }
 }

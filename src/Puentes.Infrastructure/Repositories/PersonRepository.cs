@@ -42,6 +42,11 @@ public class PersonRepository
         {
             await connection.ExecuteAsync(PersonScripts.AddCountryColumn);
         }
+
+        if (!columns.Contains("Notes"))
+        {
+            await connection.ExecuteAsync(PersonScripts.AddNotesColumn);
+        }
     }
 
     public async Task AddAsync(Person person)
@@ -62,5 +67,11 @@ public class PersonRepository
         return await connection.QuerySingleOrDefaultAsync<Person>(
             PersonScripts.SelectById,
             new { Id = id });
+    }
+
+    public async Task<bool> UpdateAsync(Person person)
+    {
+        using var connection = _accessDb.OpenConnection();
+        return await connection.ExecuteAsync(PersonScripts.Update, person) > 0;
     }
 }

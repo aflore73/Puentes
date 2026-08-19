@@ -89,9 +89,68 @@ public sealed class CompanionProposalTests
         Assert.Empty(memory.Routines);
     }
 
+    [Fact]
+    public void PendingReadingCategorySelectsConfiguredContentCandidate()
+    {
+        PersonSupportContentResponse[] readings =
+        [
+            new()
+            {
+                Title = "Salmos 23",
+                Reference = "Salmos 23:1-4",
+                Content = "Texto uno.",
+                TopicCodes = ["reading.religious"],
+                IsActive = true
+            },
+            new()
+            {
+                Title = "Mateo 11",
+                Reference = "Mateo 11:28-29",
+                Content = "Texto dos.",
+                TopicCodes = ["reading.religious"],
+                IsActive = true
+            }
+        ];
+        var context = new AiContextBuilderService().BuildConversationContext(
+            new ConversationRequest
+            {
+                Scenario = ConversationScenario.MemorySupport,
+                UserInput = "Respuesta afirmativa de prueba"
+            },
+            supportContents: readings,
+            pendingOffer: new DialogueOffer
+            {
+                Type = DialogueOfferType.Category,
+                CategoryCode = "reading.religious"
+            });
+
+        var pending = Assert.IsType<PendingOfferContext>(
+            context.State.PendingOffer);
+        Assert.Contains(pending.SuggestedContentTitle,
+            readings.Select(item => item.Title));
+        Assert.Contains(pending.SuggestedContentReference,
+            readings.Select(item => item.Reference));
+    }
+
+    [Fact]
+    public void RecentlyUsedReadingCategoryYieldsToOtherAvailableCategories()
+    {
+        var context = BuildContext(
+            CompanionProposalMode.CategoriesOnly,
+            recentProposalCategories: ["reading.religious"]);
+        var codes = context.MemorySupport!.ProposalCandidates
+            .Select(item => item.TopicCode)
+            .ToArray();
+
+        Assert.DoesNotContain("reading.religious", codes);
+        Assert.Contains("interest.music", codes);
+        Assert.Contains("memory.travel", codes);
+    }
+
     private static ConversationContext BuildContext(
         CompanionProposalMode mode,
-        string? category = null)
+        string? category = null,
+        IReadOnlyCollection<string>? recentProposalCategories = null)
     {
         var person = new Person { Name = "Marta" };
         var request = new ConversationRequest
@@ -148,6 +207,7 @@ public sealed class CompanionProposalTests
             supportContents: readings,
             person: person,
             companionProposalMode: mode,
-            companionProposalCategory: category);
+            companionProposalCategory: category,
+            recentProposalCategories: recentProposalCategories);
     }
 }

@@ -43,6 +43,9 @@ public class InMemoryConversationStore
                     session.WaitingForCompanionProposalChoice,
                 CompanionProposalCategories =
                     [.. session.CompanionProposalCategories],
+                PendingOffer = Clone(session.PendingOffer),
+                RecentProposalCategories =
+                    [.. session.RecentProposalCategories],
                 History = session.Messages
                     .TakeLast(MaximumHistoryItems)
                     .Select(message => new ConversationHistoryItemContext
@@ -115,6 +118,42 @@ public class InMemoryConversationStore
         }
     }
 
+    public void SetPendingOffer(Guid conversationId, DialogueOffer offer)
+    {
+        if (!_sessions.TryGetValue(conversationId, out var session))
+        {
+            return;
+        }
+
+        lock (session.SyncRoot)
+        {
+            session.PendingOffer = offer.Type == DialogueOfferType.None
+                ? null
+                : Clone(offer);
+            if (!string.IsNullOrWhiteSpace(offer.CategoryCode))
+            {
+                session.RecentProposalCategories.RemoveAll(code =>
+                    code.Equals(offer.CategoryCode,
+                        StringComparison.OrdinalIgnoreCase));
+                session.RecentProposalCategories.Add(offer.CategoryCode);
+                if (session.RecentProposalCategories.Count > 6)
+                {
+                    session.RecentProposalCategories.RemoveAt(0);
+                }
+            }
+            session.LastActivityUtc = DateTimeOffset.UtcNow;
+        }
+    }
+
+    private static DialogueOffer? Clone(DialogueOffer? offer) => offer is null
+        ? null
+        : new DialogueOffer
+        {
+            Type = offer.Type,
+            CategoryCode = offer.CategoryCode,
+            ContentTitle = offer.ContentTitle
+        };
+
     private void RemoveExpiredSessions()
     {
         var expiration = DateTimeOffset.UtcNow - SessionLifetime;
@@ -135,6 +174,8 @@ public class InMemoryConversationStore
         public DateTimeOffset LastActivityUtc { get; set; }
         public bool WaitingForCompanionProposalChoice { get; set; }
         public List<string> CompanionProposalCategories { get; } = [];
+        public DialogueOffer? PendingOffer { get; set; }
+        public List<string> RecentProposalCategories { get; } = [];
         public List<ConversationHistoryItemContext> Messages { get; } = [];
         public object SyncRoot { get; } = new();
     }
@@ -147,6 +188,10 @@ public class ConversationSnapshot
     public bool WaitingForCompanionProposalChoice { get; set; }
 
     public List<string> CompanionProposalCategories { get; set; } = [];
+
+    public DialogueOffer? PendingOffer { get; set; }
+
+    public List<string> RecentProposalCategories { get; set; } = [];
 
     public List<ConversationHistoryItemContext> History { get; set; } = [];
 }

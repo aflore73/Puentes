@@ -46,9 +46,22 @@ public sealed class PeripheralActivationWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (!_options.Enabled || !OperatingSystem.IsWindows())
+        if (!_options.Enabled)
         {
             _logger.LogInformation("La activacion por perifericos esta deshabilitada.");
+            return;
+        }
+
+        if (_options.InputMode == PeripheralInputMode.Keyboard)
+        {
+            await RunKeyboardInputAsync(stoppingToken);
+            return;
+        }
+
+        if (!OperatingSystem.IsWindows())
+        {
+            _logger.LogInformation(
+                "La activacion por audio solo esta disponible en Windows.");
             return;
         }
 
@@ -105,40 +118,7 @@ public sealed class PeripheralActivationWorker : BackgroundService
                 _logger.LogInformation("No se detecto voz.");
                 return;
             }
-
-            AssistantResponse assistantResponse;
-            if (DateTimeOffset.UtcNow - _lastConversationActivityUtc >=
-                TimeSpan.FromMinutes(30))
-            {
-                _conversationId = null;
-            }
-            if (MedicationIntentDetector.IsMedicationQuery(transcript))
-            {
-                assistantResponse = await _medicationQueryWorkflow.ProcessAsync(
-                    _options.PersonId,
-                    transcript,
-                    cancellationToken);
-            }
-            else
-            {
-                var turn = _conversationId is null
-                    ? await _conversationWorkflow.StartAsync(
-                        _options.PersonId, transcript, cancellationToken)
-                    : await _conversationWorkflow.ContinueAsync(
-                        _conversationId.Value, transcript, cancellationToken);
-                _conversationId = turn.ConversationId;
-                assistantResponse = turn.Response;
-            }
-            _lastConversationActivityUtc = DateTimeOffset.UtcNow;
-
-            var responseText = VoiceResponseFormatter.Prepare(
-                assistantResponse.Message);
-            _logger.LogInformation("Marta: {Transcript}", transcript);
-            _logger.LogInformation("Puentes: {Response}", responseText);
-
-            var speech = await _speechService.GenerateSpeechAsync(
-                responseText, cancellationToken);
-            await PlayAsync(speech, cancellationToken);
+            await ProcessTranscriptAsync(transcript, cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -159,6 +139,105 @@ public sealed class PeripheralActivationWorker : BackgroundService
                 Math.Max(0, _options.CooldownSeconds));
             Interlocked.Exchange(ref _busy, 0);
         }
+    }
+
+    private async Task RunKeyboardInputAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation(
+            "Modo teclado habilitado. Escriba una pregunta y presione Enter.");
+        if (_options.UseRealtime)
+        {
+            _realtimeContextData = await _realtimeContext.BuildAsync(
+                _options.PersonId, cancellationToken);
+        }
+
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            Console.Write("Marta: ");
+            string? userInput;
+            try
+            {
+                userInput = await Console.In.ReadLineAsync(cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+
+            if (userInput is null)
+            {
+                break;
+            }
+
+            userInput = userInput.Trim();
+            if (userInput.Length == 0)
+            {
+                continue;
+            }
+
+            try
+            {
+                if (_options.UseRealtime)
+                {
+                    await _realtimeService.RunTextTurnAsync(
+                        _realtimeContextData!, userInput, cancellationToken);
+                }
+                else
+                {
+                    await ProcessTranscriptAsync(userInput, cancellationToken);
+                }
+            }
+            catch (OperationCanceledException)
+                when (cancellationToken.IsCancellationRequested)
+            {
+                break;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception,
+                    "No se pudo completar la conversacion por teclado.");
+                await _audioCues.ErrorAsync();
+            }
+        }
+    }
+
+    private async Task ProcessTranscriptAsync(
+        string transcript,
+        CancellationToken cancellationToken)
+    {
+        AssistantResponse assistantResponse;
+        if (DateTimeOffset.UtcNow - _lastConversationActivityUtc >=
+            TimeSpan.FromMinutes(30))
+        {
+            _conversationId = null;
+        }
+        if (MedicationIntentDetector.IsMedicationQuery(transcript))
+        {
+            assistantResponse = await _medicationQueryWorkflow.ProcessAsync(
+                _options.PersonId,
+                transcript,
+                cancellationToken);
+        }
+        else
+        {
+            var turn = _conversationId is null
+                ? await _conversationWorkflow.StartAsync(
+                    _options.PersonId, transcript, cancellationToken)
+                : await _conversationWorkflow.ContinueAsync(
+                    _conversationId.Value, transcript, cancellationToken);
+            _conversationId = turn.ConversationId;
+            assistantResponse = turn.Response;
+        }
+        _lastConversationActivityUtc = DateTimeOffset.UtcNow;
+
+        var responseText = VoiceResponseFormatter.Prepare(
+            assistantResponse.Message);
+        _logger.LogInformation("Marta: {Transcript}", transcript);
+        _logger.LogInformation("Puentes: {Response}", responseText);
+
+        var speech = await _speechService.GenerateSpeechAsync(
+            responseText, cancellationToken);
+        await PlayAsync(speech, cancellationToken);
     }
 
     private async Task PrepareRealtimeAsync(CancellationToken cancellationToken)
