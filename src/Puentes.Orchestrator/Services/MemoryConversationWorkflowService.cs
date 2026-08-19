@@ -35,7 +35,8 @@ public class MemoryConversationWorkflowService
             waitingForProposalChoice: false,
             offeredProposalCategories: [],
             pendingOffer: null,
-            recentProposalCategories: []);
+            recentProposalCategories: [],
+            recentMemoryIds: []);
     }
 
     public async Task<MemoryConversationTurnResponse> StartAsync(
@@ -58,7 +59,8 @@ public class MemoryConversationWorkflowService
                 waitingForProposalChoice: false,
                 offeredProposalCategories: [],
                 pendingOffer: null,
-                recentProposalCategories: []);
+                recentProposalCategories: [],
+                recentMemoryIds: []);
 
             return new MemoryConversationTurnResponse
             {
@@ -92,7 +94,8 @@ public class MemoryConversationWorkflowService
             conversation.WaitingForCompanionProposalChoice,
             conversation.CompanionProposalCategories,
             conversation.PendingOffer,
-            conversation.RecentProposalCategories);
+            conversation.RecentProposalCategories,
+            conversation.RecentMemoryIds);
 
         return new MemoryConversationTurnResponse
         {
@@ -111,7 +114,8 @@ public class MemoryConversationWorkflowService
         bool waitingForProposalChoice = false,
         IReadOnlyCollection<string>? offeredProposalCategories = null,
         DialogueOffer? pendingOffer = null,
-        IReadOnlyCollection<string>? recentProposalCategories = null)
+        IReadOnlyCollection<string>? recentProposalCategories = null,
+        IReadOnlyCollection<Guid>? recentMemoryIds = null)
     {
         var person = await _apiClient.GetPersonAsync(
             personId,
@@ -176,10 +180,35 @@ public class MemoryConversationWorkflowService
             CompanionProposalModeDetector.FindSelectedCategory(
                 userInput,
                 offeredProposalCategories ?? []);
+        selectedProposalCategory ??=
+            CompanionProposalModeDetector.FindSelectedCategory(
+                userInput,
+                lifeEvents.SelectMany(item => item.TopicCodes)
+                    .Concat(preferences.SelectMany(item => item.TopicCodes))
+                    .Concat(supportContents.SelectMany(item => item.TopicCodes))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToArray());
+        var effectiveProposalCategory = selectedProposalCategory ??
+            (pendingOffer?.Type == DialogueOfferType.Category
+                ? pendingOffer.CategoryCode
+                : null);
         var proposalMode = CompanionProposalModeDetector.Resolve(
             userInput,
             waitingForProposalChoice,
-            selectedProposalCategory);
+            effectiveProposalCategory);
+        MemorySelection? selectedMemory = null;
+        if (effectiveProposalCategory?.StartsWith("memory.",
+                StringComparison.OrdinalIgnoreCase) == true)
+        {
+            selectedMemory = MemoryCandidateSelector.Select(
+                lifeEvents,
+                person.Name,
+                effectiveProposalCategory,
+                recentMemoryIds ?? []);
+            lifeEvents = selectedMemory is null
+                ? []
+                : [selectedMemory.LifeEvent];
+        }
         var context = _contextBuilder.BuildConversationContext(
             request,
             relationships: relationships,
@@ -193,7 +222,7 @@ public class MemoryConversationWorkflowService
             conversationHistory: history,
             person: person,
             companionProposalMode: proposalMode,
-            companionProposalCategory: selectedProposalCategory,
+            companionProposalCategory: effectiveProposalCategory,
             companionProposalCategories: offeredProposalCategories,
             pendingOffer: pendingOffer,
             recentProposalCategories: recentProposalCategories);
@@ -209,11 +238,23 @@ public class MemoryConversationWorkflowService
                 context,
                 cancellationToken);
         }
+        else if (MustContinueWithAcceptedCategory(context, response))
+        {
+            context.State.RequiredDialogueAction =
+                RequiredDialogueAction.ContinueWithAcceptedCategory;
+            response = await _conversationService.ProcessAsync(
+                context,
+                cancellationToken);
+        }
         response.OfferedAction = ValidateOfferedAction(
             response.OfferedAction,
             lifeEvents,
             preferences,
             supportContents);
+        if (ConsumedImmediateCategory(context))
+        {
+            response.OfferedAction = new DialogueOffer();
+        }
 
         if (conversationId is not null)
         {
@@ -229,6 +270,19 @@ public class MemoryConversationWorkflowService
             _conversationStore.SetPendingOffer(
                 conversationId.Value,
                 response.OfferedAction);
+            var acceptedPendingMemory =
+                pendingOffer?.Type == DialogueOfferType.Category &&
+                ConsumedImmediateCategory(context);
+            var directMemoryRequest = pendingOffer?.Type !=
+                DialogueOfferType.Category;
+            if (selectedMemory is not null &&
+                (acceptedPendingMemory || directMemoryRequest))
+            {
+                _conversationStore.AddRecentMemory(
+                    conversationId.Value,
+                    selectedMemory.LifeEvent.Id,
+                    selectedMemory.ResetCycle);
+            }
         }
 
         return response;
@@ -249,6 +303,28 @@ public class MemoryConversationWorkflowService
                     pending.SuggestedContentTitle,
                     StringComparison.OrdinalIgnoreCase));
     }
+
+    private static bool MustContinueWithAcceptedCategory(
+        ConversationContext context,
+        AssistantResponse response)
+    {
+        var pending = context.State.PendingOffer;
+        return pending?.Type == DialogueOfferType.Category &&
+            IsImmediateCategory(pending.CategoryCode) &&
+            response.PendingOfferDisposition ==
+                PendingOfferDisposition.Accepted;
+    }
+
+    private static bool ConsumedImmediateCategory(
+        ConversationContext context) =>
+        context.State.RequiredDialogueAction ==
+            RequiredDialogueAction.ContinueWithAcceptedCategory;
+
+    private static bool IsImmediateCategory(string? categoryCode) =>
+        categoryCode?.StartsWith("memory.",
+            StringComparison.OrdinalIgnoreCase) == true ||
+        categoryCode?.StartsWith("interest.",
+            StringComparison.OrdinalIgnoreCase) == true;
 
     private static DialogueOffer ValidateOfferedAction(
         DialogueOffer offer,

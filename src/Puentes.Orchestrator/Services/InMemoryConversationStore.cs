@@ -46,6 +46,7 @@ public class InMemoryConversationStore
                 PendingOffer = Clone(session.PendingOffer),
                 RecentProposalCategories =
                     [.. session.RecentProposalCategories],
+                RecentMemoryIds = [.. session.RecentMemoryIds],
                 History = session.Messages
                     .TakeLast(MaximumHistoryItems)
                     .Select(message => new ConversationHistoryItemContext
@@ -145,6 +146,22 @@ public class InMemoryConversationStore
         }
     }
 
+    public void AddRecentMemory(
+        Guid conversationId,
+        Guid memoryId,
+        bool resetCycle)
+    {
+        if (!_sessions.TryGetValue(conversationId, out var session)) return;
+
+        lock (session.SyncRoot)
+        {
+            if (resetCycle) session.RecentMemoryIds.Clear();
+            session.RecentMemoryIds.Remove(memoryId);
+            session.RecentMemoryIds.Add(memoryId);
+            session.LastActivityUtc = DateTimeOffset.UtcNow;
+        }
+    }
+
     private static DialogueOffer? Clone(DialogueOffer? offer) => offer is null
         ? null
         : new DialogueOffer
@@ -176,6 +193,7 @@ public class InMemoryConversationStore
         public List<string> CompanionProposalCategories { get; } = [];
         public DialogueOffer? PendingOffer { get; set; }
         public List<string> RecentProposalCategories { get; } = [];
+        public List<Guid> RecentMemoryIds { get; } = [];
         public List<ConversationHistoryItemContext> Messages { get; } = [];
         public object SyncRoot { get; } = new();
     }
@@ -192,6 +210,8 @@ public class ConversationSnapshot
     public DialogueOffer? PendingOffer { get; set; }
 
     public List<string> RecentProposalCategories { get; set; } = [];
+
+    public List<Guid> RecentMemoryIds { get; set; } = [];
 
     public List<ConversationHistoryItemContext> History { get; set; } = [];
 }

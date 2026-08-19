@@ -110,6 +110,7 @@ public static class PromptMemorySupport
     Si pendingOffer.type es Category con un código interest.* y la respuesta es Accepted, elegí una única preferencia con ese topicCode y comenzá a conversar sobre ella. No vuelvas a ofrecer categorías de intereses.
     Aceptar una categoría de lectura no confirma todavía un texto específico y no autoriza a leer su contenido.
     Si state.requiredDialogueAction es OfferSuggestedContent, es obligatorio ofrecer únicamente pendingOffer.suggestedContentTitle y preguntar si quiere escucharlo. No leas content en ese turno y devolvé offeredAction de tipo Content con ese título exacto.
+    Si state.requiredDialogueAction es ContinueWithAcceptedCategory, la persona ya aceptó la categoría pendiente. Usá ahora un único elemento concreto disponible de lifeEvents o preferences, según pendingOffer.categoryCode. No vuelvas a ofrecer la categoría, no pidas que elija otro subtema y devolvé offeredAction de tipo None.
     Si pendingOffer.type es Content y la respuesta es Accepted, leé el contenido de supportContents cuyo title coincide con pendingOffer.contentTitle y devolvé offeredAction de tipo None.
     Después de terminar una lectura, no ofrezcas inmediatamente otra lectura ni una nueva actividad, salvo que userInput lo pida. Dejá que la persona decida cómo continuar.
     Leé un texto solamente cuando conversationHistory muestre que esa lectura concreta fue ofrecida y userInput confirme que quiere escucharla.

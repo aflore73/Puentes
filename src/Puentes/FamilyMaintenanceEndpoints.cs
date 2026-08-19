@@ -3,6 +3,7 @@ using Puentes.Shared.Domain;
 using Puentes.Shared.Requests.People;
 using Puentes.Shared.Responses.LifeEvents;
 using Puentes.Shared.Responses.People;
+using System.Globalization;
 
 namespace Puentes.Api;
 
@@ -34,10 +35,15 @@ public static class FamilyMaintenanceEndpoints
     {
         if (await people.GetByIdAsync(personId) is null) return Results.NotFound();
         if (Missing(request.Title, request.Notes)) return Results.BadRequest();
+        if (!TryNormalizeSchedule(request, out var scheduleError))
+            return Results.BadRequest(scheduleError);
         var item = new PersonRoutine
         {
             Id = Guid.NewGuid(), PersonId = personId,
             Title = request.Title.Trim(), Notes = request.Notes.Trim(),
+            DaysOfWeek = request.DaysOfWeek,
+            StartTime = request.StartTime,
+            EndTime = request.EndTime,
             IsActive = request.IsActive
         };
         await repository.AddAsync(item);
@@ -49,10 +55,16 @@ public static class FamilyMaintenanceEndpoints
         PersonRoutineRepository repository)
     {
         if (Missing(request.Title, request.Notes)) return Results.BadRequest();
+        if (!TryNormalizeSchedule(request, out var scheduleError))
+            return Results.BadRequest(scheduleError);
         var item = new PersonRoutine
         {
             Id = id, PersonId = personId, Title = request.Title.Trim(),
-            Notes = request.Notes.Trim(), IsActive = request.IsActive
+            Notes = request.Notes.Trim(),
+            DaysOfWeek = request.DaysOfWeek,
+            StartTime = request.StartTime,
+            EndTime = request.EndTime,
+            IsActive = request.IsActive
         };
         return await repository.UpdateAsync(item)
             ? Results.NoContent() : Results.NotFound();
@@ -374,6 +386,68 @@ public static class FamilyMaintenanceEndpoints
             Notes = request.Notes.Trim(), Tags = request.Tags?.Trim(),
             IsActive = request.IsActive
         };
+
+    private static bool TryNormalizeSchedule(
+        PersonRoutineRequest request,
+        out string? error)
+    {
+        error = null;
+        var hasDays = !string.IsNullOrWhiteSpace(request.DaysOfWeek);
+        var hasStart = !string.IsNullOrWhiteSpace(request.StartTime);
+        var hasEnd = !string.IsNullOrWhiteSpace(request.EndTime);
+
+        if (!hasDays && !hasStart && !hasEnd)
+        {
+            request.DaysOfWeek = null;
+            request.StartTime = null;
+            request.EndTime = null;
+            return true;
+        }
+
+        if (!hasDays || !hasStart || !hasEnd)
+        {
+            error = "DaysOfWeek, StartTime y EndTime deben informarse juntos.";
+            return false;
+        }
+
+        var days = new List<DayOfWeek>();
+        foreach (var value in request.DaysOfWeek!.Split(',',
+                     StringSplitOptions.RemoveEmptyEntries |
+                     StringSplitOptions.TrimEntries))
+        {
+            if (!Enum.TryParse<DayOfWeek>(value, true, out var day))
+            {
+                error = $"El dia '{value}' no es valido en DaysOfWeek.";
+                return false;
+            }
+
+            if (!days.Contains(day)) days.Add(day);
+        }
+
+        if (days.Count == 0)
+        {
+            error = "DaysOfWeek debe contener al menos un dia.";
+            return false;
+        }
+
+        const string format = "HH:mm";
+        if (!TimeOnly.TryParseExact(request.StartTime, format,
+                CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out var start) ||
+            !TimeOnly.TryParseExact(request.EndTime, format,
+                CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out var end) || start >= end)
+        {
+            error = "StartTime y EndTime deben usar HH:mm y EndTime debe ser posterior.";
+            return false;
+        }
+
+        request.DaysOfWeek = string.Join(',', days.OrderBy(day =>
+            day == DayOfWeek.Sunday ? 7 : (int)day));
+        request.StartTime = start.ToString(format, CultureInfo.InvariantCulture);
+        request.EndTime = end.ToString(format, CultureInfo.InvariantCulture);
+        return true;
+    }
 
     private static PersonSupportContent SupportContent(
         Guid id, Guid personId, PersonSupportContentRequest request) => new()

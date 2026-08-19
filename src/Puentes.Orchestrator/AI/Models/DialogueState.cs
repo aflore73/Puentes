@@ -18,7 +18,8 @@ public enum DialogueOfferType
 public enum RequiredDialogueAction
 {
     None,
-    OfferSuggestedContent
+    OfferSuggestedContent,
+    ContinueWithAcceptedCategory
 }
 
 public sealed class DialogueOffer

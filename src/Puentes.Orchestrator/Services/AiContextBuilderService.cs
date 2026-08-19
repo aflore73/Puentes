@@ -5,6 +5,7 @@ using Puentes.Shared.Domain;
 using Puentes.Shared.Responses.People;
 using Puentes.Shared.Responses.LifeEvents;
 using Puentes.Orchestrator.Services;
+using System.Globalization;
 
 public class AiContextBuilderService
 {
@@ -27,8 +28,10 @@ public class AiContextBuilderService
         string? companionProposalCategory = null,
         IReadOnlyCollection<string>? companionProposalCategories = null,
         DialogueOffer? pendingOffer = null,
-        IReadOnlyCollection<string>? recentProposalCategories = null)
+        IReadOnlyCollection<string>? recentProposalCategories = null,
+        DateTime? currentDateTimeOverride = null)
     {
+        var currentDateTime = currentDateTimeOverride ?? DateTime.Now;
         return new ConversationContext
         {
             Scenario = request.Scenario,
@@ -48,7 +51,7 @@ public class AiContextBuilderService
 
             Environment = new EnvironmentContext
             {
-                CurrentDateTime = DateTime.Now
+                CurrentDateTime = currentDateTime
             },
 
             Medication = BuildMedicationContext(plan),
@@ -68,7 +71,8 @@ public class AiContextBuilderService
                 companionProposalMode,
                 companionProposalCategory,
                 companionProposalCategories,
-                recentProposalCategories),
+                recentProposalCategories,
+                currentDateTime),
 
             ConversationHistory = conversationHistory?
                 .Select(message => new ConversationHistoryItemContext
@@ -143,7 +147,8 @@ public class AiContextBuilderService
         CompanionProposalMode companionProposalMode,
         string? companionProposalCategory,
         IReadOnlyCollection<string>? companionProposalCategories,
-        IReadOnlyCollection<string>? recentProposalCategories)
+        IReadOnlyCollection<string>? recentProposalCategories,
+        DateTime currentDateTime)
     {
         if (scenario != ConversationScenario.MemorySupport)
         {
@@ -184,14 +189,18 @@ public class AiContextBuilderService
                 .Select(BuildLifeEventContext)
                 .ToList() ?? [] : [],
             Routines = includeFullContext ? routines?
-                .Where(routine => routine.IsActive)
+                .Where(routine => routine.IsActive &&
+                    IsApplicableRoutine(routine, currentDateTime))
                 .OrderBy(routine => routine.PersonName)
                 .ThenBy(routine => routine.Title)
                 .Select(routine => new PersonRoutineContext
                 {
                     PersonName = routine.PersonName,
                     Title = routine.Title,
-                    Notes = routine.Notes
+                    Notes = routine.Notes,
+                    DaysOfWeek = routine.DaysOfWeek,
+                    StartTime = routine.StartTime,
+                    EndTime = routine.EndTime
                 })
                 .ToList() ?? [] : [],
             Preferences = includeFullContext || companionProposalMode ==
@@ -282,6 +291,40 @@ public class AiContextBuilderService
                         recentProposalCategories)
                 : []
         };
+    }
+
+    private static bool IsApplicableRoutine(
+        PersonRoutineResponse routine,
+        DateTime currentDateTime)
+    {
+        var hasDays = !string.IsNullOrWhiteSpace(routine.DaysOfWeek);
+        var hasStart = !string.IsNullOrWhiteSpace(routine.StartTime);
+        var hasEnd = !string.IsNullOrWhiteSpace(routine.EndTime);
+
+        // Legacy routines remain available until their schedules are migrated.
+        if (!hasDays && !hasStart && !hasEnd) return true;
+        if (!hasDays || !hasStart || !hasEnd) return false;
+
+        var appliesToday = routine.DaysOfWeek!.Split(',',
+                StringSplitOptions.RemoveEmptyEntries |
+                StringSplitOptions.TrimEntries)
+            .Any(value => Enum.TryParse<DayOfWeek>(value, true, out var day) &&
+                day == currentDateTime.DayOfWeek);
+        if (!appliesToday) return false;
+
+        const string format = "HH:mm";
+        if (!TimeOnly.TryParseExact(routine.StartTime, format,
+                CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out var start) ||
+            !TimeOnly.TryParseExact(routine.EndTime, format,
+                CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out var end))
+        {
+            return false;
+        }
+
+        var currentTime = TimeOnly.FromDateTime(currentDateTime);
+        return currentTime >= start && currentTime < end;
     }
 
     private static List<CompanionProposalContext>

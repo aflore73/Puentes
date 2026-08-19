@@ -491,6 +491,69 @@ public class MemorySupportContextTests
             prompt.SystemMessage);
     }
 
+    [Theory]
+    [InlineData("2026-08-19T10:00:00", "Trabajo")]
+    [InlineData("2026-08-19T19:00:00", "Futbol")]
+    public void MemoryContextIncludesOnlyRoutineApplicableToCurrentSchedule(
+        string currentDateTimeValue,
+        string expectedTitle)
+    {
+        var request = new ConversationRequest
+        {
+            Scenario = ConversationScenario.MemorySupport,
+            UserInput = "No se nada de Ezequiel."
+        };
+
+        var context = new AiContextBuilderService().BuildConversationContext(
+            request,
+            routines: ScheduledEzequielRoutines(),
+            currentDateTimeOverride: DateTime.Parse(currentDateTimeValue));
+
+        var routine = Assert.Single(context.MemorySupport!.Routines);
+        Assert.Equal(expectedTitle, routine.Title);
+    }
+
+    [Fact]
+    public void MemoryContextExcludesScheduledRoutinesOutsideTheirDays()
+    {
+        var request = new ConversationRequest
+        {
+            Scenario = ConversationScenario.MemorySupport,
+            UserInput = "No se nada de Ezequiel."
+        };
+
+        var context = new AiContextBuilderService().BuildConversationContext(
+            request,
+            routines: ScheduledEzequielRoutines(),
+            currentDateTimeOverride: new DateTime(2026, 8, 22, 10, 0, 0));
+
+        Assert.Empty(context.MemorySupport!.Routines);
+    }
+
+    private static List<PersonRoutineResponse> ScheduledEzequielRoutines() =>
+    [
+        new()
+        {
+            PersonName = "Ezequiel",
+            Title = "Trabajo",
+            Notes = "Trabaja en Nordelta o algunos dias desde su casa.",
+            DaysOfWeek = "Monday,Tuesday,Wednesday,Thursday,Friday",
+            StartTime = "09:00",
+            EndTime = "18:00",
+            IsActive = true
+        },
+        new()
+        {
+            PersonName = "Ezequiel",
+            Title = "Futbol",
+            Notes = "A veces juega al futbol en la UNSAM.",
+            DaysOfWeek = "Monday,Tuesday,Wednesday,Thursday,Friday",
+            StartTime = "18:00",
+            EndTime = "23:59",
+            IsActive = true
+        }
+    ];
+
     [Fact]
     public void MemoryContextIncludesRecentConversationHistory()
     {

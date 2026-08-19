@@ -35,6 +35,17 @@ public sealed class CompanionProposalTests
     }
 
     [Fact]
+    public void PendingMemoryCategoryDeterminesModeForBriefAnswer()
+    {
+        Assert.Equal(
+            CompanionProposalMode.PositiveMemoriesOnly,
+            CompanionProposalModeDetector.Resolve(
+                "Respuesta afirmativa de prueba",
+                waitingForChoice: false,
+                selectedCategory: "memory.family"));
+    }
+
+    [Fact]
     public void CategoryOfferContainsOnlyGroupedCategoryNames()
     {
         var context = BuildContext(CompanionProposalMode.CategoriesOnly);
@@ -87,6 +98,46 @@ public sealed class CompanionProposalTests
         Assert.Empty(memory.LifeEvents);
         Assert.Empty(memory.SupportContents);
         Assert.Empty(memory.Routines);
+    }
+
+    [Fact]
+    public void SelectedMemoryCategoryContainsOnlyMatchingPositiveMemories()
+    {
+        LifeEventResponse[] memories =
+        [
+            new()
+            {
+                PersonName = "Marta",
+                Title = "Pesca con Vicente",
+                TopicCodes = ["memory.family"],
+                IsPositiveMemory = true
+            },
+            new()
+            {
+                PersonName = "Marta",
+                Title = "Vacaciones",
+                TopicCodes = ["memory.travel"],
+                IsPositiveMemory = true
+            }
+        ];
+        var context = new AiContextBuilderService().BuildConversationContext(
+            new ConversationRequest
+            {
+                Scenario = ConversationScenario.MemorySupport,
+                UserInput = "Respuesta afirmativa de prueba"
+            },
+            lifeEvents: memories,
+            person: new Person { Name = "Marta" },
+            companionProposalMode: CompanionProposalMode.PositiveMemoriesOnly,
+            companionProposalCategory: "memory.family",
+            pendingOffer: new DialogueOffer
+            {
+                Type = DialogueOfferType.Category,
+                CategoryCode = "memory.family"
+            });
+
+        var memory = Assert.Single(context.MemorySupport!.LifeEvents);
+        Assert.Equal("Pesca con Vicente", memory.Title);
     }
 
     [Fact]

@@ -574,6 +574,9 @@ async (
         PersonName = person.Name,
         Title = routine.Title,
         Notes = routine.Notes,
+        DaysOfWeek = routine.DaysOfWeek,
+        StartTime = routine.StartTime,
+        EndTime = routine.EndTime,
         IsActive = routine.IsActive
     });
 

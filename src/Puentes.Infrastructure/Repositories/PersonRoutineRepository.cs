@@ -18,6 +18,26 @@ public class PersonRoutineRepository
     {
         using var connection = _accessDb.OpenConnection();
         await connection.ExecuteAsync(PersonRoutineScripts.CreateTable);
+
+        var columns = (await connection.QueryAsync<string>(
+                "SELECT name FROM pragma_table_info('PersonRoutines');"))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        if (!columns.Contains("DaysOfWeek"))
+        {
+            await connection.ExecuteAsync(
+                PersonRoutineScripts.AddDaysOfWeekColumn);
+        }
+
+        if (!columns.Contains("StartTime"))
+        {
+            await connection.ExecuteAsync(PersonRoutineScripts.AddStartTimeColumn);
+        }
+
+        if (!columns.Contains("EndTime"))
+        {
+            await connection.ExecuteAsync(PersonRoutineScripts.AddEndTimeColumn);
+        }
     }
 
     public async Task AddAsync(PersonRoutine routine)

@@ -146,10 +146,18 @@ Content-Type: application/json
 ```json
 {
   "title": "Trabajo",
-  "notes": "De lunes a viernes trabaja de 9:00 a 18:00. Los fines de semana no trabaja.",
+  "notes": "Trabaja en Nordelta. Algunos dias trabaja desde su casa.",
+  "daysOfWeek": "Monday,Tuesday,Wednesday,Thursday,Friday",
+  "startTime": "09:00",
+  "endTime": "18:00",
   "isActive": true
 }
 ```
+
+`daysOfWeek`, `startTime` y `endTime` son opcionales, pero deben enviarse los
+tres juntos cuando la rutina tiene un horario conocido. Puentes usa estos
+campos para enviar a OpenAI solamente las rutinas correspondientes al dia y
+la hora actuales. Las horas utilizan el formato de 24 horas `HH:mm`.
 
 ### Modificar una rutina
 
@@ -159,6 +167,20 @@ Content-Type: application/json
 ```
 
 Se envia el objeto completo con los valores actualizados. Para desactivar una rutina sin borrarla, usar `"isActive": false`.
+
+Valores permitidos en `daysOfWeek`:
+
+| Valor tecnico | Espanol |
+|---|---|
+| `Monday` | lunes |
+| `Tuesday` | martes |
+| `Wednesday` | miercoles |
+| `Thursday` | jueves |
+| `Friday` | viernes |
+| `Saturday` | sabado |
+| `Sunday` | domingo |
+
+Para indicar varios dias se separan con comas, sin corchetes.
 
 ## Preferencias
 

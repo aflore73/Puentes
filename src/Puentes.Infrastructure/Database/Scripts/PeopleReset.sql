@@ -99,6 +99,9 @@ CREATE TABLE PersonRoutines
     PersonId TEXT NOT NULL,
     Title TEXT NOT NULL,
     Notes TEXT NOT NULL,
+    DaysOfWeek TEXT NULL,
+    StartTime TEXT NULL,
+    EndTime TEXT NULL,
     IsActive INTEGER NOT NULL DEFAULT 1,
 
     FOREIGN KEY (PersonId)
