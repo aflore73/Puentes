@@ -33,10 +33,14 @@ builder.Services.AddSingleton<IStreamingSpeechSynthesisService>(services =>
 if (builder.Configuration.GetValue<bool>("UseOpenAi"))
 {
     builder.Services.AddSingleton<IAssistantService, OpenAiAssistantService>();
+    builder.Services.AddSingleton<IConversationContextSelector,
+        OpenAiConversationContextSelector>();
 }
 else
 {
     builder.Services.AddSingleton<IAssistantService, FakeAiAssistantService>();
+    builder.Services.AddSingleton<IConversationContextSelector,
+        FakeConversationContextSelector>();
 }
 builder.Services.AddSingleton<MedicationWorkflowService>();
 builder.Services.AddSingleton<MedicationQueryWorkflowService>();
@@ -60,9 +64,13 @@ var openAiAudioOptions = new OpenAiAudioOptions
     TranscriptionModel = Environment.GetEnvironmentVariable(
         "OPENAI_TRANSCRIPTION_MODEL") ?? "gpt-4o-mini-transcribe",
     SpeechModel = Environment.GetEnvironmentVariable(
-        "OPENAI_SPEECH_MODEL") ?? "gpt-4o-mini-tts",
+        "OPENAI_SPEECH_MODEL") ?? "gpt-4o-mini-tts-2025-12-15",
     StreamingSpeechModel = Environment.GetEnvironmentVariable(
-        "OPENAI_STREAMING_SPEECH_MODEL") ?? "gpt-4o-mini-tts"
+        "OPENAI_STREAMING_SPEECH_MODEL") ??
+        "gpt-4o-mini-tts-2025-12-15",
+    SpeechInstructions = Environment.GetEnvironmentVariable(
+        "OPENAI_SPEECH_INSTRUCTIONS") ??
+        new OpenAiAudioOptions().SpeechInstructions
 };
 builder.Services.AddSingleton(openAiAudioOptions);
 var openAiRealtimeOptions = new OpenAiRealtimeOptions

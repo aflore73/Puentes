@@ -6,6 +6,7 @@ namespace Puentes.Orchestrator.AI.Models
         public string Message { get; set; } = string.Empty;
         public PendingOfferDisposition PendingOfferDisposition { get; set; }
         public DialogueOffer OfferedAction { get; set; } = new();
+        public ResponseEvidence Evidence { get; set; } = new();
         public AssistantIntent Intent { get; set; } = new();
         public float ConfidenceScore { get; set; }
         public Dictionary<string, object> Metadata { get; set; } = [];

@@ -13,4 +13,8 @@ public class PersonRoutineContext
     public string? StartTime { get; set; }
 
     public string? EndTime { get; set; }
+
+    public bool? AppliesNow { get; set; }
+
+    public bool? AppliesYesterdayEvening { get; set; }
 }

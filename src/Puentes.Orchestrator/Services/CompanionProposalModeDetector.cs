@@ -59,6 +59,15 @@ public static class CompanionProposalModeDetector
         return null;
     }
 
+    public static bool MentionsCategory(string text, string category)
+    {
+        var normalized = Normalize(text);
+        var separator = category.IndexOf('.');
+        var value = separator >= 0 ? category[(separator + 1)..] : category;
+        return GetAliases(value).Any(alias => normalized.Contains(
+            alias, StringComparison.Ordinal));
+    }
+
     private static CompanionProposalMode? ResolveSelectedCategory(string text)
     {
         if (ContainsAny(text, "lectura", "leer", "leeme", "biblia",

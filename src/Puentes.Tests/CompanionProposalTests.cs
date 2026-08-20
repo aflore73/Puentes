@@ -45,6 +45,16 @@ public sealed class CompanionProposalTests
                 selectedCategory: "memory.family"));
     }
 
+    [Theory]
+    [InlineData("Podemos hablar de música", "interest.music")]
+    [InlineData("¿Querés una poesía?", "reading.poetry")]
+    [InlineData("Puedo contarte un recuerdo familiar", "memory.family")]
+    public void RecognizesNaturalCategoryLabels(string message, string code)
+    {
+        Assert.True(CompanionProposalModeDetector.MentionsCategory(
+            message, code));
+    }
+
     [Fact]
     public void CategoryOfferContainsOnlyGroupedCategoryNames()
     {
@@ -181,6 +191,36 @@ public sealed class CompanionProposalTests
             readings.Select(item => item.Title));
         Assert.Contains(pending.SuggestedContentReference,
             readings.Select(item => item.Reference));
+    }
+
+    [Fact]
+    public void GeneralMemoryRequestSelectsAnUnusedPositiveMemory()
+    {
+        var firstId = Guid.NewGuid();
+        LifeEventResponse[] memories =
+        [
+            new()
+            {
+                Id = firstId,
+                PersonName = "Marta",
+                Title = "Recuerdo ya usado",
+                IsPositiveMemory = true
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                PersonName = "Marta",
+                Title = "Recuerdo nuevo",
+                IsPositiveMemory = true
+            }
+        ];
+
+        var selected = MemoryCandidateSelector.SelectAny(
+            memories, "Marta", [firstId], new Random(1));
+
+        Assert.NotNull(selected);
+        Assert.Equal("Recuerdo nuevo", selected.LifeEvent.Title);
+        Assert.False(selected.ResetCycle);
     }
 
     [Fact]

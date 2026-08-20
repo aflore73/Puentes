@@ -21,7 +21,12 @@ public static class KnownPersonNameMatcher
             return heard[0] == known[0] && distance == 1;
         }
 
-        return distance <= 3 &&
+        var endingLength = Math.Min(3, Math.Min(heard.Length, known.Length));
+        var hasCompatibleEnding = heard.EndsWith(
+            known[^endingLength..], StringComparison.Ordinal) ||
+            known.EndsWith(heard[^endingLength..], StringComparison.Ordinal);
+
+        return hasCompatibleEnding && distance <= 3 &&
             1d - (double)distance / maximumLength >= 0.62d;
     }
 

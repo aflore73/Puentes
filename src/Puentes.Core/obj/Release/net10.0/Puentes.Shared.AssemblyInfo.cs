@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Puentes.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3cdb1c280b4f8ad0ac1e9d5c63921faa4f4cecfc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e22aac5f9eaf4e63ac4d5134315cb030f8a87b25")]
 [assembly: System.Reflection.AssemblyProductAttribute("Puentes.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Puentes.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

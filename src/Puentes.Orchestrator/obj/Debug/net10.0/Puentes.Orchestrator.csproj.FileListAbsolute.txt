@@ -1913,3 +1913,5 @@ C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\live-memory\orch
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\live-memory\orchestrator\Puentes.Orchestrator.runtimeconfig.json
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\live-memory\orchestrator\Puentes.Orchestrator.dll
 C:\Users\aflorentin\source\repos\Repo_Puentes\src\.verification\live-memory\orchestrator\Puentes.Orchestrator.pdb
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\bin\Debug\net10.0\Evaluation\conversation-evaluation-targeted.json
+C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator\bin\Debug\net10.0\Evaluation\conversation-evaluation.json

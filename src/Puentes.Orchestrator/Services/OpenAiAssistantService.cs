@@ -30,9 +30,23 @@ public class OpenAiAssistantService : IAssistantService
               },
               "required": ["type", "categoryCode", "contentTitle"],
               "additionalProperties": false
+            },
+            "evidence": {
+              "type": "object",
+              "properties": {
+                "personNames": { "type": "array", "items": { "type": "string" } },
+                "routineTitles": { "type": "array", "items": { "type": "string" } },
+                "lifeEventTitles": { "type": "array", "items": { "type": "string" } },
+                "preferenceTitles": { "type": "array", "items": { "type": "string" } },
+                "supportContentTitles": { "type": "array", "items": { "type": "string" } },
+                "agendaTitles": { "type": "array", "items": { "type": "string" } },
+                "belongingNames": { "type": "array", "items": { "type": "string" } }
+              },
+              "required": ["personNames", "routineTitles", "lifeEventTitles", "preferenceTitles", "supportContentTitles", "agendaTitles", "belongingNames"],
+              "additionalProperties": false
             }
           },
-          "required": ["message", "pendingOfferDisposition", "offeredAction"],
+          "required": ["message", "pendingOfferDisposition", "offeredAction", "evidence"],
           "additionalProperties": false
         }
         """);
@@ -102,7 +116,8 @@ public class OpenAiAssistantService : IAssistantService
                     structured.OfferedAction.CategoryCode),
                 ContentTitle = EmptyToNull(
                     structured.OfferedAction.ContentTitle)
-            }
+            },
+            Evidence = structured.Evidence
         };
     }
 
@@ -124,6 +139,7 @@ public class OpenAiAssistantService : IAssistantService
         public string Message { get; set; } = string.Empty;
         public string PendingOfferDisposition { get; set; } = "None";
         public StructuredOffer OfferedAction { get; set; } = new();
+        public ResponseEvidence Evidence { get; set; } = new();
     }
 
     private sealed class StructuredOffer

@@ -28,7 +28,9 @@ public class AiContextBuilderService
         string? companionProposalCategory = null,
         IReadOnlyCollection<string>? companionProposalCategories = null,
         DialogueOffer? pendingOffer = null,
+        IReadOnlyCollection<DialogueOffer>? pendingOffers = null,
         IReadOnlyCollection<string>? recentProposalCategories = null,
+        string? focusedPersonName = null,
         DateTime? currentDateTimeOverride = null)
     {
         var currentDateTime = currentDateTimeOverride ?? DateTime.Now;
@@ -88,8 +90,16 @@ public class AiContextBuilderService
                     request.WaitingMedicationConfirmation,
 
                 ReminderAlreadySent = false,
+                AvoidAssistedPersonName = conversationHistory?.Count > 0,
+                FocusedPersonName = focusedPersonName,
                 PendingOffer = BuildPendingOfferContext(
-                    pendingOffer, supportContents)
+                    pendingOffer, supportContents),
+                PendingOffers = (pendingOffers ?? [])
+                    .Select(offer => BuildPendingOfferContext(
+                        offer, supportContents))
+                    .Where(offer => offer is not null)
+                    .Cast<PendingOfferContext>()
+                    .ToList()
             }
         };
     }
@@ -189,8 +199,7 @@ public class AiContextBuilderService
                 .Select(BuildLifeEventContext)
                 .ToList() ?? [] : [],
             Routines = includeFullContext ? routines?
-                .Where(routine => routine.IsActive &&
-                    IsApplicableRoutine(routine, currentDateTime))
+                .Where(routine => routine.IsActive)
                 .OrderBy(routine => routine.PersonName)
                 .ThenBy(routine => routine.Title)
                 .Select(routine => new PersonRoutineContext
@@ -200,7 +209,14 @@ public class AiContextBuilderService
                     Notes = routine.Notes,
                     DaysOfWeek = routine.DaysOfWeek,
                     StartTime = routine.StartTime,
-                    EndTime = routine.EndTime
+                    EndTime = routine.EndTime,
+                    AppliesNow = GetRoutineApplicability(
+                        routine, currentDateTime),
+                    AppliesYesterdayEvening = GetRoutineApplicability(
+                        routine,
+                        currentDateTime.AddDays(-1).DayOfWeek,
+                        new TimeOnly(18, 0),
+                        TimeOnly.MaxValue)
                 })
                 .ToList() ?? [] : [],
             Preferences = includeFullContext || companionProposalMode ==
@@ -293,23 +309,51 @@ public class AiContextBuilderService
         };
     }
 
-    private static bool IsApplicableRoutine(
+    private static bool? GetRoutineApplicability(
         PersonRoutineResponse routine,
         DateTime currentDateTime)
+    {
+        var currentTime = TimeOnly.FromDateTime(currentDateTime);
+        return GetRoutineApplicability(
+            routine,
+            currentDateTime.DayOfWeek,
+            currentTime,
+            currentTime);
+    }
+
+    public static bool? AppliesNow(
+        PersonRoutineResponse routine,
+        DateTime currentDateTime) =>
+        GetRoutineApplicability(routine, currentDateTime);
+
+    public static bool? AppliesYesterdayEvening(
+        PersonRoutineResponse routine,
+        DateTime currentDateTime) =>
+        GetRoutineApplicability(
+            routine,
+            currentDateTime.AddDays(-1).DayOfWeek,
+            new TimeOnly(18, 0),
+            TimeOnly.MaxValue);
+
+    private static bool? GetRoutineApplicability(
+        PersonRoutineResponse routine,
+        DayOfWeek dayOfWeek,
+        TimeOnly periodStart,
+        TimeOnly periodEnd)
     {
         var hasDays = !string.IsNullOrWhiteSpace(routine.DaysOfWeek);
         var hasStart = !string.IsNullOrWhiteSpace(routine.StartTime);
         var hasEnd = !string.IsNullOrWhiteSpace(routine.EndTime);
 
         // Legacy routines remain available until their schedules are migrated.
-        if (!hasDays && !hasStart && !hasEnd) return true;
-        if (!hasDays || !hasStart || !hasEnd) return false;
+        if (!hasDays && !hasStart && !hasEnd) return null;
+        if (!hasDays || !hasStart || !hasEnd) return null;
 
         var appliesToday = routine.DaysOfWeek!.Split(',',
                 StringSplitOptions.RemoveEmptyEntries |
                 StringSplitOptions.TrimEntries)
             .Any(value => Enum.TryParse<DayOfWeek>(value, true, out var day) &&
-                day == currentDateTime.DayOfWeek);
+                day == dayOfWeek);
         if (!appliesToday) return false;
 
         const string format = "HH:mm";
@@ -323,8 +367,12 @@ public class AiContextBuilderService
             return false;
         }
 
-        var currentTime = TimeOnly.FromDateTime(currentDateTime);
-        return currentTime >= start && currentTime < end;
+        if (periodStart == periodEnd)
+        {
+            return periodStart >= start && periodStart < end;
+        }
+
+        return start < periodEnd && end > periodStart;
     }
 
     private static List<CompanionProposalContext>

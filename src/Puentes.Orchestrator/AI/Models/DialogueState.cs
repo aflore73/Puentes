@@ -19,7 +19,9 @@ public enum RequiredDialogueAction
 {
     None,
     OfferSuggestedContent,
-    ContinueWithAcceptedCategory
+    ContinueWithAcceptedCategory,
+    ClarifyOfferChoice,
+    CorrectInvalidResponse
 }
 
 public sealed class DialogueOffer
@@ -36,4 +38,15 @@ public sealed class PendingOfferContext
     public string? ContentTitle { get; set; }
     public string? SuggestedContentTitle { get; set; }
     public string? SuggestedContentReference { get; set; }
+}
+
+public sealed class ResponseEvidence
+{
+    public List<string> PersonNames { get; set; } = [];
+    public List<string> RoutineTitles { get; set; } = [];
+    public List<string> LifeEventTitles { get; set; } = [];
+    public List<string> PreferenceTitles { get; set; } = [];
+    public List<string> SupportContentTitles { get; set; } = [];
+    public List<string> AgendaTitles { get; set; } = [];
+    public List<string> BelongingNames { get; set; } = [];
 }

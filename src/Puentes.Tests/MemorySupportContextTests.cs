@@ -412,14 +412,52 @@ public class MemorySupportContextTests
             "dos alternativas si ambas son compatibles con el día y la hora actuales",
             prompt.SystemMessage);
         Assert.Contains(
-            "compará de forma obligatoria sus días y horarios",
+            "appliesNow indica si una rutina estructurada",
             prompt.SystemMessage);
         Assert.Contains(
-            "no menciones esa actividad los sábados ni los domingos",
+            "expresá el hábito directamente y de forma cotidiana",
             prompt.SystemMessage);
         Assert.Contains(
-            "descartala por completo para responder dónde puede estar",
+            "según la rutina que aparece",
             prompt.SystemMessage);
+        Assert.Contains(
+            "no respondas con la rutina actual",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No sustituyas esa respuesta por lo que la persona hace hoy",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No comiences repitiendo, resumiendo ni reformulando",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "Si userInput expresa agradecimiento, conformidad o cierre",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No vuelvas a mencionar la persona enfocada",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "En una pregunta amplia y neutral sobre una persona conocida",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No interpretes ni",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "La referencia temporal de userInput tiene prioridad",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "foco temporal hasta terminar",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no sugieras esperar a que ese momento termine",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No sugieras esperar el regreso correspondiente",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "nunca uses formas afirmativas",
+            prompt.SystemMessage);
+        Assert.Contains("\"yesterdayDayOfWeek\"", prompt.UserMessage);
+        Assert.Contains("\"tomorrowDayOfWeek\"", prompt.UserMessage);
         Assert.Contains(
             "Integrá esas alternativas en una misma oración",
             prompt.SystemMessage);
@@ -436,7 +474,67 @@ public class MemorySupportContextTests
             "No inventes explicaciones posibles",
             prompt.SystemMessage);
         Assert.Contains(
+            "no puede comunicarse con una persona conocida",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "Tampoco digas que",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "pregunta amplia como",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "relationships salvo que userInput",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "voseo rioplatense",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "routine.personName coincida exactamente",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No le pidas a la persona asistida que elija",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "JSON no identifica la fuente",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "posesivos ambiguos",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "memorySupport.preferences contenga elementos",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "tema externo, respond",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No agregues otro texto",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no hay otro lugar registrado",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "person.notes tienen prioridad",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no agregues opciones nuevas",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "interpretá que ya intentó contactarla",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "no le digas que piense en otra forma",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "pregunta factual concreta",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "una actividad o rutina no permite inferir dónde durmió",
+            prompt.SystemMessage);
+        Assert.Contains(
             "sin completar la respuesta con frases vagas",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "aunque conversationHistory la exprese con palabras diferentes",
             prompt.SystemMessage);
         Assert.Contains(
             "no lo introduzcas con frases como \"solo tengo la información\"",
@@ -494,7 +592,7 @@ public class MemorySupportContextTests
     [Theory]
     [InlineData("2026-08-19T10:00:00", "Trabajo")]
     [InlineData("2026-08-19T19:00:00", "Futbol")]
-    public void MemoryContextIncludesOnlyRoutineApplicableToCurrentSchedule(
+    public void MemoryContextMarksRoutineApplicableToCurrentSchedule(
         string currentDateTimeValue,
         string expectedTitle)
     {
@@ -509,12 +607,16 @@ public class MemorySupportContextTests
             routines: ScheduledEzequielRoutines(),
             currentDateTimeOverride: DateTime.Parse(currentDateTimeValue));
 
-        var routine = Assert.Single(context.MemorySupport!.Routines);
-        Assert.Equal(expectedTitle, routine.Title);
+        var routines = context.MemorySupport!.Routines;
+        Assert.Equal(2, routines.Count);
+        Assert.True(routines.Single(item =>
+            item.Title == expectedTitle).AppliesNow);
+        Assert.False(routines.Single(item =>
+            item.Title != expectedTitle).AppliesNow);
     }
 
     [Fact]
-    public void MemoryContextExcludesScheduledRoutinesOutsideTheirDays()
+    public void MemoryContextMarksScheduledRoutinesOutsideTheirDays()
     {
         var request = new ConversationRequest
         {
@@ -527,7 +629,28 @@ public class MemorySupportContextTests
             routines: ScheduledEzequielRoutines(),
             currentDateTimeOverride: new DateTime(2026, 8, 22, 10, 0, 0));
 
-        Assert.Empty(context.MemorySupport!.Routines);
+        Assert.Equal(2, context.MemorySupport!.Routines.Count);
+        Assert.All(context.MemorySupport.Routines,
+            routine => Assert.False(routine.AppliesNow));
+    }
+
+    [Fact]
+    public void MemoryContextMarksOnlyFootballForYesterdayEvening()
+    {
+        var context = new AiContextBuilderService().BuildConversationContext(
+            new ConversationRequest
+            {
+                Scenario = ConversationScenario.MemorySupport,
+                UserInput = "Anoche Ezequiel no vino."
+            },
+            routines: ScheduledEzequielRoutines(),
+            currentDateTimeOverride: new DateTime(2026, 8, 20, 10, 0, 0));
+
+        var routines = context.MemorySupport!.Routines;
+        Assert.False(routines.Single(item =>
+            item.Title == "Trabajo").AppliesYesterdayEvening);
+        Assert.True(routines.Single(item =>
+            item.Title == "Futbol").AppliesYesterdayEvening);
     }
 
     private static List<PersonRoutineResponse> ScheduledEzequielRoutines() =>
@@ -547,9 +670,9 @@ public class MemorySupportContextTests
             PersonName = "Ezequiel",
             Title = "Futbol",
             Notes = "A veces juega al futbol en la UNSAM.",
-            DaysOfWeek = "Monday,Tuesday,Wednesday,Thursday,Friday",
-            StartTime = "18:00",
-            EndTime = "23:59",
+            DaysOfWeek = "Monday,Wednesday,Friday",
+            StartTime = "19:00",
+            EndTime = "23:00",
             IsActive = true
         }
     ];
@@ -588,6 +711,7 @@ public class MemorySupportContextTests
         var prompt = new PromptFactory().Create(context);
 
         Assert.Equal(3, context.ConversationHistory.Count);
+        Assert.True(context.State.AvoidAssistedPersonName);
         Assert.Equal(
             "Ya le envié mensajes.",
             context.ConversationHistory[^1].Content);
@@ -597,6 +721,27 @@ public class MemorySupportContextTests
             prompt.SystemMessage);
         Assert.Contains(
             "No repitas preguntas, datos ni sugerencias",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "conversationHistory contiene turnos anteriores",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "sin repetir person.name en cada respuesta",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No conviertas el nombre",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "state.avoidAssistedPersonName es true",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No sos una persona",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No repitas, amplifiques ni califiques el sufrimiento",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No presentes una lectura, un recuerdo, una preferencia",
             prompt.SystemMessage);
     }
 

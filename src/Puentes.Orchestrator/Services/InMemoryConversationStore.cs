@@ -44,6 +44,9 @@ public class InMemoryConversationStore
                 CompanionProposalCategories =
                     [.. session.CompanionProposalCategories],
                 PendingOffer = Clone(session.PendingOffer),
+                PendingOffers = session.PendingOffers
+                    .Select(offer => Clone(offer)!).ToList(),
+                FocusedPersonName = session.FocusedPersonName,
                 RecentProposalCategories =
                     [.. session.RecentProposalCategories],
                 RecentMemoryIds = [.. session.RecentMemoryIds],
@@ -121,6 +124,14 @@ public class InMemoryConversationStore
 
     public void SetPendingOffer(Guid conversationId, DialogueOffer offer)
     {
+        SetPendingOffers(conversationId,
+            offer.Type == DialogueOfferType.None ? [] : [offer]);
+    }
+
+    public void SetPendingOffers(
+        Guid conversationId,
+        IEnumerable<DialogueOffer> offers)
+    {
         if (!_sessions.TryGetValue(conversationId, out var session))
         {
             return;
@@ -128,20 +139,37 @@ public class InMemoryConversationStore
 
         lock (session.SyncRoot)
         {
-            session.PendingOffer = offer.Type == DialogueOfferType.None
-                ? null
-                : Clone(offer);
-            if (!string.IsNullOrWhiteSpace(offer.CategoryCode))
+            session.PendingOffers.Clear();
+            session.PendingOffers.AddRange(offers
+                .Where(offer => offer.Type != DialogueOfferType.None)
+                .Select(offer => Clone(offer)!));
+            session.PendingOffer = session.PendingOffers.Count == 1
+                ? Clone(session.PendingOffers[0])
+                : null;
+            var proposedCategories = session.PendingOffers
+                .Where(offer => offer.Type == DialogueOfferType.Category &&
+                    !string.IsNullOrWhiteSpace(offer.CategoryCode))
+                .Select(offer => offer.CategoryCode!)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Take(3)
+                .ToArray();
+            if (proposedCategories.Length > 0)
             {
-                session.RecentProposalCategories.RemoveAll(code =>
-                    code.Equals(offer.CategoryCode,
-                        StringComparison.OrdinalIgnoreCase));
-                session.RecentProposalCategories.Add(offer.CategoryCode);
-                if (session.RecentProposalCategories.Count > 6)
-                {
-                    session.RecentProposalCategories.RemoveAt(0);
-                }
+                session.RecentProposalCategories.Clear();
+                session.RecentProposalCategories.AddRange(proposedCategories);
             }
+            session.LastActivityUtc = DateTimeOffset.UtcNow;
+        }
+    }
+
+    public void SetFocusedPerson(Guid conversationId, string? personName)
+    {
+        if (!_sessions.TryGetValue(conversationId, out var session)) return;
+        lock (session.SyncRoot)
+        {
+            session.FocusedPersonName = string.IsNullOrWhiteSpace(personName)
+                ? null
+                : personName;
             session.LastActivityUtc = DateTimeOffset.UtcNow;
         }
     }
@@ -192,6 +220,8 @@ public class InMemoryConversationStore
         public bool WaitingForCompanionProposalChoice { get; set; }
         public List<string> CompanionProposalCategories { get; } = [];
         public DialogueOffer? PendingOffer { get; set; }
+        public List<DialogueOffer> PendingOffers { get; } = [];
+        public string? FocusedPersonName { get; set; }
         public List<string> RecentProposalCategories { get; } = [];
         public List<Guid> RecentMemoryIds { get; } = [];
         public List<ConversationHistoryItemContext> Messages { get; } = [];
@@ -208,6 +238,10 @@ public class ConversationSnapshot
     public List<string> CompanionProposalCategories { get; set; } = [];
 
     public DialogueOffer? PendingOffer { get; set; }
+
+    public List<DialogueOffer> PendingOffers { get; set; } = [];
+
+    public string? FocusedPersonName { get; set; }
 
     public List<string> RecentProposalCategories { get; set; } = [];
 

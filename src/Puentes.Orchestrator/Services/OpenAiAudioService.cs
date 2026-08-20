@@ -12,6 +12,7 @@ public class OpenAiAudioService :
     private readonly AudioClient _transcriptionClient;
     private readonly AudioClient _speechClient;
     private readonly AudioClient _streamingSpeechClient;
+    private readonly string _speechInstructions;
 
     public OpenAiAudioService(OpenAiAudioOptions options)
     {
@@ -27,6 +28,7 @@ public class OpenAiAudioService :
         _speechClient = client.GetAudioClient(options.SpeechModel);
         _streamingSpeechClient = client.GetAudioClient(
             options.StreamingSpeechModel);
+        _speechInstructions = options.SpeechInstructions;
     }
 
     public async Task<string> TranscribeAsync(
@@ -44,6 +46,7 @@ public class OpenAiAudioService :
         return transcription.Text.Trim();
     }
 
+#pragma warning disable OPENAI001
     public async Task<GeneratedSpeech> GenerateSpeechAsync(
         string text,
         CancellationToken cancellationToken = default)
@@ -53,7 +56,8 @@ public class OpenAiAudioService :
             GeneratedSpeechVoice.Nova,
             new SpeechGenerationOptions
             {
-                SpeedRatio = 0.95f
+                SpeedRatio = 0.95f,
+                Instructions = _speechInstructions
             },
             cancellationToken);
 
@@ -63,7 +67,6 @@ public class OpenAiAudioService :
             "puentes-response.mp3");
     }
 
-#pragma warning disable OPENAI001
     public async IAsyncEnumerable<byte[]> GenerateSpeechStreamAsync(
         string text,
         [System.Runtime.CompilerServices.EnumeratorCancellation]
@@ -72,7 +75,8 @@ public class OpenAiAudioService :
         var options = new SpeechGenerationOptions
         {
             ResponseFormat = GeneratedSpeechFormat.Mp3,
-            SpeedRatio = 0.9f
+            SpeedRatio = 0.95f,
+            Instructions = _speechInstructions
         };
 
         await foreach (StreamingSpeechUpdate update in _streamingSpeechClient
@@ -97,7 +101,8 @@ public class OpenAiAudioService :
         var options = new SpeechGenerationOptions
         {
             ResponseFormat = GeneratedSpeechFormat.Pcm,
-            SpeedRatio = 0.95f
+            SpeedRatio = 0.95f,
+            Instructions = _speechInstructions
         };
 
         await foreach (StreamingSpeechUpdate update in _streamingSpeechClient

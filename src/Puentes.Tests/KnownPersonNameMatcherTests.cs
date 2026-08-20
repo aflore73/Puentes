@@ -20,6 +20,7 @@ public sealed class KnownPersonNameMatcherTests
     [InlineData("seria", "maria")]
     [InlineData("lindo", "lina")]
     [InlineData("bueno", "giano")]
+    [InlineData("recuerdo", "alejandro")]
     public void RejectsOrdinaryWordsThatAreNotNames(
         string heard,
         string known)

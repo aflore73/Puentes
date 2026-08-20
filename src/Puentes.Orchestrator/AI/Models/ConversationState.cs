@@ -8,5 +8,13 @@ public class ConversationState
 
     public PendingOfferContext? PendingOffer { get; set; }
 
+    public List<PendingOfferContext> PendingOffers { get; set; } = [];
+
     public RequiredDialogueAction RequiredDialogueAction { get; set; }
+
+    public bool AvoidAssistedPersonName { get; set; }
+
+    public string? FocusedPersonName { get; set; }
+
+    public List<string> ResponseValidationErrors { get; set; } = [];
 }

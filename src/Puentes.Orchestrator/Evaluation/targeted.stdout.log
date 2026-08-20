@@ -1,0 +1,800 @@
+info: Puentes.Orchestrator.Services.PeripheralActivationWorker[0]
+      La activacion por perifericos esta deshabilitada.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5395
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\aflorentin\source\repos\Repo_Puentes\src\Puentes.Orchestrator
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST http://localhost:5395/memory-support/conversations - application/json;+charset=utf-8 122
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /memory-support/conversations'
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 82.8777ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 97.3922ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 27.7586ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 27.9193ms - 200
+info: Puentes.Orchestrator.Services.OpenAiConversationContextSelector[0]
+      Contexto seleccionado: Relationship,Routine; foco: Mateo Ben¡tez; tiempo: YesterdayEvening
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 16.73ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 16.87ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 15.2862ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 15.907ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 7.2646ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 7.472ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 15.9924ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 16.1678ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 12.9891ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 13.1819ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 14.6262ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 14.8009ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 27.2003ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 27.3769ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 20.3959ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 20.72ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 26.1535ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 26.2757ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 30.7278ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 30.8371ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 26.9805ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 27.0657ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 28.2086ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 28.3389ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 27.9056ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 27.9955ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 28.1508ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 28.2073ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 29.255ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 29.3167ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 33.6586ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 33.7674ms - 200
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
+      Setting HTTP status code 200.
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
+      Writing value of type 'MemoryConversationTurnResponse' as Json.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /memory-support/conversations'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST http://localhost:5395/memory-support/conversations - 200 - application/json;+charset=utf-8 4361.7804ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST http://localhost:5395/memory-support/conversations/98f5acbb-12b8-4eea-8e3a-718221ddc0ec/messages - application/json;+charset=utf-8 56
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /memory-support/conversations/{conversationId:guid}/messages'
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.5112ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.7329ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.5056ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.5545ms - 200
+info: Puentes.Orchestrator.Services.OpenAiConversationContextSelector[0]
+      Contexto seleccionado: None; foco: Rosa Ben¡tez; tiempo: Other
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 3.0678ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 3.2642ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.9747ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 3.0506ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.5307ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.5871ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.5595ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.6328ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.3392ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.3931ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.5003ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.5447ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.492ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.5268ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.3649ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.4056ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.7835ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 3.0697ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.4889ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.5584ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.3291ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.3808ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.8486ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.8862ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.9393ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 3.2147ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 3.092ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 3.1404ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 4.6212ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 4.6597ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 4.1966ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 4.2425ms - 200
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
+      Setting HTTP status code 200.
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
+      Writing value of type 'MemoryConversationTurnResponse' as Json.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /memory-support/conversations/{conversationId:guid}/messages'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST http://localhost:5395/memory-support/conversations/98f5acbb-12b8-4eea-8e3a-718221ddc0ec/messages - 200 - application/json;+charset=utf-8 2588.0081ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST http://localhost:5395/memory-support/conversations - application/json;+charset=utf-8 108
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /memory-support/conversations'
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.5365ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.6123ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.6913ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.7239ms - 200
+info: Puentes.Orchestrator.Services.OpenAiConversationContextSelector[0]
+      Contexto seleccionado: Relationship; foco: Daniel Ben¡tez; tiempo: None
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 3.1041ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 3.1805ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.4955ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.5505ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.6483ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.6801ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.6863ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.7158ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 0.9972ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.0174ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 5.054ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 5.1926ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 5.0884ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 5.2111ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 7.4731ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 7.6296ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 7.5062ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 7.6503ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 7.3547ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 7.3725ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 7.1515ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 7.0153ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 7.1709ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 7.0309ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 7.0697ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 7.0893ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 7.0968ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 7.1121ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 8.1912ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 8.2101ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 8.5931ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 8.6096ms - 200
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
+      Setting HTTP status code 200.
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
+      Writing value of type 'MemoryConversationTurnResponse' as Json.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /memory-support/conversations'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST http://localhost:5395/memory-support/conversations - 200 - application/json;+charset=utf-8 3823.4479ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST http://localhost:5395/memory-support/conversations/b04e31fc-b6ad-488a-acce-22355bd69b98/messages - application/json;+charset=utf-8 72
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /memory-support/conversations/{conversationId:guid}/messages'
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.9422ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 3.3141ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.6467ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.6818ms - 200
+info: Puentes.Orchestrator.Services.OpenAiConversationContextSelector[0]
+      Contexto seleccionado: Routine; foco: Rosa Ben¡tez; tiempo: Current
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.395ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.4452ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.1765ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.2109ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 0.963ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.0056ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.8101ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.8357ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.0321ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.0646ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 0.9675ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 0.9814ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.5578ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.5753ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.487ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.5133ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.1638ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.2021ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.0226ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.0442ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.8938ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.9078ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.8455ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.4813ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.8622ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.4983ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.6336ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.6495ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.8516ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.8709ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 2.9022ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 2.9198ms - 200
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
+      Setting HTTP status code 200.
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
+      Writing value of type 'MemoryConversationTurnResponse' as Json.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /memory-support/conversations/{conversationId:guid}/messages'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST http://localhost:5395/memory-support/conversations/b04e31fc-b6ad-488a-acce-22355bd69b98/messages - 200 - application/json;+charset=utf-8 3663.4096ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST http://localhost:5395/memory-support/conversations/b04e31fc-b6ad-488a-acce-22355bd69b98/messages - application/json;+charset=utf-8 63
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /memory-support/conversations/{conversationId:guid}/messages'
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.1123ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.146ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/relationships
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 3.7381ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 3.8341ms - 200
+info: Puentes.Orchestrator.Services.OpenAiConversationContextSelector[0]
+      Contexto seleccionado: Relationship,Routine; foco: Daniel Ben¡tez; tiempo: Current
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/support-contents
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 3.963ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 4.005ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/belongings
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.2036ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.2255ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/trusted-contacts
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 0.6914ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 0.7038ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/agenda
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 1.1161ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 1.1372ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/9b412bec-9cb1-448b-ad10-160c841e9516/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/217490ce-626a-4177-a04c-a99c97211221/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/017a1789-ab70-49aa-881e-68b07cae62e1/preferences
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/life-events
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/routines
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5396/people/b74264e1-c30b-4c47-8b71-5e31caf66c96/preferences
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 5.1979ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 5.2188ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 5.1694ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 5.1776ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 5.2458ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 5.2792ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 5.0498ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 5.056ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 5.0187ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 5.0248ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 4.7914ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 4.9248ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 4.8005ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 4.9348ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 4.0239ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 4.6531ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 4.0338ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 4.6748ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 5.2488ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 5.2549ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 4.3077ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 4.3294ms - 200
+info: System.Net.Http.HttpClient.ApiClient.ClientHandler[101]
+      Received HTTP response headers after 5.006ms - 200
+info: System.Net.Http.HttpClient.ApiClient.LogicalHandler[101]
+      End processing HTTP request after 5.0208ms - 200
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
+      Setting HTTP status code 200.
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
+      Writing value of type 'MemoryConversationTurnResponse' as Json.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /memory-support/conversations/{conversationId:guid}/messages'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST http://localhost:5395/memory-support/conversations/b04e31fc-b6ad-488a-acce-22355bd69b98/messages - 200 - application/json;+charset=utf-8 3105.1253ms
