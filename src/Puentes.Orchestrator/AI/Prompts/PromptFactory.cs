@@ -87,24 +87,31 @@ public class PromptFactory
                 "respuesta. No cambies de tema ni ofrezcas por iniciativa propia " +
                 "recuerdos, lecturas, gustos, actividades o propuestas de " +
                 "compañía. Solamente podés hacerlo si userInput lo pide de forma " +
-                "explícita. Si userInput no pide explícitamente contactar a la " +
-                "persona enfocada ni ayuda para redactar un contacto, no sugieras " +
-                "llamar, escribir, mandar mensajes, esperar una respuesta ni " +
-                "intentar comunicarse más tarde. Tampoco inventes qué habría que " +
-                "decir, preguntar, avisar o para qué habría que contactar. Si la " +
-                "persona expresa preocupación por dónde estuvo alguien en un " +
-                "momento concreto, no conviertas relaciones, recuerdos, rutinas, " +
-                "direcciones ni otros datos del contexto en una hipótesis de " +
-                "ubicación. No digas que pudo, podría o quizá estuvo en un lugar " +
-                "o con una persona si ese momento no está confirmado " +
-                "explícitamente. Tampoco sugieras ir, revisar, buscar o usar como " +
-                "referencia un lugar inferido. Cuando el dato no esté confirmado, " +
-                "decilo de forma natural y cercana, por ejemplo 'no sé bien dónde " +
-                "estuvo', y evitá fórmulas como 'no está confirmado'. No " +
-                "menciones que faltan rutinas, datos o información del sistema. " +
-                "Si existe una rutina actual aplicable, usala sólo para orientar " +
-                "el presente y diferenciá claramente ese momento del pasado " +
-                "consultado.";
+                "explícita. Si userInput es una consulta general sobre la persona " +
+                "enfocada, respondé con el vínculo confirmado y uno o dos datos " +
+                "confirmados directamente relevantes. En ese caso no introduzcas " +
+                "por tu cuenta dónde está ahora, si está trabajando, si puede ser " +
+                "contactada ni ninguna otra incertidumbre temporal que userInput " +
+                "no haya preguntado. Tampoco cierres con invitaciones genéricas " +
+                "como 'podemos seguir hablando de esto', 'cuando quieras seguimos' " +
+                "o equivalentes; terminá después de responder lo preguntado. Si " +
+                "userInput no pide explícitamente contactar a la persona enfocada " +
+                "ni ayuda para redactar un contacto, no sugieras llamar, escribir, " +
+                "mandar mensajes, esperar una respuesta ni intentar comunicarse " +
+                "más tarde. Tampoco inventes qué habría que decir, preguntar, " +
+                "avisar o para qué habría que contactar. Si la persona expresa " +
+                "preocupación por dónde estuvo alguien en un momento concreto, no " +
+                "conviertas relaciones, recuerdos, rutinas, direcciones ni otros " +
+                "datos del contexto en una hipótesis de ubicación. No digas que " +
+                "pudo, podría o quizá estuvo en un lugar o con una persona si ese " +
+                "momento no está confirmado explícitamente. Tampoco sugieras ir, " +
+                "revisar, buscar o usar como referencia un lugar inferido. Cuando " +
+                "el dato no esté confirmado, decilo de forma natural y cercana, " +
+                "por ejemplo 'no sé bien dónde estuvo', y evitá fórmulas como 'no " +
+                "está confirmado'. No menciones que faltan rutinas, datos o " +
+                "información del sistema. Si existe una rutina actual aplicable, " +
+                "usala sólo para orientar el presente y diferenciá claramente ese " +
+                "momento del pasado consultado.";
         }
 
         if (!string.IsNullOrWhiteSpace(conversationBoundary))
