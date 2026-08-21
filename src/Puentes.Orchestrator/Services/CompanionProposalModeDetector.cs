@@ -12,7 +12,7 @@ public static class CompanionProposalModeDetector
     {
         var text = Normalize(userInput);
         if (!string.IsNullOrWhiteSpace(selectedCategory) &&
-            (IsSimpleAcceptance(text) ||
+            (IsNormalizedSimpleAcceptance(text) ||
              MentionsCategory(userInput, selectedCategory)))
         {
             return selectedCategory.StartsWith("reading.",
@@ -34,7 +34,7 @@ public static class CompanionProposalModeDetector
             if (IsRejection(text))
                 return CompanionProposalMode.NoDetails;
 
-            return IsSimpleAcceptance(text)
+            return IsNormalizedSimpleAcceptance(text)
                 ? CompanionProposalMode.CategoriesOnly
                 : CompanionProposalMode.FullContext;
         }
@@ -74,9 +74,9 @@ public static class CompanionProposalModeDetector
     }
 
     public static bool IsSimpleAcceptance(string userInput) =>
-        IsSimpleAcceptance(Normalize(userInput));
+        IsNormalizedSimpleAcceptance(Normalize(userInput));
 
-    private static bool IsSimpleAcceptance(string text) =>
+    private static bool IsNormalizedSimpleAcceptance(string text) =>
         text is
             "si" or
             "dale" or
