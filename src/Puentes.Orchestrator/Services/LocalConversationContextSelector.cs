@@ -16,6 +16,14 @@ public static class LocalConversationContextSelector
             return Selection(input, categoryKind.Value);
         }
 
+        // Un pedido explícito de información sobre un tema o persona no debe
+        // convertirse automáticamente en una preferencia sólo porque contiene
+        // palabras como "música" o "cantante". En esos casos el selector
+        // semántico decide si corresponde conocimiento externo, preferencia,
+        // recuerdo u otro contexto.
+        if (IsExplicitTopicInformationRequest(input.UserInput))
+            return null;
+
         var explicitMode = CompanionProposalModeDetector.Resolve(
             input.UserInput,
             waitingForChoice: false);
@@ -64,10 +72,10 @@ public static class LocalConversationContextSelector
             return Selection(input, ConversationContextKind.Companion);
         }
 
-        // Preguntas o pedidos explícitos sobre un tema concreto no deben
-        // resolverse por una mera coincidencia léxica con una preferencia.
-        // Dejamos que el selector semántico decida si corresponde conocimiento
-        // externo, preferencia, recuerdo u otro contexto.
+        // Expresiones conversacionales como "te acordás" pueden compartir
+        // palabras con una rutina almacenada, pero su intención no se puede
+        // decidir con una coincidencia léxica. En esos casos dejamos que el
+        // selector semántico determine el contexto.
         if (RequiresSemanticSelection(input.UserInput))
             return null;
 
@@ -149,21 +157,25 @@ public static class LocalConversationContextSelector
             normalized.Contains("no se nada de", StringComparison.Ordinal);
     }
 
-    private static bool RequiresSemanticSelection(string input)
+    private static bool IsExplicitTopicInformationRequest(string input)
     {
         var normalized = NormalizePhrase(input);
+        return normalized.Contains("decime algo de", StringComparison.Ordinal) ||
+            normalized.Contains("contame algo de", StringComparison.Ordinal) ||
+            normalized.Contains("hablame de", StringComparison.Ordinal) ||
+            normalized.Contains("quien es", StringComparison.Ordinal) ||
+            normalized.Contains("que sabes de", StringComparison.Ordinal);
+    }
+
+    private static bool RequiresSemanticSelection(string input)
+    {
         var tokens = NormalizeTokens(input, minimumLength: 3);
         return tokens.Contains("acordas") ||
             tokens.Contains("acordar") ||
             tokens.Contains("recordas") ||
             tokens.Contains("recordar") ||
             tokens.Contains("recuerdo") ||
-            tokens.Contains("recuerdos") ||
-            normalized.Contains("decime algo de", StringComparison.Ordinal) ||
-            normalized.Contains("contame algo de", StringComparison.Ordinal) ||
-            normalized.Contains("hablame de", StringComparison.Ordinal) ||
-            normalized.Contains("quien es", StringComparison.Ordinal) ||
-            normalized.Contains("que sabes de", StringComparison.Ordinal);
+            tokens.Contains("recuerdos");
     }
 
     private static ConversationContextSelection Selection(
