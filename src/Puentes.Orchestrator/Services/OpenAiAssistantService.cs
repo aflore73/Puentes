@@ -4,6 +4,7 @@ using Puentes.Orchestrator.AI;
 using Puentes.Orchestrator.AI.Models;
 using Puentes.Orchestrator.AI.Prompts;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Puentes.Orchestrator.Services;
 
@@ -54,6 +55,8 @@ public class OpenAiAssistantService : IAssistantService
     {
         PropertyNameCaseInsensitive = true
     };
+    private const string ResolvedContextMarker =
+        "\n[Contexto resuelto por Puentes:";
     private readonly ChatClient _chatClient;
 
     public OpenAiAssistantService(OpenAiOptions options)
@@ -71,7 +74,6 @@ public class OpenAiAssistantService : IAssistantService
         }
 
         var client = new OpenAIClient(options.ApiKey);
-
         _chatClient = client.GetChatClient(options.Model);
     }
 
@@ -79,10 +81,15 @@ public class OpenAiAssistantService : IAssistantService
         AssistantPrompt prompt,
         CancellationToken cancellationToken = default)
     {
+        var prepared = PrepareUserMessage(prompt.UserMessage);
+
+        Console.WriteLine($"Marta: {prepared.SpokenInput}");
+        Console.WriteLine($"Contexto enviado: {prepared.UserMessage}");
+
         List<ChatMessage> messages =
         [
             new SystemChatMessage(prompt.SystemMessage),
-            new UserChatMessage(prompt.UserMessage)
+            new UserChatMessage(prepared.UserMessage)
         ];
 
         var options = new ChatCompletionOptions
@@ -104,6 +111,14 @@ public class OpenAiAssistantService : IAssistantService
             content, JsonOptions) ?? throw new InvalidOperationException(
                 "OpenAI no devolvio una respuesta estructurada valida.");
 
+        if (prepared.DiscardedPendingOffer)
+        {
+            structured.PendingOfferDisposition = "None";
+            structured.OfferedAction = new StructuredOffer();
+        }
+
+        Console.WriteLine($"OpenAI: {structured.Message}");
+
         return new AssistantResponse
         {
             Message = structured.Message,
@@ -121,6 +136,61 @@ public class OpenAiAssistantService : IAssistantService
         };
     }
 
+    private static PreparedUserMessage PrepareUserMessage(string userMessage)
+    {
+        try
+        {
+            var root = JsonNode.Parse(userMessage)?.AsObject();
+            if (root is null)
+            {
+                return new PreparedUserMessage(userMessage, userMessage, false);
+            }
+
+            var fullInput = root["userInput"]?.GetValue<string>() ?? string.Empty;
+            var spokenInput = StripResolvedContext(fullInput);
+            var state = root["state"] as JsonObject;
+            var focusedPersonName = state?["focusedPersonName"]?
+                .GetValue<string>();
+            var pendingOffer = state?["pendingOffer"] as JsonObject;
+            var categoryCode = pendingOffer?["categoryCode"]?
+                .GetValue<string>();
+
+            var shouldDiscard =
+                !string.IsNullOrWhiteSpace(focusedPersonName) &&
+                pendingOffer is not null &&
+                !CompanionProposalModeDetector.IsSimpleAcceptance(spokenInput) &&
+                (string.IsNullOrWhiteSpace(categoryCode) ||
+                 !CompanionProposalModeDetector.MentionsCategory(
+                     spokenInput, categoryCode));
+
+            if (shouldDiscard && state is not null)
+            {
+                state["pendingOffer"] = null;
+                state["pendingOffers"] = new JsonArray();
+            }
+
+            return new PreparedUserMessage(
+                root.ToJsonString(),
+                spokenInput,
+                shouldDiscard);
+        }
+        catch (JsonException)
+        {
+            return new PreparedUserMessage(
+                userMessage,
+                StripResolvedContext(userMessage),
+                false);
+        }
+    }
+
+    private static string StripResolvedContext(string value)
+    {
+        var index = value.IndexOf(
+            ResolvedContextMarker,
+            StringComparison.Ordinal);
+        return (index >= 0 ? value[..index] : value).Trim();
+    }
+
     private static PendingOfferDisposition ParseDisposition(string value) =>
         Enum.TryParse<PendingOfferDisposition>(value, true, out var parsed)
             ? parsed
@@ -133,6 +203,11 @@ public class OpenAiAssistantService : IAssistantService
 
     private static string? EmptyToNull(string? value) =>
         string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+
+    private sealed record PreparedUserMessage(
+        string UserMessage,
+        string SpokenInput,
+        bool DiscardedPendingOffer);
 
     private sealed class StructuredOutput
     {
