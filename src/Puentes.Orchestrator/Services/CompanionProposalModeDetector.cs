@@ -11,7 +11,9 @@ public static class CompanionProposalModeDetector
         string? selectedCategory = null)
     {
         var text = Normalize(userInput);
-        if (!string.IsNullOrWhiteSpace(selectedCategory))
+        if (!string.IsNullOrWhiteSpace(selectedCategory) &&
+            (IsSimpleAcceptance(text) ||
+             MentionsCategory(userInput, selectedCategory)))
         {
             return selectedCategory.StartsWith("reading.",
                 StringComparison.OrdinalIgnoreCase)
@@ -29,9 +31,12 @@ public static class CompanionProposalModeDetector
 
         if (waitingForChoice)
         {
-            return IsRejection(text)
-                ? CompanionProposalMode.NoDetails
-                : CompanionProposalMode.CategoriesOnly;
+            if (IsRejection(text))
+                return CompanionProposalMode.NoDetails;
+
+            return IsSimpleAcceptance(text)
+                ? CompanionProposalMode.CategoriesOnly
+                : CompanionProposalMode.FullContext;
         }
 
         return IsCompanionshipRequest(text)
@@ -67,6 +72,21 @@ public static class CompanionProposalModeDetector
         return GetAliases(value).Any(alias => normalized.Contains(
             alias, StringComparison.Ordinal));
     }
+
+    public static bool IsSimpleAcceptance(string userInput) =>
+        IsSimpleAcceptance(Normalize(userInput));
+
+    private static bool IsSimpleAcceptance(string text) =>
+        text is
+            "si" or
+            "dale" or
+            "bueno" or
+            "ok" or
+            "okay" or
+            "esta bien" or
+            "si dale" or
+            "si quiero" or
+            "quiero";
 
     private static CompanionProposalMode? ResolveSelectedCategory(string text)
     {
