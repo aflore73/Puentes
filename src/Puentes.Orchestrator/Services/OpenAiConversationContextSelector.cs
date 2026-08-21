@@ -122,14 +122,28 @@ public sealed class OpenAiConversationContextSelector :
             kinds.Add(ConversationContextKind.Routine);
         }
         if (kinds.Count == 0) kinds.Add(ConversationContextKind.None);
+
+        var parsedTimeFrame = Enum.TryParse<ConversationTimeFrame>(
+            output.TimeFrame, true, out var timeFrame)
+            ? timeFrame
+            : ConversationTimeFrame.None;
+
+        // Para una preocupación sobre un momento pasado, mantenemos disponibles
+        // las rutinas de la persona. El contexto final marca por separado cuáles
+        // aplicaban entonces y cuáles aplican ahora, de modo que el modelo pueda
+        // orientar el presente sin convertir una rutina actual en evidencia del
+        // pasado.
+        var effectiveTimeFrame =
+            parsedTimeFrame == ConversationTimeFrame.YesterdayEvening &&
+            kinds.Contains(ConversationContextKind.Routine)
+                ? ConversationTimeFrame.None
+                : parsedTimeFrame;
+
         var selection = new ConversationContextSelection
         {
             FocusedPersonName = knownFocus,
             Kinds = kinds,
-            TimeFrame = Enum.TryParse<ConversationTimeFrame>(
-                output.TimeFrame, true, out var timeFrame)
-                ? timeFrame
-                : ConversationTimeFrame.None
+            TimeFrame = effectiveTimeFrame
         };
         _logger.LogInformation(
             "Contexto seleccionado: {Kinds}; foco: {Focus}; tiempo: {TimeFrame}",
