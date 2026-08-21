@@ -204,11 +204,8 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
                             transcription = new
                             {
                                 model = "gpt-live-transcribe",
-                                prompt = "Conversación familiar en español argentino con una persona mayor. " +
-                                    "Transcribí literalmente lo que dice, sin completar, corregir ni reinterpretar el sentido. " +
-                                    "Prestá especial atención a nombres propios y a frases negativas breves. " +
-                                    "Son comunes frases como: 'de Alejandro no sé nada', 'de Ezequiel no sé nada' y " +
-                                    "'no puedo comunicarme con Alejandro'. No conviertas 'no sé nada' en 'no hace nada'.",
+                                prompt = "Conversacion familiar en espanol argentino. " +
+                                    "Prestar especial atencion a los nombres propios.",
                                 keywords = context.KnownPeople
                                     .Select(person => person.Name
                                         .Replace("\r", " ")
