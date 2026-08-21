@@ -6,6 +6,8 @@ namespace Puentes.Orchestrator.AI.Prompts;
 
 public class PromptFactory
 {
+    private const string ConversationBoundaryPrefix = "Límite conversacional:";
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -24,6 +26,15 @@ public class PromptFactory
             !context.State.FocusedPersonName.Equals(
                 context.Person.Name,
                 StringComparison.OrdinalIgnoreCase);
+
+        var focusedRelationship = focusIsAnotherKnownPerson
+            ? context.MemorySupport?.Relationships.FirstOrDefault(item =>
+                item.OtherPersonName.Equals(
+                    context.State.FocusedPersonName,
+                    StringComparison.OrdinalIgnoreCase))
+            : null;
+        var conversationBoundary = ExtractConversationBoundary(
+            focusedRelationship?.Notes);
 
         var userMessage = SerializeContext(
             context,
@@ -78,7 +89,33 @@ public class PromptFactory
                 "confirmado, decí brevemente que no sabés dónde estuvo.";
         }
 
+        if (!string.IsNullOrWhiteSpace(conversationBoundary))
+        {
+            systemMessage += "\n\n" +
+                "LÍMITE CONVERSACIONAL OBLIGATORIO PARA EL TURNO ACTUAL: " +
+                conversationBoundary + " No conviertas este límite en tema de " +
+                "conversación ni se lo expliques a la persona. Aplicalo en " +
+                "silencio. Si el límite indica no hablar, recordar o profundizar " +
+                "sobre la persona enfocada, respondé sólo lo mínimo necesario " +
+                "para orientarla y no propongas recuerdos, historias, preguntas " +
+                "ni actividades relacionadas con esa persona.";
+        }
+
         return new AssistantPrompt(systemMessage, userMessage);
+    }
+
+    private static string? ExtractConversationBoundary(string? notes)
+    {
+        if (string.IsNullOrWhiteSpace(notes)) return null;
+
+        var index = notes.IndexOf(
+            ConversationBoundaryPrefix,
+            StringComparison.OrdinalIgnoreCase);
+        if (index < 0) return null;
+
+        var boundary = notes[(index + ConversationBoundaryPrefix.Length)..]
+            .Trim();
+        return string.IsNullOrWhiteSpace(boundary) ? null : boundary;
     }
 
     private static string SerializeContext(
