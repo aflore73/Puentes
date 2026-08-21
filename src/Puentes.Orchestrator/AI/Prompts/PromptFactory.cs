@@ -52,7 +52,14 @@ public class PromptFactory
                 "respuesta. No cambies de tema ni ofrezcas por iniciativa propia " +
                 "recuerdos, lecturas, gustos, actividades o propuestas de " +
                 "compañía. Solamente podés hacerlo si userInput lo pide de forma " +
-                "explícita.";
+                "explícita. Si la persona expresa preocupación por dónde estuvo " +
+                "alguien en un momento concreto, no conviertas relaciones, " +
+                "recuerdos, rutinas, direcciones ni otros datos del contexto en " +
+                "una hipótesis de ubicación. No digas que pudo, podría o quizá " +
+                "estuvo en un lugar o con una persona si ese momento no está " +
+                "confirmado explícitamente. Tampoco sugieras ir, revisar, buscar " +
+                "o usar como referencia un lugar inferido. Cuando el dato no está " +
+                "confirmado, decí brevemente que no sabés dónde estuvo.";
         }
 
         return new AssistantPrompt(systemMessage, userMessage);
