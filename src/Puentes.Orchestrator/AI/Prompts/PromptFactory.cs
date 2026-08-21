@@ -42,6 +42,22 @@ public class PromptFactory
             ? PromptBase.Contenido
             : $"{PromptBase.Contenido}\n\n{scenarioPrompt}";
 
+        if (context.Scenario == ConversationScenario.MemorySupport)
+        {
+            systemMessage += "\n\n" +
+                "REGLA DE TONO: hablá de manera cotidiana, cercana y simple, " +
+                "como en una conversación familiar. Cuando un dato no esté " +
+                "confirmado, preferí frases naturales como 'Anoche no sé bien " +
+                "dónde estuvo Ezequiel' en lugar de expresiones formales como " +
+                "'no tengo información que confirme', 'no puedo determinar', " +
+                "'ese dato no está disponible', 'puede servir como referencia' " +
+                "o 'según la información disponible'. Cuando una rutina sirva " +
+                "para orientar, expresala directamente y con palabras simples, " +
+                "por ejemplo: 'Hoy viernes, por su horario, suele estar " +
+                "trabajando a esta hora'. Mantené la respuesta breve y cálida " +
+                "sin sonar técnica, administrativa ni clínica.";
+        }
+
         if (focusIsAnotherKnownPerson)
         {
             systemMessage += "\n\n" +
