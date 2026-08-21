@@ -102,11 +102,13 @@ public sealed class PeripheralActivationWorker : BackgroundService
                 _realtimePreparationTask ??=
                     PrepareRealtimeAsync(cancellationToken);
                 await _realtimePreparationTask;
+                Console.WriteLine("Podés hablar.");
                 await _realtimeService.RunTurnAsync(
                     _realtimeContextData!, _options, cancellationToken);
                 return;
             }
 
+            Console.WriteLine("Podés hablar.");
             var audio = await RecordAsync(cancellationToken);
             await _audioCues.CapturedAsync();
             await using var audioStream = new MemoryStream(audio);
