@@ -8,7 +8,7 @@ namespace Puentes.Tests;
 public sealed class ConversationRegressionTests
 {
     [Fact]
-    public void PersonConcernOverridesPendingReading()
+    public void PersonConcernWithPendingReadingIsDeferredToSemanticSelector()
     {
         var selection = LocalConversationContextSelector.TrySelect(new()
         {
@@ -24,9 +24,7 @@ public sealed class ConversationRegressionTests
             ]
         });
 
-        Assert.NotNull(selection);
-        Assert.Equal([ConversationContextKind.Relationship], selection.Kinds);
-        Assert.Equal("Daniel Benitez", selection.FocusedPersonName);
+        Assert.Null(selection);
     }
 
     [Fact]
@@ -73,12 +71,16 @@ public sealed class ConversationRegressionTests
         Assert.Null(focus);
     }
 
-    [Fact]
-    public void ExplicitTopicRequestDoesNotFallIntoPreferenceByKeywordOnly()
+    [Theory]
+    [InlineData("Decime algo de la música de un cantante, hablame de él.")]
+    [InlineData("Dime algo de la música de un cantante, háblame de él.")]
+    [InlineData("Quisiera información sobre la música de un cantante.")]
+    public void TopicInformationRequestsAreNotClassifiedByLocalKeywordRules(
+        string userInput)
     {
         var selection = LocalConversationContextSelector.TrySelect(new()
         {
-            UserInput = "Decime algo de la música de un cantante, hablame de él.",
+            UserInput = userInput,
             Preferences =
             [
                 new PersonPreferenceResponse
