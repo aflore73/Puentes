@@ -97,8 +97,12 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
             InvalidateConnection();
             _logger.LogWarning(
                 "OpenAI Realtime no devolvio la transcripcion dentro de 20 segundos.");
+            var assistedPersonName = _context?.AssistedPersonName;
+            var namePart = string.IsNullOrWhiteSpace(assistedPersonName)
+                ? string.Empty
+                : $", {assistedPersonName}";
             await PlayStreamingSpeechAsync(
-                "No te entendí bien, Marta. ¿Podés repetirme lo que dijiste?",
+                $"No te entendí bien{namePart}. ¿Podés repetirme lo que dijiste?",
                 cancellationToken);
             return;
         }
@@ -119,7 +123,7 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
     {
         _context = context;
         var turnTimer = Stopwatch.StartNew();
-        _logger.LogInformation("Marta: {UserInput}", userInput);
+        _logger.LogInformation("Entrada: {UserInput}", userInput);
         await GenerateHybridResponseAsync(userInput, cancellationToken);
         _logger.LogInformation(
             "Latencia total del turno de texto: {ElapsedMilliseconds} ms.",
@@ -346,7 +350,7 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
                 {
                     var transcriptText = inputTranscript.GetString() ?? string.Empty;
                     _logger.LogInformation(
-                        "Marta (transcripcion): {Transcript}",
+                        "Transcripcion: {Transcript}",
                         transcriptText);
                     _transcriptions.Writer.TryWrite(transcriptText);
                 }
@@ -394,10 +398,16 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
                 _conversationId = null;
             }
         }
+        else if (_focusedPerson is { HasConversationBoundary: true })
+        {
+            _focusedPerson = null;
+            _conversationId = null;
+        }
         else if (_focusedPerson is not null)
         {
             matches.Add(_focusedPerson);
         }
+
         _logger.LogInformation(
             "Contexto resuelto para el turno: {Matches}",
             matches.Count == 0
@@ -500,9 +510,8 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
         }
 
         return matches.Count > 0
-            ? $"Entiendo que estes preocupada por {matches.First().Name}. " +
-              "Podes enviarle un mensaje y cuando pueda te va a contestar."
-            : "Entiendo. Contame un poco mas asi puedo ayudarte con tranquilidad.";
+            ? $"No tengo un dato confirmado sobre {matches.First().Name}."
+            : "No te entendí bien. ¿Podés repetírmelo?";
     }
 
     private async Task PlayStreamingSpeechAsync(
@@ -607,29 +616,11 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
     private List<RealtimeKnownPerson> FindKnownPeopleByRelationshipReference(
         string transcript)
     {
-        var matches = new List<RealtimeKnownPerson>();
-        foreach (var person in _context?.KnownPeople ?? [])
-        {
-            foreach (var type in Enum.GetValues<PersonRelationshipType>())
-            {
-                if (type == PersonRelationshipType.Unknown ||
-                    !ConversationFocusResolver.MentionsRelationshipType(
-                        transcript, type))
-                {
-                    continue;
-                }
-
-                if (person.Description.StartsWith(
-                        $"relacion {type},",
-                        StringComparison.OrdinalIgnoreCase))
-                {
-                    matches.Add(person);
-                    break;
-                }
-            }
-        }
-
-        return matches
+        return (_context?.KnownPeople ?? [])
+            .Where(person =>
+                ConversationFocusResolver.MentionsRelationshipType(
+                    transcript,
+                    person.RelationshipType))
             .DistinctBy(person => person.Name, StringComparer.OrdinalIgnoreCase)
             .ToList();
     }
@@ -651,5 +642,4 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
         }
         return builder.ToString().Normalize(NormalizationForm.FormC);
     }
-
 }
