@@ -63,11 +63,15 @@ public class PromptFactory
                 "'no está confirmado', 'no tengo información que confirme', " +
                 "'no puedo determinar', 'ese dato no está disponible', " +
                 "'puede servir como referencia' o 'según la información " +
-                "disponible'. Si después de reconocer brevemente lo que no " +
-                "sabés existe una rutina compatible y realmente útil para " +
-                "orientar, agregala enseguida con palabras simples. Por ejemplo: " +
-                "'Anoche no sé bien dónde estuvo Ezequiel. Hoy viernes, por su " +
-                "horario, suele estar trabajando a esta hora'. No agregues una " +
+                "disponible'. Nunca describas las limitaciones internas del " +
+                "contexto ni digas frases como 'no tengo una rutina', 'no hay " +
+                "una rutina', 'no tengo datos para ubicarlo' o equivalentes. " +
+                "Si el mensaje se refiere a un momento pasado y ese momento no " +
+                "está confirmado, reconocelo brevemente sin inventar. Si además " +
+                "hay una rutina con appliesNow=true que sea útil para orientar " +
+                "el presente, podés mencionarla enseguida, dejando claro que " +
+                "hablás de ahora y no del momento pasado. No uses una rutina " +
+                "actual como explicación de lo ocurrido antes. No agregues una " +
                 "rutina si no es pertinente al mensaje actual. Mantené la " +
                 "respuesta breve y cálida, sin sonar técnica, administrativa ni " +
                 "clínica.";
@@ -92,7 +96,10 @@ public class PromptFactory
                 "o usar como referencia un lugar inferido. Cuando el dato no esté " +
                 "confirmado, decilo de forma natural y cercana, por ejemplo 'no " +
                 "sé bien dónde estuvo', y evitá fórmulas como 'no está " +
-                "confirmado'.";
+                "confirmado'. No menciones que faltan rutinas, datos o información " +
+                "del sistema. Si existe una rutina actual aplicable, usala sólo " +
+                "para orientar el presente y diferenciá claramente ese momento " +
+                "del pasado consultado.";
         }
 
         if (!string.IsNullOrWhiteSpace(conversationBoundary))
