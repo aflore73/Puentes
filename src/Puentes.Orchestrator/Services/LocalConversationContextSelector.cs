@@ -37,6 +37,15 @@ public static class LocalConversationContextSelector
             return Selection(input, categoryKind.Value);
         }
 
+        // Si el turno identifica a alguien mediante un parentesco personal y el
+        // resolver pudo convertirlo en una persona concreta, esa relación es el
+        // contexto principal. Evita mezclar rutinas de otras personas.
+        if (!string.IsNullOrWhiteSpace(input.ExplicitFocusedPersonName) &&
+            HasPersonalRelationshipReference(input.UserInput))
+        {
+            return Selection(input, ConversationContextKind.Relationship);
+        }
+
         // Si el turno nombra explícitamente a una persona y expresa una
         // preocupación de comunicación, la intención principal es esa relación.
         // No dejamos que un "sí" inicial ni el historial conviertan el turno en
@@ -110,6 +119,23 @@ public static class LocalConversationContextSelector
             "si dale" or
             "si quiero" or
             "quiero";
+    }
+
+    private static bool HasPersonalRelationshipReference(string input)
+    {
+        var normalized = NormalizePhrase(input);
+        string[] terms =
+        [
+            "marido", "esposo", "esposa", "conyuge", "pareja",
+            "hijo", "hija", "padre", "papa", "madre", "mama",
+            "hermano", "hermana", "nieto", "nieta", "abuelo", "abuela",
+            "amigo", "amiga", "cuidador", "cuidadora", "sobrino", "sobrina",
+            "tio", "tia", "primo", "prima", "vecino", "vecina"
+        ];
+        return terms.Any(term =>
+            normalized.Contains($"mi {term}", StringComparison.Ordinal) ||
+            normalized.Contains($"{term} mio", StringComparison.Ordinal) ||
+            normalized.Contains($"{term} mia", StringComparison.Ordinal));
     }
 
     private static bool IsCommunicationConcern(string input)
