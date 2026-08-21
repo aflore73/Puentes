@@ -27,8 +27,6 @@ public static class LocalConversationContextSelector
 
         // Una única oferta pendiente sólo determina el contexto cuando la
         // respuesta es una aceptación breve y no introduce un tema nuevo.
-        // Ej.: "sí", "dale", "bueno". Una frase como "De Alejandro no sé nada"
-        // debe volver al selector semántico en lugar de heredar Reading/Memory/etc.
         selectedCategory = input.PendingOffers.Count == 1 &&
             IsSimplePendingOfferAcceptance(input.UserInput)
                 ? input.PendingOffers.First().CategoryCode
@@ -168,7 +166,12 @@ public static class LocalConversationContextSelector
     {
         var tokens = NormalizeTokens(input, minimumLength: 3);
         if (tokens.Contains("anoche") || tokens.Contains("ayer"))
-            return ConversationTimeFrame.YesterdayEvening;
+        {
+            // Conservamos todas las rutinas de la persona. El contexto final
+            // calcula por separado cuáles aplicaban antes y cuáles aplican ahora,
+            // permitiendo orientar el presente sin inferir el pasado.
+            return ConversationTimeFrame.None;
+        }
         if (tokens.Contains("ahora") || tokens.Contains("hoy"))
             return ConversationTimeFrame.Current;
         return ConversationTimeFrame.None;
