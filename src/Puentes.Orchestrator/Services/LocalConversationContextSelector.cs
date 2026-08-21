@@ -37,6 +37,16 @@ public static class LocalConversationContextSelector
             return Selection(input, categoryKind.Value);
         }
 
+        // Si el turno nombra explícitamente a una persona y expresa una
+        // preocupación de comunicación, la intención principal es esa relación.
+        // No dejamos que un "sí" inicial ni el historial conviertan el turno en
+        // continuación de una lectura u otra propuesta anterior.
+        if (!string.IsNullOrWhiteSpace(input.ExplicitFocusedPersonName) &&
+            IsCommunicationConcern(input.UserInput))
+        {
+            return Selection(input, ConversationContextKind.Relationship);
+        }
+
         var proposalMode = CompanionProposalModeDetector.Resolve(
             input.UserInput,
             input.WaitingForProposalChoice);
@@ -100,6 +110,17 @@ public static class LocalConversationContextSelector
             "si dale" or
             "si quiero" or
             "quiero";
+    }
+
+    private static bool IsCommunicationConcern(string input)
+    {
+        var normalized = NormalizePhrase(input);
+        return normalized.Contains("no me atiende", StringComparison.Ordinal) ||
+            normalized.Contains("no me contesta", StringComparison.Ordinal) ||
+            normalized.Contains("no me responde", StringComparison.Ordinal) ||
+            normalized.Contains("no puedo comunicar", StringComparison.Ordinal) ||
+            normalized.Contains("no puedo hablar con", StringComparison.Ordinal) ||
+            normalized.Contains("no se nada de", StringComparison.Ordinal);
     }
 
     private static bool RequiresSemanticSelection(string input)
