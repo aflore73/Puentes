@@ -106,6 +106,50 @@ public sealed class ConversationArchitectureTests
     }
 
     [Fact]
+    public void FocusResolverUsesUniqueSpouseReference()
+    {
+        PersonConnectionResponse[] relationships =
+        [
+            new PersonConnectionResponse
+            {
+                Type = PersonRelationshipType.Spouse,
+                Direction = RelationshipDirection.Outgoing,
+                OtherPerson = new PersonSummaryResponse
+                {
+                    Name = "Carlos Duarte"
+                }
+            },
+            Connection("Daniel Benitez")
+        ];
+
+        var focus = ConversationFocusResolver.Resolve(
+            "Anoche mi marido no vino a dormir.",
+            "Rosa Benitez",
+            relationships,
+            previousFocus: null);
+
+        Assert.Equal("Carlos Duarte", focus);
+    }
+
+    [Fact]
+    public void FocusResolverDoesNotGuessAmongMultipleChildren()
+    {
+        PersonConnectionResponse[] relationships =
+        [
+            Connection("Daniel Benitez"),
+            Connection("Lucas Benitez")
+        ];
+
+        var focus = ConversationFocusResolver.Resolve(
+            "No sé nada de mi hijo.",
+            "Rosa Benitez",
+            relationships,
+            previousFocus: null);
+
+        Assert.Null(focus);
+    }
+
+    [Fact]
     public void PreviousFocusWinsOverSelectorOnContinuationWithoutName()
     {
         var focus = ConversationFocusResolver.ResolveFinal(
@@ -304,6 +348,20 @@ public sealed class ConversationArchitectureTests
     }
 
     [Fact]
+    public void LocalSelectorUsesRelationshipForResolvedKinshipReference()
+    {
+        var selection = LocalConversationContextSelector.TrySelect(new()
+        {
+            UserInput = "Anoche mi marido no vino a dormir.",
+            ExplicitFocusedPersonName = "Carlos Duarte"
+        });
+
+        Assert.NotNull(selection);
+        Assert.Equal([ConversationContextKind.Relationship], selection.Kinds);
+        Assert.Equal("Carlos Duarte", selection.FocusedPersonName);
+    }
+
+    [Fact]
     public void LocalSelectorLeavesAmbiguousQuestionForSemanticSelector()
     {
         var selection = LocalConversationContextSelector.TrySelect(new()
@@ -367,6 +425,7 @@ public sealed class ConversationArchitectureTests
     private static PersonConnectionResponse Connection(string name) => new()
     {
         Type = PersonRelationshipType.Child,
+        Direction = RelationshipDirection.Incoming,
         OtherPerson = new PersonSummaryResponse { Name = name }
     };
 
