@@ -7,6 +7,7 @@ using System.Threading.Channels;
 using NAudio.Wave;
 using Puentes.Orchestrator.AI;
 using Puentes.Orchestrator.AI.Models;
+using Puentes.Shared.Enums;
 
 namespace Puentes.Orchestrator.Services;
 
@@ -378,6 +379,21 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
         {
             _focusedPerson = matches[0];
         }
+        else if (ConversationFocusResolver.HasRelationshipReference(transcript))
+        {
+            var relationshipMatches = FindKnownPeopleByRelationshipReference(
+                transcript);
+            if (relationshipMatches.Count == 1)
+            {
+                _focusedPerson = relationshipMatches[0];
+                matches.Add(_focusedPerson);
+            }
+            else
+            {
+                _focusedPerson = null;
+                _conversationId = null;
+            }
+        }
         else if (_focusedPerson is not null)
         {
             matches.Add(_focusedPerson);
@@ -586,6 +602,36 @@ public sealed class OpenAiRealtimeService : IAsyncDisposable
         }
 
         return matches;
+    }
+
+    private List<RealtimeKnownPerson> FindKnownPeopleByRelationshipReference(
+        string transcript)
+    {
+        var matches = new List<RealtimeKnownPerson>();
+        foreach (var person in _context?.KnownPeople ?? [])
+        {
+            foreach (var type in Enum.GetValues<PersonRelationshipType>())
+            {
+                if (type == PersonRelationshipType.Unknown ||
+                    !ConversationFocusResolver.MentionsRelationshipType(
+                        transcript, type))
+                {
+                    continue;
+                }
+
+                if (person.Description.StartsWith(
+                        $"relacion {type},",
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    matches.Add(person);
+                    break;
+                }
+            }
+        }
+
+        return matches
+            .DistinctBy(person => person.Name, StringComparer.OrdinalIgnoreCase)
+            .ToList();
     }
 
     private static string Normalize(string value)
