@@ -46,4 +46,48 @@ public sealed class ContextSelectionRegressionTests
         Assert.NotNull(selection);
         Assert.Equal([ConversationContextKind.Reading], selection.Kinds);
     }
+
+    [Fact]
+    public void NewPersonTopicDoesNotInheritPendingReadingOffer()
+    {
+        var selection = LocalConversationContextSelector.TrySelect(new()
+        {
+            UserInput = "De Alejandro no sé nada",
+            ExplicitFocusedPersonName = "Alejandro",
+            PendingOffers =
+            [
+                new DialogueOffer
+                {
+                    Type = DialogueOfferType.Category,
+                    CategoryCode = "reading.religious"
+                }
+            ]
+        });
+
+        Assert.Null(selection);
+    }
+
+    [Theory]
+    [InlineData("dale")]
+    [InlineData("bueno")]
+    [InlineData("ok")]
+    [InlineData("sí, dale")]
+    public void BriefAcceptanceStillUsesPendingOffer(string userInput)
+    {
+        var selection = LocalConversationContextSelector.TrySelect(new()
+        {
+            UserInput = userInput,
+            PendingOffers =
+            [
+                new DialogueOffer
+                {
+                    Type = DialogueOfferType.Category,
+                    CategoryCode = "reading.religious"
+                }
+            ]
+        });
+
+        Assert.NotNull(selection);
+        Assert.Equal([ConversationContextKind.Reading], selection.Kinds);
+    }
 }
