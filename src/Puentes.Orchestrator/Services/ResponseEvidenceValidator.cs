@@ -74,6 +74,7 @@ public static class ResponseEvidenceValidator
             memory.Belongings.Select(item => item.Name), "objeto", errors);
 
         RejectUnsupportedOvernightInference(response, errors);
+        RejectSpeculativeLocationForConcreteConcern(context, response, errors);
         RejectPastRoutineInPresentTense(response, errors);
         RejectInventedContactPurpose(context, response, errors);
 
@@ -125,6 +126,47 @@ public static class ResponseEvidenceValidator
                     "durmió o pasó la noche una persona.");
                 return;
             }
+        }
+    }
+
+    private static void RejectSpeculativeLocationForConcreteConcern(
+        ConversationContext context,
+        AssistantResponse response,
+        ICollection<string> errors)
+    {
+        var focusedPerson = context.State.FocusedPersonName;
+        if (string.IsNullOrWhiteSpace(focusedPerson) ||
+            focusedPerson.Equals(context.Person.Name,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var input = RemoveDiacritics(
+            (context.UserInput ?? string.Empty).ToLowerInvariant());
+        var isConcreteConcern = Regex.IsMatch(input,
+            @"\b(anoche|ayer|noche)\b") &&
+            Regex.IsMatch(input,
+                @"\b(esperando|espere|no vino|no volvio|donde|ubicar|estuvo|durmio)\b");
+        if (!isConcreteConcern) return;
+
+        var message = RemoveDiacritics(response.Message.ToLowerInvariant());
+        var speculativeWhereabouts = Regex.IsMatch(message,
+            @"\b(podia|podria|pudo|quizas|quiza|tal vez|capaz)\b.{0,90}\b(estaba|estar|estado|en|con)\b");
+        var suggestsCheckingPlace = Regex.IsMatch(message,
+            @"\b(revisar|fijarte|buscar|buscarlo|buscarla|ir|acercarte)\b.{0,70}\b(lugar|direccion|calle|casa|ahi|alli|referencia)\b");
+
+        if (speculativeWhereabouts)
+        {
+            errors.Add("No conviertas recuerdos, relaciones, rutinas ni otros " +
+                "datos de contexto en una ubicación posible para esa noche. " +
+                "Si el dato no confirma ese momento, decí que no se sabe.");
+        }
+
+        if (suggestsCheckingPlace)
+        {
+            errors.Add("No sugieras revisar, buscar o ir a un lugar inferido " +
+                "a partir del contexto cuando la ubicación no está confirmada.");
         }
     }
 
