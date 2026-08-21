@@ -5,6 +5,7 @@ namespace Puentes.Orchestrator.Services;
 
 public sealed class RealtimeSessionContextService
 {
+    private const string ConversationBoundaryPrefix = "Límite conversacional:";
     private readonly ApiClient _apiClient;
     private readonly AiContextBuilderService _contextBuilder;
     private readonly PromptFactory _promptFactory;
@@ -26,9 +27,7 @@ public sealed class RealtimeSessionContextService
         var personTask = _apiClient.GetPersonAsync(personId, cancellationToken);
         var relationshipsTask = _apiClient.GetPersonRelationshipsAsync(
             personId, cancellationToken);
-        await Task.WhenAll(
-            personTask,
-            relationshipsTask);
+        await Task.WhenAll(personTask, relationshipsTask);
 
         var person = await personTask ?? throw new InvalidOperationException(
             $"No se encontro la persona {personId}.");
@@ -46,7 +45,11 @@ public sealed class RealtimeSessionContextService
             .Select(relationship => new RealtimeKnownPerson(
                 relationship.OtherPerson.Name,
                 $"relacion {relationship.Type}, " +
-                $"{relationship.Notes ?? "sin notas adicionales"}"))
+                $"{relationship.Notes ?? "sin notas adicionales"}",
+                relationship.Type,
+                relationship.Notes?.Contains(
+                    ConversationBoundaryPrefix,
+                    StringComparison.OrdinalIgnoreCase) == true))
             .ToList();
         var knownPeople = string.Join(
             "\n",
