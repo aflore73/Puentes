@@ -270,6 +270,8 @@ public class MemoryConversationWorkflowService
                  ConversationTimeFrame.YesterdayEvening)
             routines = routines.Where(routine =>
                 AiContextBuilderService.AppliesYesterdayEvening(
+                    routine, DateTime.Now) is not false ||
+                AiContextBuilderService.AppliesNow(
                     routine, DateTime.Now) is not false).ToList();
         if (!selection.Includes(ConversationContextKind.Preference) &&
             !companionScope)
@@ -441,8 +443,11 @@ public class MemoryConversationWorkflowService
                     string.Join(" | ", validationErrors));
                 response = new AssistantResponse
                 {
-                    Message = "No pude responder eso con seguridad. " +
-                        "¿Podés decirlo de otra manera?"
+                    Message = !string.IsNullOrWhiteSpace(focusedPersonName)
+                        ? $"Quiero asegurarme de haberte entendido bien sobre " +
+                          $"{focusedPersonName}. ¿Podés repetírmelo?"
+                        : "Quiero asegurarme de haberte entendido bien. " +
+                          "¿Podés repetírmelo?"
                 };
             }
         }
