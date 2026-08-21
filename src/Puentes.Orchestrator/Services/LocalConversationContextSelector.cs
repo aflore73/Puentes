@@ -25,9 +25,14 @@ public static class LocalConversationContextSelector
             return Selection(input, explicitKind.Value);
         }
 
-        selectedCategory = input.PendingOffers.Count == 1
-            ? input.PendingOffers.First().CategoryCode
-            : null;
+        // Una única oferta pendiente sólo determina el contexto cuando la
+        // respuesta es una aceptación breve y no introduce un tema nuevo.
+        // Ej.: "sí", "dale", "bueno". Una frase como "De Alejandro no sé nada"
+        // debe volver al selector semántico en lugar de heredar Reading/Memory/etc.
+        selectedCategory = input.PendingOffers.Count == 1 &&
+            IsSimplePendingOfferAcceptance(input.UserInput)
+                ? input.PendingOffers.First().CategoryCode
+                : null;
         categoryKind = KindForCategory(selectedCategory);
         if (categoryKind is not null)
         {
@@ -82,6 +87,21 @@ public static class LocalConversationContextSelector
         }
 
         return null;
+    }
+
+    private static bool IsSimplePendingOfferAcceptance(string input)
+    {
+        var normalized = NormalizePhrase(input);
+        return normalized is
+            "si" or
+            "dale" or
+            "bueno" or
+            "ok" or
+            "okay" or
+            "esta bien" or
+            "si dale" or
+            "si quiero" or
+            "quiero";
     }
 
     private static bool RequiresSemanticSelection(string input)
@@ -154,9 +174,7 @@ public static class LocalConversationContextSelector
         return ConversationTimeFrame.None;
     }
 
-    private static HashSet<string> NormalizeTokens(
-        string value,
-        int minimumLength = 4)
+    private static string NormalizePhrase(string value)
     {
         var decomposed = value.ToLowerInvariant()
             .Normalize(NormalizationForm.FormD);
@@ -168,7 +186,15 @@ public static class LocalConversationContextSelector
             builder.Append(char.IsLetterOrDigit(character) ? character : ' ');
         }
 
-        return builder.ToString()
+        return string.Join(' ', builder.ToString()
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries));
+    }
+
+    private static HashSet<string> NormalizeTokens(
+        string value,
+        int minimumLength = 4)
+    {
+        return NormalizePhrase(value)
             .Split(' ', StringSplitOptions.RemoveEmptyEntries)
             .Where(token => token.Length >= minimumLength)
             .ToHashSet(StringComparer.Ordinal);
