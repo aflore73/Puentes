@@ -58,15 +58,19 @@ public class PromptFactory
             systemMessage += "\n\n" +
                 "REGLA DE TONO: hablá de manera cotidiana, cercana y simple, " +
                 "como en una conversación familiar. Cuando un dato no esté " +
-                "confirmado, preferí frases naturales como 'Anoche no sé bien " +
-                "dónde estuvo Ezequiel' en lugar de expresiones formales como " +
-                "'no tengo información que confirme', 'no puedo determinar', " +
-                "'ese dato no está disponible', 'puede servir como referencia' " +
-                "o 'según la información disponible'. Cuando una rutina sirva " +
-                "para orientar, expresala directamente y con palabras simples, " +
-                "por ejemplo: 'Hoy viernes, por su horario, suele estar " +
-                "trabajando a esta hora'. Mantené la respuesta breve y cálida " +
-                "sin sonar técnica, administrativa ni clínica.";
+                "confirmado, preferí 'no sé bien' o una formulación igualmente " +
+                "natural. No uses expresiones frías o administrativas como " +
+                "'no está confirmado', 'no tengo información que confirme', " +
+                "'no puedo determinar', 'ese dato no está disponible', " +
+                "'puede servir como referencia' o 'según la información " +
+                "disponible'. Si después de reconocer brevemente lo que no " +
+                "sabés existe una rutina compatible y realmente útil para " +
+                "orientar, agregala enseguida con palabras simples. Por ejemplo: " +
+                "'Anoche no sé bien dónde estuvo Ezequiel. Hoy viernes, por su " +
+                "horario, suele estar trabajando a esta hora'. No agregues una " +
+                "rutina si no es pertinente al mensaje actual. Mantené la " +
+                "respuesta breve y cálida, sin sonar técnica, administrativa ni " +
+                "clínica.";
         }
 
         if (focusIsAnotherKnownPerson)
@@ -85,8 +89,10 @@ public class PromptFactory
                 "una hipótesis de ubicación. No digas que pudo, podría o quizá " +
                 "estuvo en un lugar o con una persona si ese momento no está " +
                 "confirmado explícitamente. Tampoco sugieras ir, revisar, buscar " +
-                "o usar como referencia un lugar inferido. Cuando el dato no está " +
-                "confirmado, decí brevemente que no sabés dónde estuvo.";
+                "o usar como referencia un lugar inferido. Cuando el dato no esté " +
+                "confirmado, decilo de forma natural y cercana, por ejemplo 'no " +
+                "sé bien dónde estuvo', y evitá fórmulas como 'no está " +
+                "confirmado'.";
         }
 
         if (!string.IsNullOrWhiteSpace(conversationBoundary))
