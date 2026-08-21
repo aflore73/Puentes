@@ -37,6 +37,7 @@ packages/
 *.snupkg
 
 # Base de datos local
+*.db
 *.db-shm
 *.db-wal
 
