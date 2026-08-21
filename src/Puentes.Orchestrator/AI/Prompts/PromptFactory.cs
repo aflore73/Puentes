@@ -18,9 +18,16 @@ public class PromptFactory
 
     public AssistantPrompt Create(ConversationContext context)
     {
-        var userMessage = JsonSerializer.Serialize(
+        var focusIsAnotherKnownPerson =
+            context.Scenario == ConversationScenario.MemorySupport &&
+            !string.IsNullOrWhiteSpace(context.State.FocusedPersonName) &&
+            !context.State.FocusedPersonName.Equals(
+                context.Person.Name,
+                StringComparison.OrdinalIgnoreCase);
+
+        var userMessage = SerializeContext(
             context,
-            JsonOptions);
+            removeAssistedPersonPrivateDetails: focusIsAnotherKnownPerson);
 
         var scenarioPrompt = context.Scenario switch
         {
@@ -35,6 +42,44 @@ public class PromptFactory
             ? PromptBase.Contenido
             : $"{PromptBase.Contenido}\n\n{scenarioPrompt}";
 
+        if (focusIsAnotherKnownPerson)
+        {
+            systemMessage += "\n\n" +
+                "REGLA DEL TURNO ACTUAL: la conversación está enfocada en " +
+                $"{context.State.FocusedPersonName}. Respondé solamente a ese " +
+                "tema con los datos seleccionados para esta persona. No uses " +
+                "notas personales de la persona asistida para completar la " +
+                "respuesta. No cambies de tema ni ofrezcas por iniciativa propia " +
+                "recuerdos, lecturas, gustos, actividades o propuestas de " +
+                "compañía. Solamente podés hacerlo si userInput lo pide de forma " +
+                "explícita.";
+        }
+
         return new AssistantPrompt(systemMessage, userMessage);
+    }
+
+    private static string SerializeContext(
+        ConversationContext context,
+        bool removeAssistedPersonPrivateDetails)
+    {
+        if (!removeAssistedPersonPrivateDetails)
+        {
+            return JsonSerializer.Serialize(context, JsonOptions);
+        }
+
+        var originalNotes = context.Person.Notes;
+        var originalBirthDate = context.Person.BirthDate;
+
+        try
+        {
+            context.Person.Notes = null;
+            context.Person.BirthDate = null;
+            return JsonSerializer.Serialize(context, JsonOptions);
+        }
+        finally
+        {
+            context.Person.Notes = originalNotes;
+            context.Person.BirthDate = originalBirthDate;
+        }
     }
 }
