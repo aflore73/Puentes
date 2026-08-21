@@ -41,6 +41,14 @@ public static class ConversationFocusResolver
         return relationshipFocus ?? previousFocus;
     }
 
+    public static bool HasRelationshipReference(string userInput) =>
+        RelationshipTypesMentioned(Normalize(userInput)).Count > 0;
+
+    public static bool MentionsRelationshipType(
+        string userInput,
+        PersonRelationshipType type) =>
+        RelationshipTypesMentioned(Normalize(userInput)).Contains(type);
+
     private static string? ResolveRelationshipReference(
         string userInput,
         IReadOnlyCollection<PersonConnectionResponse> relationships)
