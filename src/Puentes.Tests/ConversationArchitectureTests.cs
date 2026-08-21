@@ -325,7 +325,7 @@ public sealed class ConversationArchitectureTests
     }
 
     [Fact]
-    public void LocalSelectorUsesRoutineWhenOnlyRoutineDataMatches()
+    public void LocalSelectorDefersRoutineIntentToSemanticSelector()
     {
         var selection = LocalConversationContextSelector.TrySelect(new()
         {
@@ -342,13 +342,11 @@ public sealed class ConversationArchitectureTests
             ]
         });
 
-        Assert.NotNull(selection);
-        Assert.Equal([ConversationContextKind.Routine], selection.Kinds);
-        Assert.Equal(ConversationTimeFrame.Current, selection.TimeFrame);
+        Assert.Null(selection);
     }
 
     [Fact]
-    public void LocalSelectorUsesRelationshipForResolvedKinshipReference()
+    public void LocalSelectorDefersRelationshipIntentToSemanticSelector()
     {
         var selection = LocalConversationContextSelector.TrySelect(new()
         {
@@ -356,9 +354,7 @@ public sealed class ConversationArchitectureTests
             ExplicitFocusedPersonName = "Carlos Duarte"
         });
 
-        Assert.NotNull(selection);
-        Assert.Equal([ConversationContextKind.Relationship], selection.Kinds);
-        Assert.Equal("Carlos Duarte", selection.FocusedPersonName);
+        Assert.Null(selection);
     }
 
     [Fact]
@@ -366,15 +362,15 @@ public sealed class ConversationArchitectureTests
     {
         var selection = LocalConversationContextSelector.TrySelect(new()
         {
-            UserInput = "Ezequiel no vino anoche.",
-            ExplicitFocusedPersonName = "Ezequiel",
+            UserInput = "Daniel no vino anoche.",
+            ExplicitFocusedPersonName = "Daniel",
             Routines =
             [
                 new PersonRoutineResponse
                 {
-                    PersonName = "Ezequiel",
-                    Title = "Entrenamiento de futbol",
-                    Notes = "Lunes, miercoles y viernes de 19 a 23."
+                    PersonName = "Daniel",
+                    Title = "Entrenamiento",
+                    Notes = "Actividad programada varias veces por semana."
                 }
             ]
         });
@@ -403,11 +399,11 @@ public sealed class ConversationArchitectureTests
     }
 
     [Fact]
-    public void ExplicitMemoryRequestOverridesPendingReading()
+    public void NonAcceptanceDoesNotConsumePendingReading()
     {
         var selection = LocalConversationContextSelector.TrySelect(new()
         {
-            UserInput = "¿Qué recuerdo tenés?",
+            UserInput = "Quiero hablar de otra cosa.",
             PendingOffers =
             [
                 new DialogueOffer
@@ -418,8 +414,7 @@ public sealed class ConversationArchitectureTests
             ]
         });
 
-        Assert.NotNull(selection);
-        Assert.Equal([ConversationContextKind.Memory], selection.Kinds);
+        Assert.Null(selection);
     }
 
     private static PersonConnectionResponse Connection(string name) => new()
