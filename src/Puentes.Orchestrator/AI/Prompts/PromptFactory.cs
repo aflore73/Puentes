@@ -72,9 +72,14 @@ public class PromptFactory
                 "el presente, podés mencionarla enseguida, dejando claro que " +
                 "hablás de ahora y no del momento pasado. No uses una rutina " +
                 "actual como explicación de lo ocurrido antes. No agregues una " +
-                "rutina si no es pertinente al mensaje actual. Mantené la " +
-                "respuesta breve y cálida, sin sonar técnica, administrativa ni " +
-                "clínica.";
+                "rutina si no es pertinente al mensaje actual. Si userInput " +
+                "parece ambiguo, incompleto o mal transcripto y el contexto " +
+                "seleccionado no permite sostener una única interpretación, no " +
+                "completes el sentido por tu cuenta. No inventes personas, hechos, " +
+                "causas, lugares, intenciones ni acciones a partir de una frase " +
+                "ambigua. En ese caso pedí brevemente que repita lo que dijo. " +
+                "Mantené la respuesta breve y cálida, sin sonar técnica, " +
+                "administrativa ni clínica.";
         }
 
         if (focusIsAnotherKnownPerson)
