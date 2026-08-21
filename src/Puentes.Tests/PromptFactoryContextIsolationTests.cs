@@ -87,4 +87,76 @@ public sealed class PromptFactoryContextIsolationTests
             "No cambies de tema ni ofrezcas por iniciativa propia",
             prompt.SystemMessage);
     }
+
+    [Fact]
+    public void FocusedRelationshipConversationBoundaryBecomesMandatoryRule()
+    {
+        var context = new ConversationContext
+        {
+            Scenario = ConversationScenario.MemorySupport,
+            UserInput = "Anoche mi marido no vino.",
+            Person = new PersonContext { Name = "Marta" },
+            MemorySupport = new MemorySupportContext
+            {
+                Relationships =
+                [
+                    new PersonRelationshipContext
+                    {
+                        OtherPersonName = "Carlos",
+                        Notes = "Falleció hace años. Límite conversacional: " +
+                            "No sugerir hablar de él ni ofrecer recuerdos " +
+                            "relacionados con él. Orientar brevemente."
+                    }
+                ]
+            },
+            State = new ConversationState
+            {
+                FocusedPersonName = "Carlos"
+            }
+        };
+
+        var prompt = new PromptFactory().Create(context);
+
+        Assert.Contains(
+            "LÍMITE CONVERSACIONAL OBLIGATORIO",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "No sugerir hablar de él ni ofrecer recuerdos relacionados con él",
+            prompt.SystemMessage);
+        Assert.Contains(
+            "Aplicalo en silencio",
+            prompt.SystemMessage);
+    }
+
+    [Fact]
+    public void OrdinaryRelationshipNotesDoNotBecomeInstructions()
+    {
+        var context = new ConversationContext
+        {
+            Scenario = ConversationScenario.MemorySupport,
+            UserInput = "¿Dónde está Ezequiel?",
+            Person = new PersonContext { Name = "Marta" },
+            MemorySupport = new MemorySupportContext
+            {
+                Relationships =
+                [
+                    new PersonRelationshipContext
+                    {
+                        OtherPersonName = "Ezequiel",
+                        Notes = "Trabaja en sistemas y vive en Caseros."
+                    }
+                ]
+            },
+            State = new ConversationState
+            {
+                FocusedPersonName = "Ezequiel"
+            }
+        };
+
+        var prompt = new PromptFactory().Create(context);
+
+        Assert.DoesNotContain(
+            "LÍMITE CONVERSACIONAL OBLIGATORIO",
+            prompt.SystemMessage);
+    }
 }
