@@ -65,3 +65,4 @@ Desktop.ini
 *.temp
 *.swp
 ~$*
+/src/Puentes/obj/Debug/net10.0/
