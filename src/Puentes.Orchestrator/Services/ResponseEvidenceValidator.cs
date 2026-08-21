@@ -73,6 +73,7 @@ public static class ResponseEvidenceValidator
             response.Evidence.BelongingNames,
             memory.Belongings.Select(item => item.Name), "objeto", errors);
 
+        RejectAssistedPersonName(context, response, errors);
         RejectUnsupportedOvernightInference(response, errors);
         RejectSpeculativeLocationForConcreteConcern(context, response, errors);
         RejectPastRoutineInPresentTense(response, errors);
@@ -96,6 +97,28 @@ public static class ResponseEvidenceValidator
         }
 
         return errors;
+    }
+
+    private static void RejectAssistedPersonName(
+        ConversationContext context,
+        AssistantResponse response,
+        ICollection<string> errors)
+    {
+        if (!context.State.AvoidAssistedPersonName ||
+            string.IsNullOrWhiteSpace(context.Person.Name))
+        {
+            return;
+        }
+
+        var firstName = context.Person.Name.Split(' ',
+            StringSplitOptions.RemoveEmptyEntries)[0];
+        if (Regex.IsMatch(response.Message,
+                $@"\b{Regex.Escape(firstName)}\b",
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            errors.Add("Hablale directamente a la persona asistida; no uses su " +
+                "nombre para describirla en tercera persona.");
+        }
     }
 
     private static void RejectUnsupportedOvernightInference(
