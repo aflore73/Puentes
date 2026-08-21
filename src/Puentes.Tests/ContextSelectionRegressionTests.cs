@@ -1,3 +1,4 @@
+using Puentes.Orchestrator.AI.Models;
 using Puentes.Orchestrator.Services;
 using Puentes.Shared.Responses.People;
 
