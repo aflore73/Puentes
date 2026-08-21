@@ -66,10 +66,11 @@ public sealed class OpenAiConversationContextSelector :
         [
             new SystemChatMessage("""
                 Clasificá qué tipos de contexto necesita el turno actual.
+                La intención del userInput actual tiene prioridad. Usá conversationHistory solamente para resolver referencias, continuidad y pronombres; no arrastres el tema, la categoría ni la intención de un turno anterior cuando el userInput actual introduce semánticamente otro tema.
                 Relationship: vínculo o información general de una persona conocida.
                 Routine: ubicación probable, trabajo, horario, actividad habitual o una ausencia en un momento concreto que pueda compararse con una rutina. Incluí Routine para preguntas que contrastan casa y oficina. No la incluyas cuando preguntan dónde durmió.
                 Memory: recuerdos o acontecimientos pasados confirmados.
-                Preference: gustos personales. Incluí Preference cuando pide hablar de música, plantas u otro gusto propio.
+                Preference: gustos personales de la persona asistida. No uses Preference sólo porque un tema mencionado también aparece dentro de una preferencia; elegila únicamente cuando la intención actual sea hablar del gusto personal.
                 Reading: textos configurados para leer.
                 Belonging: búsqueda de objetos.
                 Agenda: citas o actividades programadas.
@@ -80,10 +81,6 @@ public sealed class OpenAiConversationContextSelector :
                 Elegí solo los tipos necesarios. No agregues Agenda salvo que pregunten por una cita o actividad programada. Una pregunta sobre dónde durmió alguien no es Routine: una rutina no demuestra dónde durmió.
                 Si el usuario aclara que no habla de la persona conocida, usá External y focusedPersonName vacío.
                 focusedPersonName debe ser un nombre exacto de knownPersonNames o vacío. Conservá previousFocus para pronombres solo si el tema sigue siendo personal.
-                Ejemplos de clasificación:
-                - Una persona conocida no vino anoche: Relationship y Routine, YesterdayEvening.
-                - Preguntan si trabaja en casa o en la oficina: Routine, Current.
-                - Preguntan dónde durmió: None, Other; no uses Routine.
                 """),
             new UserChatMessage(input)
         ];
