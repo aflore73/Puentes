@@ -64,10 +64,10 @@ public static class LocalConversationContextSelector
             return Selection(input, ConversationContextKind.Companion);
         }
 
-        // Expresiones conversacionales como "te acordás" pueden compartir
-        // palabras con una rutina almacenada, pero su intención no se puede
-        // decidir con una coincidencia léxica. En esos casos dejamos que el
-        // selector semántico determine el contexto.
+        // Preguntas o pedidos explícitos sobre un tema concreto no deben
+        // resolverse por una mera coincidencia léxica con una preferencia.
+        // Dejamos que el selector semántico decida si corresponde conocimiento
+        // externo, preferencia, recuerdo u otro contexto.
         if (RequiresSemanticSelection(input.UserInput))
             return null;
 
@@ -151,13 +151,19 @@ public static class LocalConversationContextSelector
 
     private static bool RequiresSemanticSelection(string input)
     {
+        var normalized = NormalizePhrase(input);
         var tokens = NormalizeTokens(input, minimumLength: 3);
         return tokens.Contains("acordas") ||
             tokens.Contains("acordar") ||
             tokens.Contains("recordas") ||
             tokens.Contains("recordar") ||
             tokens.Contains("recuerdo") ||
-            tokens.Contains("recuerdos");
+            tokens.Contains("recuerdos") ||
+            normalized.Contains("decime algo de", StringComparison.Ordinal) ||
+            normalized.Contains("contame algo de", StringComparison.Ordinal) ||
+            normalized.Contains("hablame de", StringComparison.Ordinal) ||
+            normalized.Contains("quien es", StringComparison.Ordinal) ||
+            normalized.Contains("que sabes de", StringComparison.Ordinal);
     }
 
     private static ConversationContextSelection Selection(
