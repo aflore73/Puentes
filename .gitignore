@@ -1,0 +1,67 @@
+# Build
+bin/
+obj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Compilados
+*.dll
+*.exe
+*.pdb
+*.cache
+*.tmp
+
+# Backups
+*.bak
+*.backup
+*.old
+*.orig
+
+# Logs
+*.log
+logs/
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+
+# Base de datos local
+*.db-shm
+*.db-wal
+
+# Configuración local / secretos
+appsettings.Local.json
+appsettings.Development.local.json
+secrets.json
+.env
+.env.*
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code local
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.example.json
+
+# Sistema operativo
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Archivos temporales
+*.temp
+*.swp
+~$*
