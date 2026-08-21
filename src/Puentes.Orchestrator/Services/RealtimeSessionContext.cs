@@ -1,3 +1,5 @@
+using Puentes.Shared.Enums;
+
 namespace Puentes.Orchestrator.Services;
 
 public sealed record RealtimeSessionContext(
@@ -6,4 +8,8 @@ public sealed record RealtimeSessionContext(
     string Instructions,
     IReadOnlyList<RealtimeKnownPerson> KnownPeople);
 
-public sealed record RealtimeKnownPerson(string Name, string Description);
+public sealed record RealtimeKnownPerson(
+    string Name,
+    string Description,
+    PersonRelationshipType RelationshipType,
+    bool HasConversationBoundary);
