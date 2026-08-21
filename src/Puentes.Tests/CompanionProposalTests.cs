@@ -40,9 +40,31 @@ public sealed class CompanionProposalTests
         Assert.Equal(
             CompanionProposalMode.PositiveMemoriesOnly,
             CompanionProposalModeDetector.Resolve(
-                "Respuesta afirmativa de prueba",
+                "sí",
                 waitingForChoice: false,
                 selectedCategory: "memory.family"));
+    }
+
+    [Fact]
+    public void NewTopicDoesNotInheritPendingReadingCategory()
+    {
+        Assert.Equal(
+            CompanionProposalMode.FullContext,
+            CompanionProposalModeDetector.Resolve(
+                "No puedo comunicarme con una persona conocida",
+                waitingForChoice: true,
+                selectedCategory: "reading.religious"));
+    }
+
+    [Fact]
+    public void ExplicitReadingChoiceStillUsesPendingReadingCategory()
+    {
+        Assert.Equal(
+            CompanionProposalMode.ReadingsOnly,
+            CompanionProposalModeDetector.Resolve(
+                "quiero la lectura religiosa",
+                waitingForChoice: true,
+                selectedCategory: "reading.religious"));
     }
 
     [Theory]
