@@ -70,3 +70,6 @@ Desktop.ini
 
 # Modelos Whisper
 *.bin
+
+# Modelos Whisper
+*.bin
