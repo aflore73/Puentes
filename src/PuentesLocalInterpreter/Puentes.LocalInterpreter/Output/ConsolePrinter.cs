@@ -6,7 +6,8 @@ namespace Puentes.LocalInterpreter.Output;
 public static class ConsolePrinter
 {
     public static void Print(
-        InterpretationResult result)
+        InterpretationResult result,
+        DatabaseContextResult? dbContext = null)
     {
         Console.WriteLine(
             "----------------------------------------");
@@ -84,6 +85,13 @@ public static class ConsolePrinter
 
         Console.WriteLine(
             result.Interpretation);
+
+        if (dbContext is { Found: true })
+        {
+            Console.WriteLine();
+            Console.WriteLine("CONTEXTO BD");
+            Console.WriteLine(dbContext.Summary);
+        }
 
         Console.WriteLine(
             "----------------------------------------");

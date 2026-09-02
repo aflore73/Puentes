@@ -1,23 +1,34 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 
+using Puentes.LocalInterpreter.Data;
 using Puentes.LocalInterpreter.Output;
 using Puentes.LocalInterpreter.Services;
+using Puentes.LocalInterpreter.Voice;
 
 namespace Puentes.LocalInterpreter
 {
     internal class Program
     {
-        private static void Main()
+        private static async Task Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
+
+            if (args.Length > 0 && args[0].Equals("seed-aliases", StringComparison.OrdinalIgnoreCase))
+            {
+                await RunSeedAliasesScriptAsync();
+                return;
+            }
 
             Console.WriteLine("========================================");
             Console.WriteLine("PUENTES - INTERPRETE LOCAL");
             Console.WriteLine("========================================");
             Console.WriteLine();
 
-            RunExamples();
+            await DatabaseConnectionFactory.GetOrCreateAsync();
+
+            await RunExamplesAsync();
 
             Console.WriteLine();
             Console.WriteLine("========================================");
@@ -25,6 +36,7 @@ namespace Puentes.LocalInterpreter
             Console.WriteLine("========================================");
             Console.WriteLine();
             Console.WriteLine("Escribí una frase.");
+            Console.WriteLine("Escribí VOZ para hablar por micrófono.");
             Console.WriteLine("Escribí SALIR para terminar.");
             Console.WriteLine();
 
@@ -44,6 +56,14 @@ namespace Puentes.LocalInterpreter
                     break;
                 }
 
+                if (input.Trim().Equals(
+                    "voz",
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    await RunVoiceTurnAsync();
+                    continue;
+                }
+
                 if (string.IsNullOrWhiteSpace(input))
                     continue;
 
@@ -52,13 +72,62 @@ namespace Puentes.LocalInterpreter
                 var result =
                     Interpreter.Interpret(input);
 
-                ConsolePrinter.Print(result);
+                var dbContext =
+                    await DatabaseContextService.EnrichAsync(result.Person, result.Intent);
+
+                ConsolePrinter.Print(result, dbContext);
 
                 Console.WriteLine();
             }
         }
 
-        private static void RunExamples()
+        private static async Task RunSeedAliasesScriptAsync()
+        {
+            var accessDb = await DatabaseConnectionFactory.GetOrCreateAsync();
+
+            Console.WriteLine("Cargando alias en la base de datos...");
+
+            int inserted = await AliasSeeder.SeedFromLocalContextAsync(accessDb);
+
+            Console.WriteLine(
+                inserted == 0
+                    ? "No había alias nuevos para cargar."
+                    : $"Se cargaron {inserted} alias nuevos.");
+        }
+
+        private static async Task RunVoiceTurnAsync()
+        {
+            using var audio = MicrophoneRecorder.RecordUntilKeyPress();
+
+            Console.WriteLine("Transcribiendo...");
+
+            string transcript = await SpeechTranscriber.TranscribeAsync(audio);
+
+            if (string.IsNullOrWhiteSpace(transcript))
+            {
+                Console.WriteLine("No se entendió nada, probá de nuevo.");
+                return;
+            }
+
+            Console.WriteLine($"Escuché: {transcript}");
+            Console.WriteLine();
+
+            var result = Interpreter.Interpret(transcript);
+
+            var dbContext =
+                await DatabaseContextService.EnrichAsync(result.Person, result.Intent);
+
+            ConsolePrinter.Print(result, dbContext);
+            Console.WriteLine();
+
+            string spokenReply = dbContext is { Found: true }
+                ? $"{result.Interpretation} {dbContext.Summary}"
+                : result.Interpretation;
+
+            TextToSpeechService.Speak(spokenReply);
+        }
+
+        private static async Task RunExamplesAsync()
         {
             string[] examples =
             {
@@ -91,7 +160,10 @@ namespace Puentes.LocalInterpreter
                 var result =
                     Interpreter.Interpret(example);
 
-                ConsolePrinter.Print(result);
+                var dbContext =
+                    await DatabaseContextService.EnrichAsync(result.Person, result.Intent);
+
+                ConsolePrinter.Print(result, dbContext);
             }
         }
     }
