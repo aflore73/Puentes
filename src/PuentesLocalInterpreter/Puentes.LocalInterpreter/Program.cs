@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-
+using Puentes.LocalInterpreter.Models;
 using Puentes.LocalInterpreter.Data;
 using Puentes.LocalInterpreter.Output;
 using Puentes.LocalInterpreter.Services;
@@ -14,6 +14,7 @@ namespace Puentes.LocalInterpreter
         private static async Task Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
+            using var ollamaValidator = new OllamaInputValidator();
 
             if (args.Length > 0 && args[0].Equals("seed-aliases", StringComparison.OrdinalIgnoreCase))
             {
@@ -60,7 +61,7 @@ namespace Puentes.LocalInterpreter
                     "voz",
                     StringComparison.OrdinalIgnoreCase))
                 {
-                    await RunVoiceTurnAsync();
+                    await RunVoiceTurnAsync(ollamaValidator);
                     continue;
                 }
 
@@ -68,6 +69,27 @@ namespace Puentes.LocalInterpreter
                     continue;
 
                 Console.WriteLine();
+
+                OllamaValidationResult validation =
+                    await ollamaValidator.ValidateAsync(input);
+
+                if (!validation.IsValid)
+                {
+                    var localResult = Interpreter.Interpret(input);
+                    if (!localResult.Confidence.Equals("ALTA", StringComparison.OrdinalIgnoreCase))
+                    {
+                        Console.WriteLine(
+                            $"No se pudo validar la frase: {validation.Reason}");
+                        Console.WriteLine("Probá de nuevo.");
+                        Console.WriteLine();
+                        continue;
+                    }
+
+                    input = localResult.Normalized;
+                }
+
+                if (!string.IsNullOrWhiteSpace(validation.Text))
+                    input = validation.Text.Trim();
 
                 var result =
                     Interpreter.Interpret(input);
@@ -95,7 +117,8 @@ namespace Puentes.LocalInterpreter
                     : $"Se cargaron {inserted} alias nuevos.");
         }
 
-        private static async Task RunVoiceTurnAsync()
+        private static async Task RunVoiceTurnAsync(
+            OllamaInputValidator ollamaValidator)
         {
             using var audio = MicrophoneRecorder.RecordUntilKeyPress();
 
@@ -111,6 +134,32 @@ namespace Puentes.LocalInterpreter
 
             Console.WriteLine($"Escuché: {transcript}");
             Console.WriteLine();
+
+            Console.WriteLine("Validando transcripción con Ollama...");
+
+            OllamaValidationResult validation =
+                await ollamaValidator.ValidateAsync(transcript);
+
+            if (!validation.IsValid)
+            {
+                var localResult = Interpreter.Interpret(transcript);
+                if (!localResult.Confidence.Equals("ALTA", StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine(
+                        $"No se pudo validar la frase: {validation.Reason}");
+                    Console.WriteLine("Probá de nuevo.");
+                    return;
+                }
+
+                transcript = localResult.Normalized;
+            }
+
+            if (!string.IsNullOrWhiteSpace(validation.Text))
+            {
+                transcript = validation.Text.Trim();
+                Console.WriteLine($"Texto validado: {transcript}");
+                Console.WriteLine();
+            }
 
             var result = Interpreter.Interpret(transcript);
 
