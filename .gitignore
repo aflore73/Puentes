@@ -67,3 +67,6 @@ Desktop.ini
 *.swp
 ~$*
 /src/Puentes/obj/Debug/net10.0/
+
+# Modelos Whisper
+*.bin
