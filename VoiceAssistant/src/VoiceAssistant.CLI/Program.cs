@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Net.Http.Json;
 using VoiceAssistant.Core.Services;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -16,6 +17,8 @@ Console.WriteLine("=============");
 await database.InitializeAsync();
 var knownPeople = await database.GetAllPersonNamesAsync();
 var personDetector = new PersonDetector(knownPeople);
+Console.WriteLine("Personas: " + string.Join(", ", knownPeople));
+Console.WriteLine("");
 
 while (true)
 {
@@ -35,33 +38,16 @@ while (true)
     {
         case "MUSICA":
             var searchTerm = ExtractSearchTerm(input);
-            if (string.IsNullOrEmpty(searchTerm))
-            {
-                Console.WriteLine(await musicService.PlayMusicAsync());
-            }
-            else
-            {
-                Console.WriteLine("Buscando: " + searchTerm);
-                Console.WriteLine(await musicService.PlayMusicAsync(songName: searchTerm));
-            }
+            Console.WriteLine(await musicService.PlayMusicAsync(songName: searchTerm));
             break;
             
         case "LISTAR_MUSICA":
-            // MOSTRAR TODAS LAS CANCIONES
-            var allSongs = await musicService.GetAvailableSongsAsync();
-            if (allSongs.Count == 0)
-            {
-                Console.WriteLine("No hay canciones en las carpetas de musica.");
-                Console.WriteLine("Carpetas: " + string.Join(", ", musicService.GetMusicFolders()));
-            }
+            var songs = await musicService.GetAvailableSongsAsync();
+            if (songs.Count == 0)
+                Console.WriteLine("No hay canciones.");
             else
-            {
-                Console.WriteLine("Canciones disponibles (" + allSongs.Count + "):");
-                foreach (var s in allSongs.Take(20))
-                {
+                foreach (var s in songs.Take(10))
                     Console.WriteLine("  - " + Path.GetFileNameWithoutExtension(s));
-                }
-            }
             break;
             
         case "DETENER":
@@ -77,14 +63,29 @@ while (true)
             if (person != null)
             {
                 Console.WriteLine("Persona: " + person);
-                var ctx = await database.GetPersonRoutineContextAsync(person);
-                Console.WriteLine(ctx);
+                var rutinas = await database.GetPersonRoutineContextAsync(person);
+                Console.WriteLine("Datos BD:");
+                Console.WriteLine(rutinas);
+                
+                if (!string.IsNullOrEmpty(apiKey))
+                {
+                    var respuesta = await HumanizarRespuesta(apiKey, rutinas, person, input);
+                    Console.WriteLine("\nRespuesta final:");
+                    Console.WriteLine(respuesta);
+                }
             }
             break;
             
         default:
             var context = await database.GetContextForCategoryAsync(intention);
             Console.WriteLine(context);
+            
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                var respuesta = await HumanizarRespuesta(apiKey, context, null, input);
+                Console.WriteLine("\nRespuesta final:");
+                Console.WriteLine(respuesta);
+            }
             break;
     }
     
@@ -109,7 +110,67 @@ static string ExtractSearchTerm(string input)
         .Replace("!", " ")
         .Split(' ', StringSplitOptions.RemoveEmptyEntries);
     
-    var searchWords = words.Where(w => !filler.Contains(w)).ToList();
+    return string.Join(" ", words.Where(w => !filler.Contains(w))).Trim();
+}
+
+static async Task<string> HumanizarRespuesta(string apiKey, string datosBD, string? persona, string inputUsuario)
+{
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
     
-    return string.Join(" ", searchWords).Trim();
+    var hoy = DateTime.Now;
+    var diaHoy = hoy.ToString("dddd");
+    var fechaHoy = hoy.ToString("dd/MM/yyyy");
+    var horaActual = hoy.ToString("HH:mm");
+    
+    var systemPrompt = "Eres un asistente. SOLO informas datos de la base de datos. " +
+                       "NO agregas comentarios, deseos, opiniones ni suposiciones. " +
+                       "NO usas frases como 'espero que', 'seguro que', 'quizas', 'probablemente', 'ojala'. " +
+                       "Responde con UNA sola frase. Solo datos.";
+    
+    var userPrompt = "HOY: " + diaHoy + " " + fechaHoy + " " + horaActual + "\n\n";
+    userPrompt += "DATOS DE LA BD:\n" + datosBD + "\n\n";
+    
+    if (!string.IsNullOrEmpty(persona))
+    {
+        userPrompt += "PERSONA: " + persona + "\n";
+    }
+    
+    userPrompt += "LO QUE DIJO: \"" + inputUsuario + "\"\n\n";
+    userPrompt += "RESPONDE SOLO CON LOS DATOS. UNA FRASE. NADA MAS.";
+    
+    var request = new
+    {
+        model = "gpt-4o-mini",
+        messages = new[]
+        {
+            new { role = "system", content = systemPrompt },
+            new { role = "user", content = userPrompt }
+        },
+        temperature = 0,
+        max_tokens = 60
+    };
+    
+    var response = await client.PostAsJsonAsync("https://api.openai.com/v1/chat/completions", request);
+    response.EnsureSuccessStatusCode();
+    
+    var json = await response.Content.ReadAsStringAsync();
+    var result = JsonSerializer.Deserialize<OpenAIResponse>(json);
+    
+    return result?.choices?[0]?.message?.content ?? "Sin respuesta";
+}
+
+public class OpenAIResponse
+{
+    public Choice[]? choices { get; set; }
+}
+
+public class Choice
+{
+    public Message? message { get; set; }
+}
+
+public class Message
+{
+    public string content { get; set; } = "";
 }
