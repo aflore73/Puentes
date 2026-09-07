@@ -341,4 +341,33 @@ public class DatabaseService : IDatabaseService
         
         return result.ToString();
     }
+    public async Task<string> GetBelongingContextAsync(string input)
+    {
+        await InitializeAsync();
+        
+        await using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+        
+        var command = connection.CreateCommand();
+        command.CommandText = @"
+            SELECT Name, Notes
+            FROM PersonBelongings
+            WHERE @input LIKE '%' || Name || '%'
+               OR @input LIKE '%' || Tags || '%'
+              AND IsActive = 1
+            LIMIT 1";
+        
+        command.Parameters.AddWithValue("@input", input.ToLower());
+        
+        await using var reader = await command.ExecuteReaderAsync();
+        
+        if (await reader.ReadAsync())
+        {
+            var nombre = reader.GetString(0);
+            var notas = reader.GetString(1);
+            return nombre + ":\n" + notas;
+        }
+        
+        return "";
+    }
 }

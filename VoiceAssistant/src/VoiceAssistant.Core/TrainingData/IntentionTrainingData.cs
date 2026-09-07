@@ -8,6 +8,23 @@ public static class IntentionTrainingData
     {
         return new List<TrainingData>
         {
+            // OBJETO_PERDIDO
+            new TrainingData { Text = "no encuentro las llaves", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "donde deje las llaves", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "no encuentro mi celular", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "donde esta mi celular", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "no encuentro la tarjeta", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "donde deje la tarjeta", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "perdi las llaves", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "perdi el celular", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "no encuentro mis llaves", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "donde estan las llaves", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "no se donde deje las llaves", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "no encuentro la billetera", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "donde puse las llaves", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "busco las llaves", Label = "OBJETO_PERDIDO" },
+            new TrainingData { Text = "no aparece el celular", Label = "OBJETO_PERDIDO" },
+
             // MUSICA
             new TrainingData { Text = "quiero escuchar a sandro", Label = "MUSICA" },
             new TrainingData { Text = "quisiera escuchar a sandro", Label = "MUSICA" },

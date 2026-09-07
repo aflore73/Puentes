@@ -31,9 +31,7 @@ while (true)
     
     var inputLower = input.ToLower().Trim();
     
-    // ============================================
     // PRIMERO: Detectar emociÃ³n
-    // ============================================
     var emocionCodigo = emotionService.DetectEmotion(input);
     
     if (!string.IsNullOrEmpty(emocionCodigo))
@@ -80,22 +78,17 @@ while (true)
         continue;
     }
     
-    // ============================================
-    // Detectar si es una elecciÃ³n de biblia despuÃ©s de emociÃ³n
-    // ============================================
+    // SEGUNDO: Detectar biblia directa
     if (inputLower.Contains("biblia") || inputLower.Contains("leer"))
     {
         Console.WriteLine("\n[BIBLIA]");
-        // Buscar por emociÃ³n anterior o usar tristeza por defecto
         var texto = await emotionService.GetBibleTextAsync("tristeza");
         Console.WriteLine("\n" + texto);
         Console.WriteLine("\n==========================================");
         continue;
     }
     
-    // ============================================
-    // SI NO ES EMOCIÃ“N NI BIBLIA, usar ML.NET
-    // ============================================
+    // TERCERO: ML.NET
     var prediction = intentionClassifier.Predict(input);
     var intention = prediction.PredictedLabel;
     var confidence = prediction.Score.Max();
@@ -104,9 +97,23 @@ while (true)
     
     switch (intention)
     {
+        case "OBJETO_PERDIDO":
+            Console.WriteLine("Buscando objeto...");
+            var belonging = await database.GetBelongingContextAsync(input);
+            
+            if (string.IsNullOrEmpty(belonging))
+            {
+                Console.WriteLine("No encontre informacion sobre ese objeto.");
+            }
+            else
+            {
+                Console.WriteLine("\n" + belonging);
+            }
+            break;
+            
         case "MUSICA":
-            var searchTerm = ExtractSearchTerm(input);
-            Console.WriteLine(await musicService.PlayMusicAsync(songName: searchTerm));
+            var musicTerm = ExtractSearchTerm(input);
+            Console.WriteLine(await musicService.PlayMusicAsync(songName: musicTerm));
             break;
             
         case "LISTAR_MUSICA":
@@ -159,9 +166,9 @@ static string ExtractSearchTerm(string input)
 {
     var filler = new[] { 
         "quiero", "quisiera", "me", "gustaria", "puedes", "podes", "a", "algo", "de", 
-        "un", "una", "la", "el", "musica", "music", "cancion", "canciones", "para", 
+        "un", "una", "la", "el", "las", "los", "musica", "music", "cancion", "canciones", "para", 
         "escuchar", "escucar", "oir", "poner", "pon", "reproducir", "tocar", "play", 
-        "tenes", "hay", "tienes", "que", "ver", "lista", "mostra" 
+        "tenes", "hay", "tienes", "que", "ver", "lista", "mostra"
     };
     
     var words = input.ToLower()

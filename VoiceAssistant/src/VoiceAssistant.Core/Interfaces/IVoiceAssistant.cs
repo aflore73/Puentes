@@ -5,6 +5,7 @@ public interface IDatabaseService
     Task InitializeAsync();
     Task<string> GetContextForCategoryAsync(string category);
     Task<string> GetPersonRoutineContextAsync(string personName);
+    Task<string> GetBelongingContextAsync(string searchTerm);
     Task<List<string>> GetAllPersonNamesAsync();
 }
 
