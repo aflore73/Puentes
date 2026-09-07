@@ -124,3 +124,4 @@ generated/
 *.generated.cs
 *.g.cs
 *.g.i.cs
+/VoiceAssistant/src/Data/Puentes-v1.rar

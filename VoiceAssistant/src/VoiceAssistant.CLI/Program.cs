@@ -9,6 +9,7 @@ var intentionClassifier = new IntentionClassifier();
 var musicService = new MusicService();
 var dbPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "Data", "Puentes.db");
 var database = new DatabaseService(dbPath);
+var emotionService = new EmotionService(dbPath);
 var apiKey = Environment.GetEnvironmentVariable("PUENTES_API_KEY");
 
 Console.WriteLine("VoiceAssistant");
@@ -28,6 +29,73 @@ while (true)
     if (string.IsNullOrWhiteSpace(input) || input.ToLower() == "salir")
         break;
     
+    var inputLower = input.ToLower().Trim();
+    
+    // ============================================
+    // PRIMERO: Detectar emociÃ³n
+    // ============================================
+    var emocionCodigo = emotionService.DetectEmotion(input);
+    
+    if (!string.IsNullOrEmpty(emocionCodigo))
+    {
+        Console.WriteLine("\n[EMOCION: " + emocionCodigo + "]");
+        
+        var opciones = await emotionService.GetEmotionOptionsAsync(emocionCodigo);
+        Console.WriteLine("\nOpciones:");
+        Console.WriteLine(opciones);
+        
+        Console.Write("\nÂ¿Que preferis? (biblia/recuerdo/musica/familia/actividad): ");
+        var eleccion = Console.ReadLine()?.ToLower().Trim();
+        
+        switch (eleccion)
+        {
+            case "biblia":
+                Console.WriteLine("\nBuscando texto biblico...");
+                var textoBiblico = await emotionService.GetBibleTextAsync(emocionCodigo);
+                Console.WriteLine("\n" + textoBiblico);
+                break;
+                
+            case "recuerdo":
+                Console.WriteLine("\n" + await database.GetContextForCategoryAsync("RECUERDO"));
+                break;
+                
+            case "musica":
+                Console.WriteLine("\n" + await musicService.PlayMusicAsync());
+                break;
+                
+            case "familia":
+                Console.WriteLine("\nPersonas: " + string.Join(", ", knownPeople));
+                break;
+                
+            case "actividad":
+                Console.WriteLine("\n" + await database.GetContextForCategoryAsync("RUTINA"));
+                break;
+                
+            default:
+                Console.WriteLine("\nNo entendi la eleccion.");
+                break;
+        }
+        
+        Console.WriteLine("\n==========================================");
+        continue;
+    }
+    
+    // ============================================
+    // Detectar si es una elecciÃ³n de biblia despuÃ©s de emociÃ³n
+    // ============================================
+    if (inputLower.Contains("biblia") || inputLower.Contains("leer"))
+    {
+        Console.WriteLine("\n[BIBLIA]");
+        // Buscar por emociÃ³n anterior o usar tristeza por defecto
+        var texto = await emotionService.GetBibleTextAsync("tristeza");
+        Console.WriteLine("\n" + texto);
+        Console.WriteLine("\n==========================================");
+        continue;
+    }
+    
+    // ============================================
+    // SI NO ES EMOCIÃ“N NI BIBLIA, usar ML.NET
+    // ============================================
     var prediction = intentionClassifier.Predict(input);
     var intention = prediction.PredictedLabel;
     var confidence = prediction.Score.Max();
@@ -79,13 +147,6 @@ while (true)
         default:
             var context = await database.GetContextForCategoryAsync(intention);
             Console.WriteLine(context);
-            
-            if (!string.IsNullOrEmpty(apiKey))
-            {
-                var respuesta = await HumanizarRespuesta(apiKey, context, null, input);
-                Console.WriteLine("\nRespuesta final:");
-                Console.WriteLine(respuesta);
-            }
             break;
     }
     
@@ -118,26 +179,13 @@ static async Task<string> HumanizarRespuesta(string apiKey, string datosBD, stri
     using var client = new HttpClient();
     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
     
-    var hoy = DateTime.Now;
-    var diaHoy = hoy.ToString("dddd");
-    var fechaHoy = hoy.ToString("dd/MM/yyyy");
-    var horaActual = hoy.ToString("HH:mm");
+    var systemPrompt = "Eres un asistente. SOLO informas datos. UNA frase. NADA MAS.";
     
-    var systemPrompt = "Eres un asistente. SOLO informas datos de la base de datos. " +
-                       "NO agregas comentarios, deseos, opiniones ni suposiciones. " +
-                       "NO usas frases como 'espero que', 'seguro que', 'quizas', 'probablemente', 'ojala'. " +
-                       "Responde con UNA sola frase. Solo datos.";
-    
-    var userPrompt = "HOY: " + diaHoy + " " + fechaHoy + " " + horaActual + "\n\n";
-    userPrompt += "DATOS DE LA BD:\n" + datosBD + "\n\n";
-    
+    var userPrompt = "DATOS:\n" + datosBD + "\n\n";
     if (!string.IsNullOrEmpty(persona))
-    {
         userPrompt += "PERSONA: " + persona + "\n";
-    }
-    
     userPrompt += "LO QUE DIJO: \"" + inputUsuario + "\"\n\n";
-    userPrompt += "RESPONDE SOLO CON LOS DATOS. UNA FRASE. NADA MAS.";
+    userPrompt += "UNA FRASE. SOLO DATOS.";
     
     var request = new
     {
