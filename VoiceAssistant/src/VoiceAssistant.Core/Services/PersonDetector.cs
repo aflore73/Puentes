@@ -1,62 +1,35 @@
-﻿using Microsoft.ML;
-using VoiceAssistant.Core.Interfaces;
+﻿using Microsoft.Data.Sqlite;
 
 namespace VoiceAssistant.Core.Services;
 
 public class PersonDetector
 {
-    private readonly List<string> _knownPeople;
-    private readonly Dictionary<string, string> _personAliases;
+    private readonly string _connectionString;
 
-    public PersonDetector(List<string> knownPeople)
+    public PersonDetector(string dbPath = "assistant.db")
     {
-        _knownPeople = knownPeople;
-        _personAliases = new Dictionary<string, string>();
-        
-        foreach (var person in knownPeople)
-        {
-            var lower = person.ToLower();
-            
-            if (lower.Length >= 5)
-                _personAliases[lower.Substring(0, 5)] = person;
-            
-            if (lower.Length >= 4)
-                _personAliases[lower.Substring(0, 4)] = person;
-            
-            if (person.ToLower() == "ezequiel")
-            {
-                _personAliases["equi"] = person;
-                _personAliases["eze"] = person;
-                _personAliases["ezeq"] = person;
-                _personAliases["ezqu"] = person;
-                _personAliases["equ"] = person;
-            }
-            
-            if (person.ToLower() == "alejandro")
-            {
-                _personAliases["aleja"] = person;
-                _personAliases["alej"] = person;
-                _personAliases["alex"] = person;
-            }
-        }
+        _connectionString = $"Data Source={dbPath}";
     }
 
     public string DetectPerson(string text)
     {
-        var textLower = text.ToLower();
+        var textLower = text.ToLower().Trim();
         
-        foreach (var person in _knownPeople)
-        {
-            if (textLower.Contains(person.ToLower()))
-                return person;
-        }
+        using var connection = new SqliteConnection(_connectionString);
+        connection.Open();
         
-        foreach (var alias in _personAliases.OrderByDescending(a => a.Key.Length))
-        {
-            if (alias.Key.Length >= 4 && textLower.Contains(alias.Key))
-                return alias.Value;
-        }
+        var command = connection.CreateCommand();
+        command.CommandText = @"
+            SELECT Name 
+            FROM People 
+            WHERE @text LIKE '%' || Name || '%'
+               OR (Alias IS NOT NULL AND @text LIKE '%' || Alias || '%')
+            LIMIT 1";
         
-        return null;
+        command.Parameters.AddWithValue("@text", textLower);
+        
+        var result = command.ExecuteScalar();
+        
+        return result?.ToString() ?? "";
     }
 }
