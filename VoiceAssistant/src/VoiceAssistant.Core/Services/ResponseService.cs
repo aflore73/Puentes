@@ -14,6 +14,8 @@ public class ResponseService
     private readonly TemasBloqueadosService _temasBloqueados;
     private readonly TemasPermitidosService _temasPermitidos;
     private readonly string? _apiKey;
+    private readonly WeatherService? _weatherService;
+    private readonly ConversationService? _conversationService;
 
     public ResponseService(
         IntentionClassifier classifier,
@@ -24,7 +26,9 @@ public class ResponseService
         TextExtractorService textExtractor,
         TemasBloqueadosService temasBloqueados,
         TemasPermitidosService temasPermitidos,
-        string? apiKey)
+        string? apiKey,
+        WeatherService? weatherService = null,
+        ConversationService? conversationService = null)
     {
         _classifier = classifier;
         _musicService = musicService;
@@ -35,6 +39,8 @@ public class ResponseService
         _temasBloqueados = temasBloqueados;
         _temasPermitidos = temasPermitidos;
         _apiKey = apiKey;
+        _weatherService = weatherService;
+        _conversationService = conversationService;
     }
 
     public async Task<string> ProcessAsync(string input)
@@ -68,6 +74,16 @@ public class ResponseService
             return bloqueado;
         }
         
+
+        // 4.5. Continuacion conversacional
+        var conectores = new[] { "y ", "pero ", "entonces ", "ademas ", "tambien " };
+        if (conectores.Any(c => inputLower.StartsWith(c)) && inputLower.Length < 40)
+        {
+            return await ConversarConOpenAIAsync(input, 
+                "Sos un asistente para una persona mayor. Responde en 2 frases cortas. " +
+                "Si el usuario dice 'y X' o 'pero X', se refiere a una continuacion de la conversacion anterior.");
+        }
+        
         // 5. ML.NET
         var prediction = _classifier.Predict(input);
         var intention = prediction.PredictedLabel;
@@ -75,6 +91,11 @@ public class ResponseService
         Console.WriteLine("  [DEBUG] Intencion: " + intention + " (" + prediction.Score.Max().ToString("P0") + ")");
         
         // 6. CONVERSACION_XXX â†’ OpenAI
+        if (intention == "CONVERSACION_CLIMA")
+        {
+            return await GetWeatherResponseAsync();
+        }
+        
         if (intention.StartsWith("CONVERSACION_"))
         {
             var codigo = intention.Replace("CONVERSACION_", "").ToLower();
@@ -139,6 +160,23 @@ public class ResponseService
         return "Hoy es " + hoy.ToString("dddd") + " " + 
                hoy.ToString("dd 'de' MMMM 'de' yyyy") + 
                ", son las " + hoy.ToString("HH:mm");
+    }
+
+    private async Task<string> GetWeatherResponseAsync()
+    {
+        if (_weatherService == null)
+        {
+            return "No tengo acceso al clima en este momento.";
+        }
+        
+        var clima = await _weatherService.GetCurrentWeatherAsync();
+        
+        if (string.IsNullOrEmpty(clima))
+        {
+            return "No pude obtener el clima en este momento.";
+        }
+        
+        return clima;
     }
 
     private async Task<string> ProcessLostObjectAsync(string input)
@@ -244,16 +282,27 @@ public class ResponseService
         using var client = new HttpClient();
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _apiKey);
         
-        var promptFinal = promptSistema + " Responde en maximo 2 o 3 frases cortas.";
+        var promptFinal = promptSistema + " IMPORTANTE: Responde en maximo 2 frases muy cortas. NO mas de 40 palabras. Se breve.";
+        
+        var messages = new List<object>();
+        messages.Add(new { role = "system", content = promptFinal });
+        
+        // Agregar historial si existe
+        if (_conversationService != null)
+        {
+            var historial = await _conversationService.GetHistoryAsync(5);
+            foreach (var msg in historial)
+            {
+                messages.Add(new { role = msg.Role, content = msg.Content });
+            }
+        }
+        
+        messages.Add(new { role = "user", content = input });
         
         var request = new
         {
             model = "gpt-4o-mini",
-            messages = new[]
-            {
-                new { role = "system", content = promptFinal },
-                new { role = "user", content = input }
-            },
+            messages = messages,
             temperature = 0.3,
             max_tokens = 100
         };

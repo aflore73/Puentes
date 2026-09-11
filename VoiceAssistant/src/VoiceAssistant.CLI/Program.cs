@@ -11,6 +11,8 @@ var emotionService = new EmotionService(dbPath);
 var textExtractor = new TextExtractorService();
 var temasBloqueados = new TemasBloqueadosService(dbPath);
 var temasPermitidos = new TemasPermitidosService(dbPath);
+var weatherService = new WeatherService(dbPath);
+var conversationService = new ConversationService(dbPath);
 var apiKey = Environment.GetEnvironmentVariable("PUENTES_API_KEY");
 
 await database.InitializeAsync();
@@ -18,8 +20,9 @@ var knownPeople = await database.GetAllPersonNamesAsync();
 var personDetector = new PersonDetector(dbPath);
 
 var responseService = new ResponseService(
-    classifier, musicService, database, emotionService, 
-    personDetector, textExtractor, temasBloqueados, temasPermitidos, apiKey);
+    classifier, musicService, database, emotionService,
+    personDetector, textExtractor, temasBloqueados, temasPermitidos,
+    apiKey, weatherService, conversationService);
 
 Console.WriteLine("VoiceAssistant");
 Console.WriteLine("=============");
@@ -32,13 +35,13 @@ while (true)
 {
     Console.Write("Tu: ");
     var input = Console.ReadLine();
-    
+
     if (string.IsNullOrWhiteSpace(input) || input.ToLower() == "salir")
         break;
-    
-    if (emocionActual != null && 
-        (input.ToLower().Contains("biblia") || input.ToLower().Contains("recuerdo") || 
-         input.ToLower().Contains("musica") || input.ToLower().Contains("familia") || 
+
+    if (emocionActual != null &&
+        (input.ToLower().Contains("biblia") || input.ToLower().Contains("recuerdo") ||
+         input.ToLower().Contains("musica") || input.ToLower().Contains("familia") ||
          input.ToLower().Contains("actividad")))
     {
         var eleccion = input.ToLower().Trim();
@@ -48,10 +51,13 @@ while (true)
         Console.WriteLine("\n==========================================");
         continue;
     }
-    
+
     var resultado = await responseService.ProcessAsync(input);
     Console.WriteLine("\n" + resultado);
-    
+
+    // Guardar en historial
+    await conversationService.SaveAsync(input, resultado);
+
     if (resultado.Contains("[EMOCION:"))
     {
         var emocion = emotionService.DetectEmotion(input);
@@ -60,7 +66,7 @@ while (true)
             emocionActual = emocion;
         }
     }
-    
+
     Console.WriteLine("\n==========================================");
 }
 
