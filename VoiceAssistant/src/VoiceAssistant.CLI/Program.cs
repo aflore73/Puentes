@@ -9,6 +9,8 @@ var dbPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "Dat
 var database = new DatabaseService(dbPath);
 var emotionService = new EmotionService(dbPath);
 var textExtractor = new TextExtractorService();
+var temasBloqueados = new TemasBloqueadosService(dbPath);
+var temasPermitidos = new TemasPermitidosService(dbPath);
 var apiKey = Environment.GetEnvironmentVariable("PUENTES_API_KEY");
 
 await database.InitializeAsync();
@@ -17,7 +19,7 @@ var personDetector = new PersonDetector(dbPath);
 
 var responseService = new ResponseService(
     classifier, musicService, database, emotionService, 
-    personDetector, textExtractor, apiKey);
+    personDetector, textExtractor, temasBloqueados, temasPermitidos, apiKey);
 
 Console.WriteLine("VoiceAssistant");
 Console.WriteLine("=============");
@@ -34,7 +36,6 @@ while (true)
     if (string.IsNullOrWhiteSpace(input) || input.ToLower() == "salir")
         break;
     
-    // Si hay emociÃ³n pendiente y el usuario elige opciÃ³n
     if (emocionActual != null && 
         (input.ToLower().Contains("biblia") || input.ToLower().Contains("recuerdo") || 
          input.ToLower().Contains("musica") || input.ToLower().Contains("familia") || 
@@ -51,7 +52,6 @@ while (true)
     var resultado = await responseService.ProcessAsync(input);
     Console.WriteLine("\n" + resultado);
     
-    // Si el resultado es una emociÃ³n, guardar para prÃ³xima elecciÃ³n
     if (resultado.Contains("[EMOCION:"))
     {
         var emocion = emotionService.DetectEmotion(input);

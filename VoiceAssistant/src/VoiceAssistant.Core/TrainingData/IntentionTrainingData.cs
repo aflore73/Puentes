@@ -25,6 +25,134 @@ public static class IntentionTrainingData
             new TrainingData { Text = "busco las llaves", Label = "OBJETO_PERDIDO" },
             new TrainingData { Text = "no aparece el celular", Label = "OBJETO_PERDIDO" },
 
+            // ============================================
+            // CONVERSACION - CANTANTES
+            // ============================================
+            new TrainingData { Text = "quien fue sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "quien es sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "contame de sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "que sabes de sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "quien fue gardel", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "contame de gardel", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "quien fue mercedes sosa", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "que sabes de mercedes sosa", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "quien es palito ortega", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "contame de los beatles", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "quien fue frank sinatra", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "que sabes de julio iglesias", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "quien fue edith piaf", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "contame de elvis", Label = "CONVERSACION_CANTANTES" },
+
+            new TrainingData { Text = "decime cuando murio sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "decime de sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "decime quien fue sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "decime de gardel", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "decime quien fue gardel", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "decime sobre sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "decime algo de sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "decime algo de gardel", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "contame cuando murio sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "contame cuando nacio sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "sabes cuando murio sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "sabes de sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "conoces a sandro", Label = "CONVERSACION_CANTANTES" },
+            new TrainingData { Text = "conoces a gardel", Label = "CONVERSACION_CANTANTES" },
+
+            // ============================================
+            // CONVERSACION - HISTORIA
+            // ============================================
+            new TrainingData { Text = "que paso en 1810", Label = "CONVERSACION_HISTORIA" },
+            new TrainingData { Text = "quien fue san martin", Label = "CONVERSACION_HISTORIA" },
+            new TrainingData { Text = "quien fue belgrano", Label = "CONVERSACION_HISTORIA" },
+            new TrainingData { Text = "que es el 25 de mayo", Label = "CONVERSACION_HISTORIA" },
+            new TrainingData { Text = "que es el 9 de julio", Label = "CONVERSACION_HISTORIA" },
+            new TrainingData { Text = "contame de la historia argentina", Label = "CONVERSACION_HISTORIA" },
+            new TrainingData { Text = "quien fue sarmiento", Label = "CONVERSACION_HISTORIA" },
+
+            // ============================================
+            // CONVERSACION - CLIMA
+            // ============================================
+            new TrainingData { Text = "va a llover", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "que tiempo hace", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "va a hacer calor", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "va a hacer frio", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "como esta el clima", Label = "CONVERSACION_CLIMA" },
+
+            new TrainingData { Text = "que temperatura hace", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "que temperatura hay", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "cuantos grados hace", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "esta frio hoy", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "esta caluroso", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "va a llover hoy", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "como esta el tiempo", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "que clima hace", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "hace frio", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "hace calor", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "esta nublado", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "esta soleado", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "va a hacer frio", Label = "CONVERSACION_CLIMA" },
+            new TrainingData { Text = "va a hacer calor", Label = "CONVERSACION_CLIMA" },
+
+            // ============================================
+            // CONVERSACION - COCINA
+            // ============================================
+            new TrainingData { Text = "como se hace una torta", Label = "CONVERSACION_COCINA" },
+            new TrainingData { Text = "receta de empanadas", Label = "CONVERSACION_COCINA" },
+            new TrainingData { Text = "como hacer milanesas", Label = "CONVERSACION_COCINA" },
+            new TrainingData { Text = "receta de locro", Label = "CONVERSACION_COCINA" },
+            new TrainingData { Text = "receta de puchero", Label = "CONVERSACION_COCINA" },
+
+            // ============================================
+            // CONVERSACION - REFRANES
+            // ============================================
+            new TrainingData { Text = "decime un refran", Label = "CONVERSACION_REFRANES" },
+            new TrainingData { Text = "que significa mas vale tarde", Label = "CONVERSACION_REFRANES" },
+            new TrainingData { Text = "dichos populares", Label = "CONVERSACION_REFRANES" },
+            new TrainingData { Text = "refranes argentinos", Label = "CONVERSACION_REFRANES" },
+
+            // ============================================
+            // CONVERSACION - CHISTES
+            // ============================================
+            new TrainingData { Text = "contame un chiste", Label = "CONVERSACION_CHISTES" },
+            new TrainingData { Text = "sabes algun chiste", Label = "CONVERSACION_CHISTES" },
+            new TrainingData { Text = "decime algo gracioso", Label = "CONVERSACION_CHISTES" },
+            new TrainingData { Text = "contame algo divertido", Label = "CONVERSACION_CHISTES" },
+
+            // ============================================
+            // CONVERSACION - NATURALEZA
+            // ============================================
+            new TrainingData { Text = "que plantas puedo tener", Label = "CONVERSACION_NATURALEZA" },
+            new TrainingData { Text = "hablame de los pajaros", Label = "CONVERSACION_NATURALEZA" },
+            new TrainingData { Text = "como cuido las plantas", Label = "CONVERSACION_NATURALEZA" },
+            new TrainingData { Text = "animales domesticos", Label = "CONVERSACION_NATURALEZA" },
+
+            // ============================================
+            // CONVERSACION - LITERATURA
+            // ============================================
+            new TrainingData { Text = "decime un poema", Label = "CONVERSACION_LITERATURA" },
+            new TrainingData { Text = "quien fue borges", Label = "CONVERSACION_LITERATURA" },
+            new TrainingData { Text = "poemas de amor", Label = "CONVERSACION_LITERATURA" },
+            new TrainingData { Text = "que libros me recomendas", Label = "CONVERSACION_LITERATURA" },
+            new TrainingData { Text = "quien fue cortazar", Label = "CONVERSACION_LITERATURA" },
+
+            // ============================================
+            // CONVERSACION - OFICIOS
+            // ============================================
+            new TrainingData { Text = "que es un zapatero", Label = "CONVERSACION_OFICIOS" },
+            new TrainingData { Text = "que hacia un lechero", Label = "CONVERSACION_OFICIOS" },
+            new TrainingData { Text = "oficios antiguos", Label = "CONVERSACION_OFICIOS" },
+            new TrainingData { Text = "trabajos de antes", Label = "CONVERSACION_OFICIOS" },
+
+            // ============================================
+            // CONVERSACION - BIBLIA
+            // ============================================
+            new TrainingData { Text = "quien fue jesus", Label = "CONVERSACION_BIBLIA" },
+            new TrainingData { Text = "que dice la biblia", Label = "CONVERSACION_BIBLIA" },
+            new TrainingData { Text = "quien fue moises", Label = "CONVERSACION_BIBLIA" },
+            new TrainingData { Text = "que es el genesis", Label = "CONVERSACION_BIBLIA" },
+            new TrainingData { Text = "quien fue david", Label = "CONVERSACION_BIBLIA" },
+            new TrainingData { Text = "cual es el salmo 23", Label = "CONVERSACION_BIBLIA" },
+
             // MUSICA
             new TrainingData { Text = "quiero escuchar a sandro", Label = "MUSICA" },
             new TrainingData { Text = "quisiera escuchar a sandro", Label = "MUSICA" },

@@ -11,6 +11,8 @@ public class ResponseService
     private readonly EmotionService _emotionService;
     private readonly PersonDetector _personDetector;
     private readonly TextExtractorService _textExtractor;
+    private readonly TemasBloqueadosService _temasBloqueados;
+    private readonly TemasPermitidosService _temasPermitidos;
     private readonly string? _apiKey;
 
     public ResponseService(
@@ -20,6 +22,8 @@ public class ResponseService
         EmotionService emotionService,
         PersonDetector personDetector,
         TextExtractorService textExtractor,
+        TemasBloqueadosService temasBloqueados,
+        TemasPermitidosService temasPermitidos,
         string? apiKey)
     {
         _classifier = classifier;
@@ -28,6 +32,8 @@ public class ResponseService
         _emotionService = emotionService;
         _personDetector = personDetector;
         _textExtractor = textExtractor;
+        _temasBloqueados = temasBloqueados;
+        _temasPermitidos = temasPermitidos;
         _apiKey = apiKey;
     }
 
@@ -48,18 +54,43 @@ public class ResponseService
             return await _emotionService.GetBibleTextAsync("tristeza");
         }
         
-        // 3. Persona (detectar antes de ML.NET)
+        // 3. Persona
         var persona = _personDetector.DetectPerson(input);
         if (persona != null)
         {
             return await ProcessPersonAsync(input);
         }
         
-        // 4. ML.NET
+        // 4. Temas BLOQUEADOS (antes de ML.NET)
+        var bloqueado = await _temasBloqueados.CheckBlockedAsync(input);
+        if (!string.IsNullOrEmpty(bloqueado))
+        {
+            return bloqueado;
+        }
+        
+        // 5. ML.NET
         var prediction = _classifier.Predict(input);
         var intention = prediction.PredictedLabel;
         
-        return intention switch
+        Console.WriteLine("  [DEBUG] Intencion: " + intention + " (" + prediction.Score.Max().ToString("P0") + ")");
+        
+        // 6. CONVERSACION_XXX â†’ OpenAI
+        if (intention.StartsWith("CONVERSACION_"))
+        {
+            var codigo = intention.Replace("CONVERSACION_", "").ToLower();
+            var tema = await _temasPermitidos.GetTopicByCodeAsync(codigo);
+            
+            if (tema != null)
+            {
+                return await ConversarConOpenAIAsync(input, tema.PromptSistema);
+            }
+            
+            return await ConversarConOpenAIAsync(input, 
+                "Sos un asistente para una persona mayor. RespondÃ©s breve y con calidez.");
+        }
+        
+        // 7. Otras intenciones
+        var result = intention switch
         {
             "FECHA_HORA" => GetDateTimeResponse(),
             "OBJETO_PERDIDO" => await ProcessLostObjectAsync(input),
@@ -67,9 +98,13 @@ public class ResponseService
             "LISTAR_MUSICA" => await ListMusicAsync(),
             "DETENER" => _musicService.StopMusic(),
             "SIGUIENTE" => await _musicService.NextSongAsync(),
-            "PERSONA" => await ProcessPersonAsync(input),
-            _ => await _database.GetContextForCategoryAsync(intention)
+            _ => null
         };
+        
+        if (result != null) return result;
+        
+        // 8. No coincide nada
+        return "No entendi. Â¿Podrias repetirlo de otra forma?";
     }
 
     private async Task<string> ProcessEmotionAsync(string emocion, string input)
@@ -149,7 +184,6 @@ public class ResponseService
         
         var rutinas = await _database.GetPersonRoutineContextAsync(person);
         
-        // Si no hay rutinas, responder directamente SIN OpenAI
         if (rutinas.Contains("No se encontraron rutinas"))
         {
             return "No tengo informacion sobre las rutinas de " + person + ".";
@@ -193,6 +227,34 @@ public class ResponseService
                 new { role = "user", content = userPrompt }
             },
             temperature = 0,
+            max_tokens = 100
+        };
+        
+        var response = await client.PostAsJsonAsync("https://api.openai.com/v1/chat/completions", request);
+        response.EnsureSuccessStatusCode();
+        
+        var json = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<OpenAIResponse>(json);
+        
+        return result?.choices?[0]?.message?.content ?? "Sin respuesta";
+    }
+
+    private async Task<string> ConversarConOpenAIAsync(string input, string promptSistema)
+    {
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _apiKey);
+        
+        var promptFinal = promptSistema + " Responde en maximo 2 o 3 frases cortas.";
+        
+        var request = new
+        {
+            model = "gpt-4o-mini",
+            messages = new[]
+            {
+                new { role = "system", content = promptFinal },
+                new { role = "user", content = input }
+            },
+            temperature = 0.3,
             max_tokens = 100
         };
         
