@@ -56,15 +56,15 @@ public class WeatherService
         
         var command = connection.CreateCommand();
         command.CommandText = @"
-            SELECT u.Latitud, u.Longitud, u.Nombre
+            SELECT l.Latitud, l.Longitud, l.Nombre
             FROM People p
-            JOIN Ubicaciones u ON p.UbicacionId = u.Id
-            WHERE p.Name LIKE '%Marta%' AND u.Activo = 1
+            JOIN Lugares l ON p.LugarId = l.Id
+            WHERE p.Name LIKE '%Marta%' AND l.Activo = 1
             LIMIT 1";
         
         using var reader = command.ExecuteReader();
         
-        if (reader.Read())
+        if (reader.Read() && !reader.IsDBNull(0) && !reader.IsDBNull(1))
         {
             return (
                 reader.GetDouble(0),
