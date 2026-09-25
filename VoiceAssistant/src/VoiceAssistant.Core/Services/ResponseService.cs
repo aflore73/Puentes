@@ -16,6 +16,8 @@ public class ResponseService
     private readonly string? _apiKey;
     private readonly WeatherService? _weatherService;
     private readonly ConversationService? _conversationService;
+    private readonly LugarService? _lugarService;
+    private readonly EventoService? _eventoService;
 
     public ResponseService(
         IntentionClassifier classifier,
@@ -28,7 +30,9 @@ public class ResponseService
         TemasPermitidosService temasPermitidos,
         string? apiKey,
         WeatherService? weatherService = null,
-        ConversationService? conversationService = null)
+        ConversationService? conversationService = null,
+        LugarService? lugarService = null,
+        EventoService? eventoService = null)
     {
         _classifier = classifier;
         _musicService = musicService;
@@ -41,6 +45,8 @@ public class ResponseService
         _apiKey = apiKey;
         _weatherService = weatherService;
         _conversationService = conversationService;
+        _lugarService = lugarService;
+        _eventoService = eventoService;
     }
 
     public async Task<string> ProcessAsync(string input)
@@ -114,6 +120,7 @@ public class ResponseService
         var result = intention switch
         {
             "FECHA_HORA" => GetDateTimeResponse(),
+            "CONSULTA_LUGAR" => await ProcessLugarAsync(input),
             "OBJETO_PERDIDO" => await ProcessLostObjectAsync(input),
             "MUSICA" => await _musicService.PlayMusicAsync(songName: _textExtractor.ExtractSearchTerm(input)),
             "LISTAR_MUSICA" => await ListMusicAsync(),
@@ -126,6 +133,86 @@ public class ResponseService
         
         // 8. No coincide nada
         return "No entendi. Â¿Podrias repetirlo de otra forma?";
+    }
+
+    private async Task<string> ProcessLugarAsync(string input)
+    {
+        // 1. PRIMERO: buscar evento que coincida (por especialidad, tema, etc.)
+        if (_eventoService != null)
+        {
+            var evento = await _eventoService.FindEventoAsync(input);
+            
+            if (evento != null)
+            {
+                var contextoEvento = new System.Text.StringBuilder();
+                contextoEvento.AppendLine("Evento: " + evento.Title);
+                
+                if (!string.IsNullOrEmpty(evento.StartDate))
+                    contextoEvento.AppendLine("Fecha: " + evento.StartDate);
+                
+                if (!string.IsNullOrEmpty(evento.Description))
+                    contextoEvento.AppendLine("Descripcion: " + evento.Description);
+                
+                if (!string.IsNullOrEmpty(evento.LugarNombre))
+                    contextoEvento.AppendLine("Lugar: " + evento.LugarNombre);
+                
+                if (!string.IsNullOrEmpty(evento.LugarDireccion))
+                    contextoEvento.AppendLine("Direccion: " + evento.LugarDireccion);
+                
+                if (!string.IsNullOrEmpty(evento.LugarLocalidad))
+                    contextoEvento.AppendLine("Localidad: " + evento.LugarLocalidad);
+                
+                var systemPromptEvento = "Sos un asistente para una persona mayor. " +
+                                         "Responde en maximo 2 frases cortas. " +
+                                         "Usa SOLO los datos que te doy. Si no estan, deci que no los tenes.";
+                
+                var userPromptEvento = "DATOS:\n" + contextoEvento.ToString() + "\n\nPREGUNTA: " + input;
+                
+                Console.WriteLine("  [DEBUG Prompt] " + userPromptEvento.Replace("\n", " | "));
+                return await ConversarConOpenAIAsync(userPromptEvento, systemPromptEvento);
+            }
+        }
+        
+        // 2. FALLBACK: buscar lugar si no hay evento
+        if (_lugarService == null)
+        {
+            return "No tengo acceso a los lugares en este momento.";
+        }
+        
+        var lugar = await _lugarService.FindLugarAsync(input);
+        
+        if (lugar == null)
+        {
+            return "No encontre informacion sobre eso.";
+        }
+        
+        var contexto = new System.Text.StringBuilder();
+        contexto.AppendLine("Lugar: " + lugar.Nombre);
+        
+        if (!string.IsNullOrEmpty(lugar.Direccion))
+            contexto.AppendLine("Direccion: " + lugar.Direccion);
+        
+        if (!string.IsNullOrEmpty(lugar.Localidad))
+            contexto.AppendLine("Localidad: " + lugar.Localidad);
+        
+        if (!string.IsNullOrEmpty(lugar.Notas))
+            contexto.AppendLine("Notas: " + lugar.Notas);
+        
+        var turnos = await _database.GetTurnosByLugarAsync(lugar.Id);
+        if (!string.IsNullOrEmpty(turnos))
+            contexto.AppendLine("Turnos proximos:\n" + turnos);
+        
+        var eventos = await _database.GetEventosByLugarAsync(lugar.Id);
+        if (!string.IsNullOrEmpty(eventos))
+            contexto.AppendLine("Eventos pasados:\n" + eventos);
+        
+        var systemPrompt = "Sos un asistente para una persona mayor. " +
+                           "Responde en maximo 2 frases cortas. " +
+                           "Usa SOLO los datos que te doy. Si no estan, deci que no los tenes.";
+        
+        var userPrompt = "DATOS:\n" + contexto.ToString() + "\n\nPREGUNTA: " + input;
+        
+        return await ConversarConOpenAIAsync(userPrompt, systemPrompt);
     }
 
     private async Task<string> ProcessEmotionAsync(string emocion, string input)

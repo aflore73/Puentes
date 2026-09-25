@@ -13,6 +13,8 @@ var temasBloqueados = new TemasBloqueadosService(dbPath);
 var temasPermitidos = new TemasPermitidosService(dbPath);
 var weatherService = new WeatherService(dbPath);
 var conversationService = new ConversationService(dbPath);
+var lugarService = new LugarService(dbPath);
+var eventoService = new EventoService(dbPath);
 var apiKey = Environment.GetEnvironmentVariable("PUENTES_API_KEY");
 
 await database.InitializeAsync();
@@ -22,7 +24,7 @@ var personDetector = new PersonDetector(dbPath);
 var responseService = new ResponseService(
     classifier, musicService, database, emotionService,
     personDetector, textExtractor, temasBloqueados, temasPermitidos,
-    apiKey, weatherService, conversationService);
+    apiKey, weatherService, conversationService, lugarService, eventoService);
 
 Console.WriteLine("VoiceAssistant");
 Console.WriteLine("=============");

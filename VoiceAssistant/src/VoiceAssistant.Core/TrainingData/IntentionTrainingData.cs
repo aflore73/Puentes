@@ -26,6 +26,30 @@ public static class IntentionTrainingData
             new TrainingData { Text = "no aparece el celular", Label = "OBJETO_PERDIDO" },
 
             // ============================================
+            // CONSULTA_LUGAR
+            // ============================================
+            new TrainingData { Text = "cuando voy a la flebologa", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "cuando tengo turno con la flebologa", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde queda el consultorio", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde esta la clinica", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "cual es la direccion del consultorio", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde queda lacroze", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "cuando voy al consultorio de lacroze", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde es el turno", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde queda el lugar", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde vivo", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde vive marta", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde esta la casa de marta", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde queda la casa de eze", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde vive ezequiel", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde queda la universidad", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde esta la usam", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "que direccion tiene el consultorio", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde queda el flebologo de pami", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde es la casa de victor", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "en que lugar queda", Label = "CONSULTA_LUGAR" },
+
+            // ============================================
             // CONVERSACION - CANTANTES
             // ============================================
             new TrainingData { Text = "quien fue sandro", Label = "CONVERSACION_CANTANTES" },

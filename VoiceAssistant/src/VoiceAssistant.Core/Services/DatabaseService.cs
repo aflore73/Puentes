@@ -370,4 +370,63 @@ public class DatabaseService : IDatabaseService
         
         return "";
     }
+    public async Task<string> GetTurnosByLugarAsync(string lugarId)
+    {
+        await using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+        
+        var command = connection.CreateCommand();
+        command.CommandText = @"
+            SELECT Title, ScheduledAt
+            FROM PersonAgendaItems
+            WHERE LugarId = @lugarId
+              AND ScheduledAt >= datetime('now')
+            ORDER BY ScheduledAt
+            LIMIT 10";
+        
+        command.Parameters.AddWithValue("@lugarId", lugarId);
+        
+        var result = new System.Text.StringBuilder();
+        var hasRows = false;
+        
+        await using var reader = await command.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            hasRows = true;
+            result.AppendLine("- " + reader.GetString(0) + " | " + reader.GetString(1));
+        }
+        
+        return hasRows ? result.ToString() : "";
+    }
+
+    public async Task<string> GetEventosByLugarAsync(string lugarId)
+    {
+        await using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+        
+        var command = connection.CreateCommand();
+        command.CommandText = @"
+            SELECT Title, StartDate, Description
+            FROM PersonLifeEvents
+            WHERE LugarId = @lugarId
+            ORDER BY StartDate DESC
+            LIMIT 10";
+        
+        command.Parameters.AddWithValue("@lugarId", lugarId);
+        
+        var result = new System.Text.StringBuilder();
+        var hasRows = false;
+        
+        await using var reader = await command.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            hasRows = true;
+            var titulo = reader.GetString(0);
+            var fecha = reader.IsDBNull(1) ? "sin fecha" : reader.GetString(1);
+            var desc = reader.IsDBNull(2) ? "" : " - " + reader.GetString(2);
+            result.AppendLine("- " + titulo + " (" + fecha + ")" + desc);
+        }
+        
+        return hasRows ? result.ToString() : "";
+    }
 }
