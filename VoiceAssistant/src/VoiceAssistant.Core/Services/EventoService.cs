@@ -116,7 +116,11 @@ public class EventoService
                 l.Nombre AS LugarNombre,
                 l.Alias AS LugarAlias,
                 l.Localidad AS LugarLocalidad,
-                l.Direccion AS LugarDireccion
+                l.Direccion AS LugarDireccion,
+                (SELECT GROUP_CONCAT(p.Name || CASE WHEN lep.Role IS NOT NULL AND lep.Role != '' THEN ' (' || lep.Role || ')' ELSE '' END, ', ')
+                 FROM LifeEventParticipants lep
+                 JOIN People p ON lep.PersonId = p.Id
+                 WHERE lep.LifeEventId = e.Id) AS Participantes
             FROM PersonLifeEvents e
             LEFT JOIN Lugares l ON e.LugarId = l.Id";
 
@@ -134,7 +138,8 @@ public class EventoService
                 LugarNombre = reader.IsDBNull(6) ? null : reader.GetString(6),
                 LugarAlias = reader.IsDBNull(7) ? null : reader.GetString(7),
                 LugarLocalidad = reader.IsDBNull(8) ? null : reader.GetString(8),
-                LugarDireccion = reader.IsDBNull(9) ? null : reader.GetString(9)
+                LugarDireccion = reader.IsDBNull(9) ? null : reader.GetString(9),
+                Participantes = reader.IsDBNull(10) ? null : reader.GetString(10)
             });
         }
 
@@ -154,4 +159,5 @@ public class EventoEncontrado
     public string? LugarAlias { get; set; }
     public string? LugarLocalidad { get; set; }
     public string? LugarDireccion { get; set; }
+    public string? Participantes { get; set; }
 }

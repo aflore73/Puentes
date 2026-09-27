@@ -429,4 +429,74 @@ public class DatabaseService : IDatabaseService
         
         return hasRows ? result.ToString() : "";
     }
+    public async Task<string?> FindTurnoFuturoAsync(string input)
+    {
+        var palabras = input.ToLower()
+            .Replace("Â¿", " ")
+            .Replace("?", " ")
+            .Replace("Â¡", " ")
+            .Replace("!", " ")
+            .Replace(".", " ")
+            .Replace(",", " ")
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Where(p => p.Length >= 4)
+            .Distinct()
+            .ToList();
+        
+        if (palabras.Count == 0) return null;
+        
+        await using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+        
+        var command = connection.CreateCommand();
+        command.CommandText = @"
+            SELECT a.Title, a.ScheduledAt, l.Nombre AS Lugar
+            FROM PersonAgendaItems a
+            LEFT JOIN Lugares l ON a.LugarId = l.Id
+            WHERE a.ScheduledAt >= datetime('now')
+            ORDER BY a.ScheduledAt";
+        
+        string? mejor = null;
+        int mejorPuntaje = 0;
+        
+        await using var reader = await command.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            var titulo = reader.GetString(0);
+            var fecha = reader.GetString(1);
+            var lugar = reader.IsDBNull(2) ? "" : reader.GetString(2);
+            
+            int puntaje = 0;
+            var tituloNorm = Normalizar(titulo);
+            var lugarNorm = Normalizar(lugar);
+            
+            foreach (var palabra in palabras)
+            {
+                if (tituloNorm.Contains(palabra)) puntaje += 3;
+                if (lugarNorm.Contains(palabra)) puntaje += 2;
+            }
+            
+            if (puntaje > mejorPuntaje)
+            {
+                mejorPuntaje = puntaje;
+                mejor = titulo + " el " + fecha + (string.IsNullOrEmpty(lugar) ? "" : " en " + lugar);
+            }
+        }
+        
+        return mejorPuntaje >= 3 ? mejor : null;
+    }
+    
+    private string Normalizar(string texto)
+    {
+        if (string.IsNullOrEmpty(texto)) return "";
+        
+        return texto.ToLower()
+            .Replace("\u00E1", "a")
+            .Replace("\u00E9", "e")
+            .Replace("\u00ED", "i")
+            .Replace("\u00F3", "o")
+            .Replace("\u00FA", "u")
+            .Replace("\u00FC", "u")
+            .Replace("\u00F1", "n");
+    }
 }
