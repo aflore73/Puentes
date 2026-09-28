@@ -50,6 +50,23 @@ public static class IntentionTrainingData
             new TrainingData { Text = "en que lugar queda", Label = "CONSULTA_LUGAR" },
 
             // ============================================
+            // CONSULTA_LUGAR - Mudanzas y vivienda
+            new TrainingData { Text = "cuando se mudo", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "cuando se mudo ezequiel", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "cuando se mudo alejandro", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "cuando se fue a vivir a caseros", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "cuando se fue a vivir", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde vive ezequiel", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde vive alejandro", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde esta viviendo", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "en que departamento vive", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "en que casa vive", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "que casa es", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "cuando se fue de casa", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "cuando se fue a vivir solo", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "en que lugar vive", Label = "CONSULTA_LUGAR" },
+            new TrainingData { Text = "donde queda su casa", Label = "CONSULTA_LUGAR" },
+
             // CONVERSACION - CANTANTES
             // ============================================
             new TrainingData { Text = "quien fue sandro", Label = "CONVERSACION_CANTANTES" },

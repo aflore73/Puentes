@@ -499,4 +499,43 @@ public class DatabaseService : IDatabaseService
             .Replace("\u00FC", "u")
             .Replace("\u00F1", "n");
     }
+    public async Task<string> GetPersonaInfoActualAsync(string personName)
+    {
+        await using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+        
+        var command = connection.CreateCommand();
+        command.CommandText = @"
+            SELECT p.Name, l.Nombre AS Lugar, l.Localidad, l.Provincia, p.Notes
+            FROM People p
+            LEFT JOIN Lugares l ON p.LugarId = l.Id
+            WHERE p.Name LIKE @name
+            LIMIT 1";
+        
+        command.Parameters.AddWithValue("@name", "%" + personName + "%");
+        
+        await using var reader = await command.ExecuteReaderAsync();
+        
+        if (await reader.ReadAsync())
+        {
+            var result = new System.Text.StringBuilder();
+            result.AppendLine("Persona: " + reader.GetString(0));
+            
+            if (!reader.IsDBNull(1))
+                result.AppendLine("Vive en: " + reader.GetString(1));
+            
+            if (!reader.IsDBNull(2))
+                result.AppendLine("Localidad: " + reader.GetString(2));
+            
+            if (!reader.IsDBNull(3))
+                result.AppendLine("Provincia: " + reader.GetString(3));
+            
+            if (!reader.IsDBNull(4))
+                result.AppendLine("Notas: " + reader.GetString(4));
+            
+            return result.ToString();
+        }
+        
+        return "";
+    }
 }

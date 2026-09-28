@@ -18,6 +18,7 @@ public class ResponseService
     private readonly ConversationService? _conversationService;
     private readonly LugarService? _lugarService;
     private readonly EventoService? _eventoService;
+    private string? _temaActivo;
 
     public ResponseService(
         IntentionClassifier classifier,
@@ -70,7 +71,7 @@ public class ResponseService
         var persona = _personDetector.DetectPerson(input);
         if (persona != null)
         {
-            return await ProcessPersonAsync(input);
+            return await ProcessPersonAsync(input, persona);
         }
 
         // 4. Temas BLOQUEADOS
@@ -92,8 +93,16 @@ public class ResponseService
         // 5. ML.NET
         var prediction = _classifier.Predict(input);
         var intention = prediction.PredictedLabel;
+        var confidence = prediction.Score.Max();
 
-        Console.WriteLine("  [DEBUG] Intencion: " + intention + " (" + prediction.Score.Max().ToString("P0") + ")");
+        Console.WriteLine("  [DEBUG] Intencion: " + intention + " (" + confidence.ToString("P0") + ")");
+        
+        // Si la confianza es muy baja y hay tema activo, seguir con el tema
+        if (confidence < 0.3f && _temaActivo != null)
+        {
+            Console.WriteLine("  [DEBUG] Confianza baja, usando tema activo: " + _temaActivo);
+            return await ProcessPersonAsync(input, _temaActivo);
+        }
 
         // 6. CONVERSACION_CLIMA
         if (intention == "CONVERSACION_CLIMA")
@@ -218,28 +227,34 @@ public class ResponseService
         return result.ToString();
     }
 
-    private async Task<string> ProcessPersonAsync(string input)
+    private async Task<string> ProcessPersonAsync(string input, string? nombreDetectado = null)
     {
-        var person = _personDetector.DetectPerson(input);
+        var person = nombreDetectado ?? _personDetector.DetectPerson(input);
 
         if (person == null)
         {
             return "No identifique a la persona.";
         }
+        
+        _temaActivo = person;  // Guardar tema activo
 
+        // Buscar info actual + rutinas
+        var infoActual = await _database.GetPersonaInfoActualAsync(person);
         var rutinas = await _database.GetPersonRoutineContextAsync(person);
 
-        if (rutinas.Contains("No se encontraron rutinas"))
+        var contexto = infoActual;
+        
+        if (!rutinas.Contains("No se encontraron rutinas"))
         {
-            return "No tengo informacion sobre las rutinas de " + person + ".";
+            contexto += "\n" + rutinas;
         }
 
-        if (!string.IsNullOrEmpty(_apiKey))
+        if (string.IsNullOrEmpty(_apiKey))
         {
-            return await HumanizarRespuestaAsync(rutinas, person, input);
+            return contexto;
         }
 
-        return rutinas;
+        return await HumanizarRespuestaAsync(contexto, person, input);
     }
 
     private async Task<string> HumanizarRespuestaAsync(string datosBD, string persona, string inputUsuario)
@@ -336,7 +351,33 @@ public class ResponseService
             }
         }
 
-        // 2. Fallback: buscar lugar
+        // 2. Si menciona una persona, usar su informacion actual
+        var persona = _personDetector.DetectPerson(input);
+        
+        // Si no menciona persona, buscar en el historial reciente
+        if (persona == null && _conversationService != null)
+        {
+            var historial = await _conversationService.GetHistoryAsync(5);
+            
+            // Recorrer de mas reciente a mas antiguo
+            for (int i = historial.Count - 1; i >= 0; i--)
+            {
+                var p = _personDetector.DetectPerson(historial[i].Content);
+                if (p != null)
+                {
+                    persona = p;
+                    Console.WriteLine("  [DEBUG] Persona del historial: " + p);
+                    break;
+                }
+            }
+        }
+        
+        if (persona != null)
+        {
+            return await ProcessPersonAsync(input, persona);
+        }
+
+        // 3. Fallback: buscar lugar
         if (_lugarService == null)
         {
             return "No tengo acceso a los lugares en este momento.";
@@ -346,6 +387,17 @@ public class ResponseService
 
         if (lugar == null)
         {
+            // No encontro lugar ni evento â†’ usar OpenAI con historial
+            if (!string.IsNullOrEmpty(_apiKey))
+            {
+                return await ConversarConOpenAIAsync(input,
+                    "Sos un asistente para una persona mayor. " +
+                    "Usa el historial de la conversacion para entender a quien se refiere. " +
+                    "Responde con calidez y en 2 frases cortas. " +
+                    "Si no podes responder con el historial, deci que no tenes informacion.",
+                    incluirHistorial: true);
+            }
+            
             return "No encontre informacion sobre eso.";
         }
 
@@ -389,20 +441,29 @@ public class ResponseService
 
         var inputLimpio = input.Replace("\r\n", "\n");
 
-        var messages = new List<object>();
-        messages.Add(new { role = "system", content = promptFinal });
-
-        // Agregar historial si existe
+        // Armar historial como texto si es necesario
+        var historialTexto = "";
         if (incluirHistorial && _conversationService != null)
         {
-            var historial = await _conversationService.GetHistoryAsync(5);
-            foreach (var msg in historial)
+            var historial = await _conversationService.GetHistoryAsync(3);
+            if (historial.Count > 0)
             {
-                messages.Add(new { role = msg.Role, content = msg.Content });
+                var sb = new System.Text.StringBuilder();
+                sb.AppendLine("CONVERSACION ANTERIOR:");
+                foreach (var msg in historial)
+                {
+                    var rol = msg.Role == "user" ? "Usuario" : "Asistente";
+                    sb.AppendLine(rol + ": " + msg.Content);
+                }
+                historialTexto = sb.ToString().Replace("\r\n", "\n");
             }
         }
 
-        messages.Add(new { role = "user", content = inputLimpio });
+        var messages = new List<object>();
+        messages.Add(new { role = "system", content = promptFinal });
+
+        var userContent = historialTexto + "\nPREGUNTA ACTUAL: " + inputLimpio;
+        messages.Add(new { role = "user", content = userContent });
 
         var request = new
         {
